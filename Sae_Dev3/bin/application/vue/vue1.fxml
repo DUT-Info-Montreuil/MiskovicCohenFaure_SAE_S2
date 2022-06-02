@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controleur.Controleur">
+   <center>
+      <Pane BorderPane.alignment="CENTER">
+         <children>
+            <TilePane fx:id="terrainMap" prefColumns="120" prefRows="33" tileAlignment="TOP_LEFT" />
+            <ImageView fx:id="spriteJoueur" x="960.0">
+               <image>
+                  <Image url="@../ressource/20.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="spriteSlime" layoutX="10.0" layoutY="10.0">
+               <image>
+                  <Image url="@../ressource/slime.png" />
+               </image>
+            </ImageView>
+            <HBox fx:id="inventaireAff" />
+            <HBox fx:id="inventaireSelect" />
+            <HBox fx:id="pointsDeVie" layoutX="200.0" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>
