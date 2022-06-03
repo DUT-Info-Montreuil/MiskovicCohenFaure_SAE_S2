@@ -1,4 +1,4 @@
-package application.modele.utilitaires;
+package application.modele.items.utilitaires;
 
 public class Pioche extends Utilitaire {
 	public static int compteur = 1;

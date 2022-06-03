@@ -1,9 +1,9 @@
 package application.modele;
 
-import application.modele.utilitaires.Arc;
-import application.modele.utilitaires.Epee;
-import application.modele.utilitaires.Hache;
-import application.modele.utilitaires.Pioche;
+import application.modele.items.utilitaires.Arc;
+import application.modele.items.utilitaires.Epee;
+import application.modele.items.utilitaires.Hache;
+import application.modele.items.utilitaires.Pioche;
 
 public class Joueur extends Personnage{
 	

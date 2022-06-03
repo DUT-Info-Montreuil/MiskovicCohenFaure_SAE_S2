@@ -1,4 +1,4 @@
-package application.modele.utilitaires;
+package application.modele.items.utilitaires;
 
 
 import application.modele.Item;

@@ -27,7 +27,6 @@ public class ListeCaseInventaire {
 	public boolean augmenterIndex() {
 		if (index < items.size() - 1) {
 			index ++;
-			System.out.println(index);
 			return true;
 		}
 		return false;
@@ -36,7 +35,6 @@ public class ListeCaseInventaire {
 	public boolean baisserIndex() {
 		if (index  > 0) {
 			index--;
-			System.out.println(index);
 			return true;
 		}
 		return false;
