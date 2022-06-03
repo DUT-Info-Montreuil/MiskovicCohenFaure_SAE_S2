@@ -5,25 +5,27 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Personnage {
 
+	private Environnement env;
 	private IntegerProperty coordXProperty, coordYProperty;
-	private int dirGauche,dirDroite, dirY;
+	private int dirVitGauche,dirVitDroite, dirY;
 	private IntegerProperty pvProperty;
 	private int pvMax;
 
-	public Personnage (int coordX, int coordY, int pvMax) {
+	public Personnage (int coordX, int coordY, int pvMax, Environnement env) {
 		this.coordXProperty = new SimpleIntegerProperty(coordX);
 		this.coordYProperty = new SimpleIntegerProperty(coordY);
-		dirGauche = 0;
-		dirDroite = 0; 
-		dirY = 0;
+		this.dirVitGauche = 0;
+		this.dirVitDroite = 0; 
+		this.dirY = 0;
 		this.pvMax = pvMax;
-		pvProperty = new SimpleIntegerProperty(pvMax);
+		this.pvProperty = new SimpleIntegerProperty(pvMax);
+		this.env = env;
 	}
 
 
 	//Direction
 	public void move () {
-		this.coordXProperty.set(coordXProperty.get() + this.dirDroite - this.dirGauche);
+		this.coordXProperty.set(coordXProperty.get() + this.dirVitDroite - this.dirVitGauche);
 		this.coordYProperty.set(coordYProperty.get() + dirY);
 	}
 	public void additionnerDirY(int nb) {
@@ -61,16 +63,16 @@ public class Personnage {
 		return pvMax;
 	}
 	public int getDirGauche() {
-		return this.dirGauche;
+		return this.dirVitGauche;
 	}
 	public void setDirGauche(int dirGauche) {
-		this.dirGauche=dirGauche;
+		this.dirVitGauche=dirGauche;
 	}
 	public int getDirDroite() {
-		return this.dirDroite;
+		return this.dirVitDroite;
 	}
 	public void setDirDroite(int dirDroite) {
-		this.dirDroite=dirDroite;
+		this.dirVitDroite=dirDroite;
 	}
 	public IntegerProperty xProperty() {
 		return coordXProperty;
@@ -92,37 +94,37 @@ public class Personnage {
 		this.dirY = dirY;
 	}
 
-	public void gestionCollision (Environnement e) {
+	public void gestionCollision () {
 		int x = this.coordXProperty.get();
 		int y = this.coordYProperty.get();
-		collisionDroite(e,x,y);
-		collisionGauche(e,x,y);
-		collisionHaut(e,x,y);
-		collisionBas(e,x,y);
+		collisionDroite(x,y);
+		collisionGauche(x,y);
+		collisionHaut(x,y);
+		collisionBas(x,y);
 
 	}
 
-	public void collisionDroite (Environnement e,int x,int y) {
-		if (checkCollision(Outils.coordToTile(x+20, y-25), e)||checkCollision(Outils.coordToTile(x+20, y-1), e)) {
-			this.coordXProperty.set(x-this.dirDroite);
+	public void collisionDroite (int x,int y) {
+		if (checkCollision(Outils.coordToTile(x+20, y-25))||checkCollision(Outils.coordToTile(x+20, y-1))) {
+			this.coordXProperty.set(x-this.dirVitDroite);
 		}
 	}
 
-	public void collisionGauche (Environnement e,int x,int y) {
-		if (checkCollision(Outils.coordToTile(x+10, y-25), e)||checkCollision(Outils.coordToTile(x+10, y-1), e)) {
-			this.coordXProperty.set(x+this.dirGauche);
+	public void collisionGauche (int x,int y) {
+		if (checkCollision(Outils.coordToTile(x+10, y-25))||checkCollision(Outils.coordToTile(x+10, y-1))) {
+			this.coordXProperty.set(x+this.dirVitGauche);
 		}
 	}
 
-	public void collisionHaut (Environnement e,int x,int y) {
-		if (checkCollision(Outils.coordToTile(x+17, y-32), e)||checkCollision(Outils.coordToTile(x+12, y-32), e)) {
+	public void collisionHaut (int x,int y) {
+		if (checkCollision(Outils.coordToTile(x+17, y-32))||checkCollision(Outils.coordToTile(x+12, y-32))) {
 			this.setDirY(1);
 		}
 	}
 
-	public boolean collisionBas (Environnement e,int x,int y) {
-		if (checkCollision(Outils.coordToTile(x+17 ,y+1), e)||checkCollision(Outils.coordToTile(x+12, y+1), e)) {
-			if (checkCollision(Outils.coordToTile(x+17 ,y), e)||checkCollision(Outils.coordToTile(x+12, y), e)) {
+	public boolean collisionBas (int x,int y) {
+		if (checkCollision(Outils.coordToTile(x+17 ,y+1))||checkCollision(Outils.coordToTile(x+12, y+1))) {
+			if (checkCollision(Outils.coordToTile(x+17 ,y))||checkCollision(Outils.coordToTile(x+12, y))) {
 				this.coordYProperty.set(this.coordYProperty.get()-1);
 			}
 			if (this.getDirY()>0 || this.getDirY()==-1) {
@@ -135,7 +137,7 @@ public class Personnage {
 		}
 	}
 
-	private boolean checkCollision (int x,Environnement e) {
-		return (x<0 || e.getTerrain().getTable()[x]>0);
+	private boolean checkCollision (int x) {
+		return (x<0 || env.getTerrain().getTable()[x]>0);
 	}
 }

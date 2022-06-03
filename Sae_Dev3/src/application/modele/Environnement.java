@@ -6,18 +6,18 @@ public class Environnement {
 
 	private Joueur joueur;
 	private Terrain terrain;
-	private ArrayList<Personnage> persos; //liste observable pour gérer mort et nouveaux nés
+	private ArrayList<Personnage> persos;
 	private ArrayList<Mob> mobs;
 
 	public Environnement() {
 		terrain = new Terrain();
 		persos = new ArrayList<>();
-		joueur = new Joueur(0,-64);
-		mobs = new ArrayList<Mob>(); // retourner les mobs / métyhode action
+		joueur = new Joueur(0,-64, this);
+		mobs = new ArrayList<Mob>();
 
 		//Temporaire
-		Mob slime = new Slime(0,64, joueur);
-		Mob slime2 = new Slime(0,85, joueur);
+		Mob slime = new Slime(0,64, joueur, this);
+		Mob slime2 = new Slime(0,85, joueur, this);
 		ajouterMob(slime);
 		ajouterPerso(slime);
 		ajouterMob(slime2);

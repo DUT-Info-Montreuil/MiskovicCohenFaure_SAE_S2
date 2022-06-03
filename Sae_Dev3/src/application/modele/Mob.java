@@ -4,13 +4,13 @@ public abstract class Mob extends Personnage{
 
 	private Joueur joueur;
 
-	public Mob(int coordX, int coordY, Joueur joueur) {
-		super(coordX, coordY,3);
+	public Mob(int coordX, int coordY, Joueur joueur, Environnement env) {
+		super(coordX, coordY,3, env);
 		this.joueur = joueur;
 	}
 
-	public abstract void detectionJoueur(Environnement e, int temps);
-	public abstract void deplacement(int dirGauche, int dirDroite, int temps, Environnement e);
+	public abstract void detectionJoueur(int temps);
+	public abstract void deplacement(int dirGauche, int dirDroite, int temps);
 	public abstract void attaque(); // FAIRE SYSTEME DE HITBOX
 	
 	//Getter

@@ -4,8 +4,8 @@ package application.modele;
 public class Outils {
 
 	public static int coordToTile (int x,int y) {
-		if(x<0 || x>310  ||
-				y<-75    ||  y>280){
+		if(x<0 || /*x>340  ||*/
+				y<-75    /*||  y>340*/){
 			return -1;
 		}
 
@@ -17,10 +17,8 @@ public class Outils {
 			else {
 				y=-1;
 			}
-			return (x+(y+1)*10);
+			return (x+(y+1)*120);
 		}
 
 	}
-
-
 }

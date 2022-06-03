@@ -22,6 +22,7 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 
 	@Override
 	public void handle(MouseEvent event) {
+<<<<<<< HEAD
 		if (env.getJoueur().getInventaire().itemEnMain() instanceof Pioche) {
 			//Suppression de la case dans le modèle
 			this.env.getTerrain().supprimerCase(numeroCase);

@@ -25,18 +25,22 @@ public class TerrainVue {
 
 	public void initTerrain() {
 		ImageView img = null;
+		Image imgCiel = new Image("application/ressource/0.png");
+		Image imgHerbe = new Image("application/ressource/1.png");
+		Image imgTerre = new Image("application/ressource/2.png"); 
 		int[] terrain = env.getTerrain().getTable();
 
 		for (int i = 0; i < terrain.length; i++) {
 			switch (terrain[i]) {
 			case 0: 
-				img = new ImageView(new Image("application/ressource/0.png"));
+				img = new ImageView(imgCiel);
 				break;
 			case 1: 
-				img = new ImageView(new Image("application/ressource/1.png")); 
+				img = new ImageView(imgHerbe);
 				break;
 			case 2: 
-				img = new ImageView(new Image("application/ressource/2.png")); 
+				img = new ImageView(imgTerre);
+>>>>>>> refs/heads/dev
 				break;
 			}
 			terrainMap.getChildren().add(img);

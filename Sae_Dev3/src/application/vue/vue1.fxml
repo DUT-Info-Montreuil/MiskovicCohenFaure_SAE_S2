@@ -11,8 +11,8 @@
    <center>
       <Pane BorderPane.alignment="CENTER">
          <children>
-            <TilePane fx:id="terrainMap" prefColumns="10" prefRows="10" tileAlignment="TOP_LEFT" />
-            <ImageView fx:id="spriteJoueur">
+            <TilePane fx:id="terrainMap" prefColumns="120" prefRows="33" tileAlignment="TOP_LEFT" />
+            <ImageView fx:id="spriteJoueur" x="960.0">
                <image>
                   <Image url="@../ressource/20.png" />
                </image>

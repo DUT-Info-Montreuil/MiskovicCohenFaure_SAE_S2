@@ -40,12 +40,11 @@ public class Controleur implements Initializable{
 	@FXML
 	private HBox pointsDeVie;
 	@FXML
-    private HBox inventaireAff;
+	private HBox inventaireAff;
 	@FXML
-    private HBox inventaireSelect;
-    @FXML
-    private HBox inventaireItems;
-
+	private HBox inventaireSelect;
+	@FXML
+	private HBox inventaireItems;
 
 	private Environnement env;
 	private Timeline gameLoop;
@@ -62,14 +61,15 @@ public class Controleur implements Initializable{
 
 		//Indices Terrain
 		int pxl = 32;
-		int taille = 10;
-		terrainMap.setMaxSize(taille*pxl , taille*pxl);
+		int longueur = 120;
+		int hauteur = 33;
+		terrainMap.setMaxSize(longueur*pxl , hauteur*pxl);
 
 		//PV
 		PVVue pvVue = new PVVue(pointsDeVie, env.getJoueur().getPvMax());
 		pvVue.initPV();
 		this.listenPV(pvVue);
-		
+
 		//Inventaire
 		InventaireVue inventaire = new InventaireVue(inventaireAff, inventaireSelect, inventaireItems, env.getJoueur().getInventaire().taille()); 
 		inventaire.initInventaire();
@@ -81,10 +81,10 @@ public class Controleur implements Initializable{
 		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env));
 		root.addEventHandler(KeyEvent.KEY_RELEASED, new ControleurToucheRelache(env));
 		root.addEventHandler(ScrollEvent.SCROLL, new ControleurScroll(env));
-		
+
 		//LancementPersonnage
 		this.bindSlime();
-		
+
 		//Lancement GameLoop
 		initAnimation();
 		gameLoop.play();
@@ -102,10 +102,11 @@ public class Controleur implements Initializable{
 			}
 		});
 	}
-	
+
 	public void listenInventaire(InventaireVue inv) {
-		IntegerProperty curseur = env.getJoueur().getInventaire().indexProperty();
-		
+		IntegerProperty curseur = env.getJoueur().getInventaire().getIndexProperty();
+		inv.positionnerCurseur(curseur.get());
+
 		curseur.addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -113,6 +114,7 @@ public class Controleur implements Initializable{
 				inv.positionnerCurseur((int) newValue);
 			}
 		});
+
 	}
 	
 	public void listenInventaireCase(InventaireVue inv) {
@@ -129,22 +131,39 @@ public class Controleur implements Initializable{
 		});
 	}
 
+
 	public void bindJoueur() {
 		Joueur j = env.getJoueur();
-		spriteJoueur.translateXProperty().bind(j.xProperty());
+		//spriteJoueur.translateXProperty().bind(terrainMap.translateXProperty().add(960));
 		spriteJoueur.translateYProperty().bind(j.yProperty());
+		listenJoueurProperty();
 		new JoueurVue(j.xProperty(),j.yProperty(),spriteJoueur);
+
 	}
-	
+
+	public void listenJoueurProperty() {
+		IntegerProperty xCoord = env.getJoueur().xProperty();
+		xCoord.addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				
+				//if ((int) newValue > 959 && (int) newValue < 3790) 
+					terrainMap.setTranslateX(-(int) newValue+960);	
+				
+			}
+		});
+	}
+
 	//Temporaire
-		public void bindSlime() {
-			for (Mob m : env.getMobs()) {
-				if (m instanceof Slime) {
-					spriteSlime.translateXProperty().bind(m.xProperty());
-					spriteSlime.translateYProperty().bind(m.yProperty());
-				}
+	public void bindSlime() {
+		for (Mob m : env.getMobs()) {
+			if (m instanceof Slime) {
+				spriteSlime.translateXProperty().bind(m.xProperty());
+				spriteSlime.translateYProperty().bind(m.yProperty());
 			}
 		}
+	}
 
 	private void initAnimation() {
 		gameLoop = new Timeline();
@@ -158,29 +177,29 @@ public class Controleur implements Initializable{
 				// on définit ce qui se passe à chaque frame 
 				// c'est un eventHandler d'ou le lambda
 				(ev ->{
+
 					//Gestion Collision des acteurs
 					for (Personnage p : env.getPersos()) {
-						p.gestionCollision(env);
-						if (!p.collisionBas(env, p.getX(), p.getY())) {
+						p.gestionCollision();
+						if (!p.collisionBas(p.getX(), p.getY())) {
 							if(p.getDirY() < 5)
 								p.additionnerDirY(1);	
 						}
 					}
-					joueur.gestionCollision(env);
-					
+					joueur.gestionCollision();
+
 					//Mouvement + Gravité Joueur
 					env.getJoueur().move();
-					if (!joueur.collisionBas(env, joueur.getX(), joueur.getY()))
+					if (!joueur.collisionBas(joueur.getX(), joueur.getY()))
 						if(env.getJoueur().getDirY() < 5)
 							env.getJoueur().additionnerDirY(1);
-					
+
 					//Gestion Mob
 					for (Mob m : env.getMobs()) {
-						m.detectionJoueur(env, temps);
+						m.detectionJoueur(temps);
 						m.move();
 						m.attaque();
 					}
-					
 					temps++;
 				})
 				);
