@@ -9,8 +9,8 @@ public class Joueur extends Personnage{
 	
 	Inventaire inventaire;
 	
-	public Joueur(int coordX, int coordY) {
-		super(coordX, coordY, 5);
+	public Joueur(int coordX, int coordY, Environnement env) {
+		super(coordX, coordY, 5, env);
 		inventaire = new Inventaire();
 		
 		inventaire.ajouterItem(new Pioche(0));

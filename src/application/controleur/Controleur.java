@@ -104,7 +104,7 @@ public class Controleur implements Initializable{
 	}
 
 	public void listenInventaire(InventaireVue inv) {
-		IntegerProperty curseur = env.getJoueur().getInventaire().getIndexProperty();
+		IntegerProperty curseur = env.getJoueur().getInventaire().indexProperty();
 		inv.positionnerCurseur(curseur.get());
 
 		curseur.addListener(new ChangeListener<Number>() {
