@@ -16,14 +16,14 @@ private Environnement env;
 	@Override
 	public void handle(KeyEvent event) {
 		switch (event.getCode()) {
-			case D:
-				env.getJoueur().setDirDroite(0);
-				break;
-			case Q:
-				env.getJoueur().setDirGauche(0);
-				break;
-			default:
-				break;
-		}
+		case D:
+			env.getJoueur().setClickD(false);
+			break;
+		case Q:
+			env.getJoueur().setClickQ(false);
+			break;
+		default:
+			break;
+	}
 	}
 }

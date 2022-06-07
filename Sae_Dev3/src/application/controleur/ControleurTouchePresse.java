@@ -16,12 +16,12 @@ public class ControleurTouchePresse implements EventHandler<KeyEvent>{
 	@Override
 	public void handle(KeyEvent event) {
 		switch (event.getCode()) {
-			case D:
-				env.getJoueur().setDirDroite(2);
-				break;
-			case Q:
-				env.getJoueur().setDirGauche(2);
-				break;
+		case D:
+			env.getJoueur().setClickD(true);
+			break;
+		case Q:
+			env.getJoueur().setClickQ(true);
+			break;
 			case SPACE:
 				env.getJoueur().saut();
 				break;
@@ -36,9 +36,6 @@ public class ControleurTouchePresse implements EventHandler<KeyEvent>{
 				break;
 			case LEFT_PARENTHESIS:
 				env.getJoueur().getInventaire().setIndexProperty(4);
-				break;
-			case MINUS:
-				env.getJoueur().perdrePV(1);
 				break;
 			case UNDEFINED:
 				switch (event.getText()) {
