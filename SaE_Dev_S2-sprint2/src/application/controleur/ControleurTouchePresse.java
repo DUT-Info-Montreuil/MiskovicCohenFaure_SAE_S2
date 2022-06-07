@@ -37,6 +37,9 @@ public class ControleurTouchePresse implements EventHandler<KeyEvent>{
 			case LEFT_PARENTHESIS:
 				env.getJoueur().getInventaire().changerCase(4);
 				break;
+			case MINUS:
+				env.getJoueur().perdrePV(1);
+				break;
 			case UNDEFINED:
 				switch (event.getText()) {
 					case "é":
