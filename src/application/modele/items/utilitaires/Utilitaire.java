@@ -1,7 +1,7 @@
 package application.modele.items.utilitaires;
 
 
-import application.modele.Item;
+import application.modele.items.Item;
 
 
 

@@ -2,6 +2,7 @@ package application.modele.inventaire;
 
 import java.util.ArrayList;
 
+import application.modele.items.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

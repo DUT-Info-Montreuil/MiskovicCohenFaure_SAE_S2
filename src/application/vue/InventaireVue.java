@@ -52,7 +52,7 @@ public class InventaireVue {
     }
     
     public void initImagesBloc() {
-    	for (int i = 0; i < 1; i++) {
+    	for (int i = 0; i < 2; i++) {
     		images.put("B" + i, new Image("application/ressource/inventaire/bloc/B" + i + ".png"));
     	}
     }

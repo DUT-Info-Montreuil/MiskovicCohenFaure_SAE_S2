@@ -1,5 +1,6 @@
 package application.modele;
 
+import application.modele.items.Bloc;
 import application.modele.items.utilitaires.Arc;
 import application.modele.items.utilitaires.Epee;
 import application.modele.items.utilitaires.Hache;
@@ -17,6 +18,7 @@ public class Joueur extends Personnage{
 		inventaire.ajouterItem(new Epee(0));
 		inventaire.ajouterItem(new Hache(0));
 		inventaire.ajouterItem(new Arc(0));
+		inventaire.ajouterItem(new Bloc(1));
 	}
 	
 	public void saut(Environnement e) {

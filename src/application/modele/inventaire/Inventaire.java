@@ -1,6 +1,8 @@
 package application.modele.inventaire;
 
 import java.util.ArrayList;
+
+import application.modele.items.Item;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
