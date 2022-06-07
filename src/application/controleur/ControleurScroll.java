@@ -10,7 +10,7 @@ public class ControleurScroll implements EventHandler<ScrollEvent>{
 	
 	public ControleurScroll(Environnement env) {
 		this.env = env;
-	}
+	} 
 	
 	@Override
 	public void handle(ScrollEvent event) {

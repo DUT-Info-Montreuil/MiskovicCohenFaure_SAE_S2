@@ -11,15 +11,19 @@
    <center>
       <Pane BorderPane.alignment="CENTER">
          <children>
-            <TilePane fx:id="terrainMap" prefColumns="120" prefRows="33" tileAlignment="TOP_LEFT" />
+            <Pane fx:id="terrainPane">
+               <children>
+                  <TilePane fx:id="terrainMap" prefColumns="120" prefRows="33" tileAlignment="TOP_LEFT" />
+                  <ImageView fx:id="spriteSlime">
+                     <image>
+                        <Image url="@../ressource/slime.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
             <ImageView fx:id="spriteJoueur" x="960.0">
                <image>
                   <Image url="@../ressource/20.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="spriteSlime" layoutX="10.0" layoutY="10.0">
-               <image>
-                  <Image url="@../ressource/slime.png" />
                </image>
             </ImageView>
             <HBox fx:id="inventaireAff" />
@@ -30,3 +34,4 @@
       </Pane>
    </center>
 </BorderPane>
+

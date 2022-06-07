@@ -24,11 +24,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
 
 public class Controleur implements Initializable{
 
+	@FXML
+    private Pane terrainPane;
 	@FXML
 	private TilePane terrainMap;
 	@FXML
@@ -134,7 +137,6 @@ public class Controleur implements Initializable{
 
 	public void bindJoueur() {
 		Joueur j = env.getJoueur();
-		//spriteJoueur.translateXProperty().bind(terrainMap.translateXProperty().add(960));
 		spriteJoueur.translateYProperty().bind(j.yProperty());
 		listenJoueurProperty();
 		new JoueurVue(j.xProperty(),j.yProperty(),spriteJoueur);
@@ -147,10 +149,15 @@ public class Controleur implements Initializable{
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				
-				//if ((int) newValue > 959 && (int) newValue < 3790) 
-					terrainMap.setTranslateX(-(int) newValue+960);	
-				
+
+				if ((int) newValue > 960 && (int) newValue < 2880)  {
+					terrainPane.setTranslateX(-(int) newValue+960);
+				}
+				else if ((int) newValue <= 960 ) {
+					spriteJoueur.setTranslateX((int) newValue-960);
+				}
+				else
+					spriteJoueur.setTranslateX((int) newValue-2880);
 			}
 		});
 	}
@@ -180,25 +187,19 @@ public class Controleur implements Initializable{
 
 					//Gestion Collision des acteurs
 					for (Personnage p : env.getPersos()) {
-						p.gestionCollision();
-						if (!p.collisionBas(p.getX(), p.getY())) {
+						p.action();
+						if (!p.collisionBas()) {
 							if(p.getDirY() < 5)
-								p.additionnerDirY(1);	
+								p.additionnerDirY(0.5);	
 						}
 					}
-					joueur.gestionCollision();
-
+					
 					//Mouvement + Gravité Joueur
-					env.getJoueur().move();
-					if (!joueur.collisionBas(joueur.getX(), joueur.getY()))
-						if(env.getJoueur().getDirY() < 5)
-							env.getJoueur().additionnerDirY(1);
-
-					//Gestion Mob
-					for (Mob m : env.getMobs()) {
-						m.detectionJoueur(temps);
-						m.move();
-						m.attaque();
+					joueur.action();
+					if (!joueur.collisionBas()) {
+						if(joueur.getDirY() < 5) {
+							joueur.additionnerDirY(1);
+						}
 					}
 					temps++;
 				})

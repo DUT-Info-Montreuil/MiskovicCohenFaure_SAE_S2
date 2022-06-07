@@ -25,7 +25,7 @@ public class Environnement {
 	}
 
 	//Gestion Liste
-	public void ajouterMob(Mob m) {
+	public void ajouterMob(Mob m) { 
 		mobs.add(m);
 	}
 

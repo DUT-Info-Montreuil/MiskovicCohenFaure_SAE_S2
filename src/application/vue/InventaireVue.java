@@ -107,5 +107,5 @@ public class InventaireVue {
     		((ImageView) inventaireItems.getChildren().get(curseur)).setImage(images.get(idItem));
     	} 
 
-    }
+    } 
 }

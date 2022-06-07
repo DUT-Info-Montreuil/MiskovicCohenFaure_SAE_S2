@@ -22,7 +22,7 @@ public class PVVue {
 	}
 	
 	public void initPV() {
-		
+		 
 		for (int i = 0; i < pvMax; i++) {
 			pointsDeVie.getChildren().add(new ImageView(images.get(0)));
 		}
@@ -37,6 +37,7 @@ public class PVVue {
 				i++;
 			}
 			((ImageView) pointsDeVie.getChildren().get(i)).setImage(images.get(1));
+			i++;
 		}
 	}
 }

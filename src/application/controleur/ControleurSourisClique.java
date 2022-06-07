@@ -30,7 +30,7 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 			Image ciel = new Image("application/ressource/0.png");
 			img.setImage(ciel);
 		}
-	}
+	} 
 }
 
 

@@ -5,7 +5,6 @@ public class Arc extends Utilitaire {
 	public Arc(int mat) {
 		super(mat, "A" + compteur);
 		compteur++;
-		// TODO Auto-generated constructor stub
 	}
 
 }
