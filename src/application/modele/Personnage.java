@@ -48,9 +48,6 @@ public abstract class Personnage {
 	public void perdrePV(int valeur,boolean versDroite) {
 		if (pvProperty.get() - valeur <= 0) {
 			pvProperty.set(0);
-//			this.env.retirerMob(this);
-			System.out.println("mort");
-			
 		}
 		else 
 			pvProperty.set(pvProperty.get() - valeur);

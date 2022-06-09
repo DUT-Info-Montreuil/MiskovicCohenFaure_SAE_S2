@@ -17,10 +17,6 @@ public class Environnement {
 
 		//Temporaire
 		Mob slime = new Slime(0,64, joueur, this);
-//		Mob slime2 = new Slime(0,85, joueur, this);
-//		ajouterMob(slime2);
-//		Mob slime3 = new Slime(0,85, joueur, this);
-//		ajouterMob(slime3);
 		ajouterMob(slime);
 	}
 
@@ -42,10 +38,6 @@ public class Environnement {
 	public void retirerMob (Personnage p) {
 		retirerPerso(p);
 		this.mobs.remove(p);
-		System.out.println(this.mobs);
-		System.out.println("removed");
-		System.out.println(this.mobs);
-		System.out.println(this.persos);
 	}
 
 	public Joueur getJoueur() {
