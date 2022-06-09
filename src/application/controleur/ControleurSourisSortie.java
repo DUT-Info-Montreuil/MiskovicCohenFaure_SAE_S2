@@ -9,12 +9,13 @@ public class ControleurSourisSortie implements EventHandler<MouseEvent>{
 
 	public ControleurSourisSortie() {
 	}
-
+		
 	@Override
 	public void handle(MouseEvent event) {
+		
 		ImageView img=(ImageView) event.getSource();
 		img.setOpacity(1);
-
+		
 
 	}
 }
