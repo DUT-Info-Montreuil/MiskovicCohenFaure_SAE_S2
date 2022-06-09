@@ -20,7 +20,7 @@ public class Slime extends Mob{
 
 	public void deplacement(boolean versDroite) {
 		temps++;
-		if (this.temps==70) {
+		if (this.temps==100) {
 			if (versDroite) {
 				this.setDirDroite(3);
 			}

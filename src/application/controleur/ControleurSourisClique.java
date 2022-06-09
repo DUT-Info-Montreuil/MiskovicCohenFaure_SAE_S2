@@ -2,6 +2,7 @@ package application.controleur;
 
 
 import application.modele.Environnement;
+import application.modele.items.utilitaires.Epee;
 import application.modele.items.utilitaires.Pioche;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -29,6 +30,9 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 			ImageView img= (ImageView) event.getSource(); //Permet de récupérer l'ImgView
 			Image ciel = new Image("application/ressource/0.png");
 			img.setImage(ciel);
+		}
+		else if (env.getJoueur().getInventaire().itemEnMain() instanceof Epee) {
+			this.env.getJoueur().attaque();
 		}
 	} 
 }
