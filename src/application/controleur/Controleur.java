@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import application.modele.Environnement;
 import application.modele.Joueur;
+import application.modele.Materiaux;
 import application.modele.Mob;
 import application.modele.Personnage;
 import application.modele.Slime;
@@ -48,6 +49,12 @@ public class Controleur implements Initializable{
 	private HBox inventaireSelect;
 	@FXML
 	private HBox inventaireItems;
+	@FXML
+    private javafx.scene.text.Text ferText;
+    @FXML
+    private javafx.scene.text.Text orText;
+    @FXML
+    private javafx.scene.text.Text diamantText;
 
 	private Environnement env;
 	private Timeline gameLoop;
@@ -78,6 +85,12 @@ public class Controleur implements Initializable{
 		inventaire.initInventaire();
 		this.listenInventaire(inventaire);
 		this.listenInventaireCase(inventaire);
+		
+		//Matériaux
+		Materiaux mat = new Materiaux();
+		listenDiamant(mat);
+		listenOr(mat);
+		listenFer(mat);
 
 		//Lancement Joueur
 		this.bindJoueur();
@@ -94,6 +107,35 @@ public class Controleur implements Initializable{
 
 	}
 
+	public void listenDiamant (Materiaux mat) {
+		IntegerProperty diamant = mat.diamantProperty();
+		diamant.addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				diamantText.setText("" + newValue);
+			}
+		});
+	}
+	public void listenOr (Materiaux mat) {
+		IntegerProperty or = mat.orProperty();
+		or.addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				orText.setText("" + newValue);
+			}
+		});
+	}
+	public void listenFer (Materiaux mat) {
+		IntegerProperty fer = mat.ferProperty();
+		fer.addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				ferText.setText("" + newValue);
+			}
+		});
+	}
+	
+	
 	public void listenPV(PVVue pvVue) {
 		IntegerProperty pv = env.getJoueur().pvProperty();
 
@@ -201,6 +243,7 @@ public class Controleur implements Initializable{
 							joueur.additionnerDirY(1);
 						}
 					}
+						
 					temps++;
 				})
 				);
