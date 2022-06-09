@@ -1,12 +1,17 @@
 package application.modele;
 
+import application.modele.Inventaire;
 import application.modele.items.utilitaires.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import application.modele.items.Bloc;
 
 public class Joueur extends Personnage{
 	
 	Inventaire inventaire;
 	private boolean clickQ, clickD;
 	private int iFrame;
+	private boolean versDroite ;
 	
 
 	public Joueur(int coordX, int coordY,Environnement e) {
@@ -14,11 +19,20 @@ public class Joueur extends Personnage{
 		this.clickD=false;
 		this.clickQ=false;
 		this.iFrame=0;
+		this.versDroite=true;
 		inventaire = new Inventaire();
 		inventaire.ajouterItem(new Pioche(0));
 		inventaire.ajouterItem(new Epee(0));
 		inventaire.ajouterItem(new Hache(0));
 		inventaire.ajouterItem(new Arc(0));
+		
+		this.xProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				versDroite=((int)oldValue<(int)newValue);
+			}	
+		});
 	}
 	
 	public void saut() {
@@ -75,6 +89,32 @@ public class Joueur extends Personnage{
 		if (this.iFrame==0) {
 			super.perdrePV(valeur, versDroite);
 			this.iFrame=50;
+		}
+	}
+	
+	public void attaque () {
+		Personnage e;
+		if (this.versDroite) {
+			for (int i=this.getEnv().getPersos().size()-1;i>=0;i--) {
+				e=this.getEnv().getMobs().get(i);
+				if (this.getX()+this.getLargeur()<e.getX()+e.getLargeur()
+						&& this.getX()+this.getLargeur()+20>e.getX()
+						&& this.getY()<e.getY()+e.getHauteur()
+						&& this.getY()+this.getHauteur()>e.getY() ) {
+					e.perdrePV(1, versDroite);
+				}
+			}
+		}
+		else {
+			for (int i=this.getEnv().getPersos().size()-1;i>=0;i--) {
+				e=this.getEnv().getMobs().get(i);
+				if (this.getX()>e.getX() 
+						&& this.getX()-20<e.getX()+e.getLargeur()
+						&& this.getY()<e.getY()+e.getHauteur()
+						&& this.getY()+this.getHauteur()>e.getY() ) {
+					e.perdrePV(1, versDroite);
+				}
+			}
 		}
 	}
 }

@@ -17,21 +17,27 @@ public class Environnement {
 
 		//Temporaire
 		Mob slime = new Slime(0,64, joueur, this);
-		Mob slime2 = new Slime(0,85, joueur, this);
 		ajouterMob(slime);
-		ajouterPerso(slime);
-		ajouterMob(slime2);
-		ajouterPerso(slime2);
 	}
 
 	//Gestion Liste
 	public void ajouterMob(Mob m) { 
 		mobs.add(m);
+		ajouterPerso(m);
 	}
 
 	public void ajouterPerso(Personnage p) {
 		if (!(p instanceof Joueur))
 			persos.add(p);
+	}
+	
+	public void retirerPerso (Personnage p) {
+		this.persos.remove(p);
+	}
+	
+	public void retirerMob (Personnage p) {
+		retirerPerso(p);
+		this.mobs.remove(p);
 	}
 
 	public Joueur getJoueur() {

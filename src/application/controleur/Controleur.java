@@ -208,6 +208,18 @@ public class Controleur implements Initializable{
 			if (m instanceof Slime) {
 				spriteSlime.translateXProperty().bind(m.xProperty());
 				spriteSlime.translateYProperty().bind(m.yProperty());
+				
+				m.pvProperty().addListener(new ChangeListener<Number>() {
+
+					@Override
+					public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+						if ((int)newValue==0) {
+							spriteSlime.setImage(null);
+							terrainMap.getChildren().remove(spriteSlime);
+							env.retirerMob(m);
+						}
+					}	
+				});
 			}
 		}
 	}

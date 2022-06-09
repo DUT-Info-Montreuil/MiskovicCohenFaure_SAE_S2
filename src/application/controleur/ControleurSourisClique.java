@@ -5,6 +5,7 @@ import java.util.Map;
 
 import application.modele.Environnement;
 import application.modele.items.Bloc;
+import application.modele.items.utilitaires.Epee;
 import application.modele.items.utilitaires.Pioche;
 import application.vue.ImageMap;
 import javafx.event.EventHandler;
@@ -48,6 +49,9 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 				img.setImage(images.get(idBloc));
 				this.env.getTerrain().changerCase(numeroCase, (int) idBloc.charAt(1));
 			}
+		}
+		else if (env.getJoueur().getInventaire().itemEnMain() instanceof Epee) {
+			this.env.getJoueur().attaque();
 		}
 	} 
 }
