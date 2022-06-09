@@ -139,19 +139,23 @@ public abstract class Personnage {
 
 	}
 	public void collisionDroite (int x,int y) {
-		if (checkCollision(Outils.coordToTile(x+this.largeur, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+20, y), this.env)) {
-			this.coordXProperty.set((int) (x-this.dirDroite));
-		}
-		if (checkCollision(Outils.coordToTile(x+this.largeur, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+19, y), this.env)) {
-			this.coordXProperty.set(this.coordXProperty.get()-1);
+		if (checkCollision(Outils.coordToTile(x+this.largeur, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+this.largeur, y), this.env)) {
+			if (checkCollision(Outils.coordToTile(x+this.largeur-1, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+this.largeur-1, y), this.env)) {
+				this.coordXProperty.set((int) (x-this.dirDroite)-1);
+			}
+			else {
+				this.coordXProperty.set((int) (x-this.dirDroite));
+			}
 		}
 	}
 	public void collisionGauche (int x,int y) {
 		if (checkCollision(Outils.coordToTile(x+9, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+9, y), this.env)) {
-			this.coordXProperty.set((int) (x+this.dirGauche));
-		}
-		if (checkCollision(Outils.coordToTile(x+10, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+10, y), this.env)) {
-			this.coordXProperty.set(this.coordXProperty.get()+1);
+			if (checkCollision(Outils.coordToTile(x+10, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+10, y), this.env)) {
+				this.coordXProperty.set((int) (x+this.dirGauche)+1);
+			}
+			else {
+				this.coordXProperty.set((int) (x+this.dirGauche));
+			}
 		}
 	}
 	public void collisionHaut (int x,int y) {

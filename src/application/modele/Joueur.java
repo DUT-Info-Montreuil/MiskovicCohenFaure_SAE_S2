@@ -12,7 +12,7 @@ public class Joueur extends Personnage{
 	
 
 	public Joueur(int coordX, int coordY,Environnement e) {
-		super(coordX, coordY,5,e,13,25);
+		super(coordX, coordY,5,e,23,25);
 		this.clickD=false;
 		this.clickQ=false;
 		this.iFrame=0;
