@@ -27,9 +27,9 @@ public class ListeCaseInventaire {
 			items.add(item);
 	}
 	
-	public void del(Item item) {
+	public void del(String idItem) {
 		if (!this.estVide())
-			items.remove(items.indexOf(item));
+			items.remove(items.indexOf(this.getItemViaId(idItem)));
 	}
 	
 	public int nombreItems() {
@@ -40,6 +40,16 @@ public class ListeCaseInventaire {
 	public void ajouterQuantiteBloc(String id) {
 		Bloc b = (Bloc) this.getItemViaId(id);
 		b.ajouterQuantite();
+	}
+	
+	public boolean baisserQuantiteBloc(String id) {
+		Bloc b = (Bloc) this.getItemViaId(id);
+		b.enleverBloc();
+		if (b.getQuantite() == 0) {
+			this.del(id);
+			return false;
+		}
+		return true;
 	}
 	
 	

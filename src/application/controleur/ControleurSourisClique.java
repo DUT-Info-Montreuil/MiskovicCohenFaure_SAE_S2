@@ -43,10 +43,10 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 		if (env.getJoueur().getInventaire().itemEnMain() instanceof Bloc) {
 			ImageView img= (ImageView) event.getSource();
 			if (env.getTerrain().getTable()[numeroCase] == 0) {
-				
-				img.setImage(images.get(env.getJoueur().getInventaire().itemEnMain().getId()));
-				this.env.getTerrain().changerCase(numeroCase, (int) env.getJoueur().getInventaire().itemEnMain().getId().charAt(1));
-				
+				String idBloc = env.getJoueur().getInventaire().itemEnMain().getId();
+				this.env.getJoueur().getInventaire().poserBloc(idBloc);
+				img.setImage(images.get(idBloc));
+				this.env.getTerrain().changerCase(numeroCase, (int) idBloc.charAt(1));
 			}
 		}
 	} 

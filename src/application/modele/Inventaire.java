@@ -55,8 +55,9 @@ public class Inventaire {
 		return items.get(getIndexProperty()).itemIndex();
 	}
 	
-	public void enleverBloc() {
-		
+	public void poserBloc(String id) {
+		if (!items.get(4).baisserQuantiteBloc(id))
+			this.itemPrecedent();
 	}
 	
 	public ListeCaseInventaire listItemsIndex() {
