@@ -14,7 +14,7 @@ public class Terrain {
 		try {
 
 			Reader reader;
-			reader = new FileReader("/home/etudiants/info/hcohen/git/SaEDev_S2/src/application/ressource/testTerrain");
+			reader = new FileReader("src/application/ressource/testTerrain");
 			BufferedReader br = new BufferedReader(reader, 16384);
 
 			String line = null;
