@@ -2,7 +2,7 @@ package application.vue;
 
 import java.util.ArrayList;
 
-import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
@@ -10,8 +10,8 @@ import javafx.scene.image.ImageView;
 
 public class JoueurVue {
 	
-	private IntegerProperty coordX;
-	private IntegerProperty coordY;
+	private DoubleProperty coordX;
+	private DoubleProperty coordY;
 	private ImageView image;
 	private ArrayList <Image> images;
 	private int temps;
@@ -20,7 +20,7 @@ public class JoueurVue {
 //	this.ajouterImage(new Image("application/ressource/21.png"));
 //	this.ajouterImage(new Image("application/ressource/22.png"));
 	
-	public JoueurVue (IntegerProperty x, IntegerProperty y,ImageView i) {
+	public JoueurVue (DoubleProperty x, DoubleProperty y,ImageView i) {
 		this.coordX=x;
 		this.coordY=y;
 		this.image=i;
@@ -34,12 +34,12 @@ public class JoueurVue {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				mouvementHoriz((int)(oldValue),(int)(newValue));
+				mouvementHoriz((double)(oldValue),(double)(newValue));
 			}	
 		});
 	}
 	
-	private void mouvementHoriz (int ancien, int nouveau) {
+	private void mouvementHoriz (double ancien, double nouveau) {
 		this.image.setImage(this.images.get(temps/10));
 		if (ancien<nouveau) {
 			this.image.setScaleX(1);

@@ -14,6 +14,7 @@ import application.vue.JoueurVue;
 import application.vue.PVVue;
 import application.vue.TerrainVue;
 import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -184,20 +185,20 @@ public class Controleur implements Initializable{
 	}
 
 	public void listenJoueurProperty() {
-		IntegerProperty xCoord = env.getJoueur().xProperty();
+		DoubleProperty xCoord = env.getJoueur().xProperty();
 		xCoord.addListener(new ChangeListener<Number>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 
-				if ((int) newValue > 960 && (int) newValue < 2880)  {
-					terrainPane.setTranslateX(-(int) newValue+960);
+				if ((double) newValue > 960 && (double) newValue < 2880)  {
+					terrainPane.setTranslateX(-(double) newValue+960);
 				}
-				else if ((int) newValue <= 960 ) {
-					spriteJoueur.setTranslateX((int) newValue-960);
+				else if ((double) newValue <= 960 ) {
+					spriteJoueur.setTranslateX((double) newValue-960);
 				}
 				else
-					spriteJoueur.setTranslateX((int) newValue-2880);
+					spriteJoueur.setTranslateX((double) newValue-2880);
 			}
 		});
 	}
@@ -236,23 +237,8 @@ public class Controleur implements Initializable{
 				// on définit ce qui se passe à chaque frame 
 				// c'est un eventHandler d'ou le lambda
 				(ev ->{
-
-					//Gestion Collision des acteurs
-					for (Personnage p : env.getPersos()) {
-						p.action();
-						if (!p.collisionBas()) {
-							if(p.getDirY() < 5)
-								p.additionnerDirY(0.5);	
-						}
-					}
 					
-					//Mouvement + Gravité Joueur
-					joueur.action();
-					if (!joueur.collisionBas()) {
-						if(joueur.getDirY() < 5) {
-							joueur.additionnerDirY(1);
-						}
-					}
+					env.unTour();
 						
 					temps++;
 				})

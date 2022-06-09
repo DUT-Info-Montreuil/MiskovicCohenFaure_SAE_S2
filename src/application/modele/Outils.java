@@ -3,7 +3,9 @@ package application.modele;
 
 public class Outils {
 
-	public static int coordToTile (int x,int y) {
+	public static int coordToTile (double oldX,double oldY) {
+		int x=(int)oldX;
+		int y=(int)oldY;
 		if(x<0 || /*x>340  ||*/
 				y<-75    /*||  y>340*/){
 			return -1;

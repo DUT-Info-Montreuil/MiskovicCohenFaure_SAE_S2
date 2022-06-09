@@ -11,10 +11,12 @@ public class Slime extends Mob{
 
 	@Override
 	public void detectionJoueur() {
-		if (this.getJoueur().getX()-this.getX() < 250 && this.getJoueur().getX()-this.getX() >0  && this.getJoueur().getY()-this.getY() < 100 && this.getJoueur().getY()-this.getY() > -100) 
+		double xJoueur = this.getJoueur().getX();
+		double yJoueur = this.getJoueur().getY();
+		if (xJoueur-this.getX() < 250 && xJoueur-this.getX() >0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) 
 			this.deplacement(true);
 
-		if (this.getJoueur().getX()-this.getX() > -250 && this.getJoueur().getX()-this.getX() <0  && this.getJoueur().getY()-this.getY() < 100 && this.getJoueur().getY()-this.getY() > -100) 
+		if (xJoueur-this.getX() > -250 && xJoueur-this.getX() <0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) 
 			this.deplacement(false);
 	}
 

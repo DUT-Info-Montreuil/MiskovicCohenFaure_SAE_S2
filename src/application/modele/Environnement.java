@@ -55,7 +55,24 @@ public class Environnement {
 		return mobs;
 	}
 
-
+	public void unTour () {
+		//Gestion Collision des acteurs
+		for (Personnage p : this.persos) {
+			p.action();
+			if (!p.collisionBas()) {
+				if(p.getDirY() < 5)
+					p.additionnerDirY(0.5);	
+			}
+		}
+		
+		//Mouvement + Gravité Joueur
+		joueur.action();
+		if (!joueur.collisionBas()) {
+			if(joueur.getDirY() < 5) {
+				joueur.additionnerDirY(1);
+			}
+		}
+	}
 
 
 }

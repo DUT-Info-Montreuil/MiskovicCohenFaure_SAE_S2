@@ -1,11 +1,13 @@
 package application.modele;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public abstract class Personnage {
 
-	private IntegerProperty coordXProperty, coordYProperty;
+	private DoubleProperty coordXProperty, coordYProperty;
 	private double dirGauche;
 	private double dirDroite; 
 
@@ -18,8 +20,8 @@ public abstract class Personnage {
 	private Environnement env;
 
 	public Personnage (int coordX, int coordY, int pvMax,Environnement e,int l, int h) {
-		this.coordXProperty = new SimpleIntegerProperty(coordX);
-		this.coordYProperty = new SimpleIntegerProperty(coordY);
+		this.coordXProperty = new SimpleDoubleProperty(coordX);
+		this.coordYProperty = new SimpleDoubleProperty(coordY);
 		this.dirGauche=0;
 		this.dirDroite=0;
 		dirY = 0;
@@ -37,8 +39,8 @@ public abstract class Personnage {
 
 	//Direction
 	public void move () {
-		this.coordXProperty.set((int) (coordXProperty.get() + this.dirDroite - this.dirGauche));
-		this.coordYProperty.set(coordYProperty.get() + (int)dirY);
+		this.coordXProperty.set(coordXProperty.get() + this.dirDroite - this.dirGauche);
+		this.coordYProperty.set(coordYProperty.get() + dirY);
 	}
 	public void additionnerDirY(double d) {
 		this.dirY += d;
@@ -90,16 +92,16 @@ public abstract class Personnage {
 	public void setDirDroite(double d) {
 		this.dirDroite=d;
 	}
-	public IntegerProperty xProperty() {
+	public DoubleProperty xProperty() {
 		return coordXProperty;
 	}
-	public IntegerProperty yProperty() {
+	public DoubleProperty yProperty() {
 		return coordYProperty;
 	}
-	public int getX () {
+	public double getX () {
 		return this.coordXProperty.getValue();
 	}
-	public int getY () {
+	public double getY () {
 		return this.coordYProperty.getValue();
 	}
 	public double getDirY() {
@@ -131,15 +133,15 @@ public abstract class Personnage {
 
 	//Collisions
 	public void gestionCollision () {
-		int x = this.coordXProperty.get();
-		int y = this.coordYProperty.get();
+		double x = this.coordXProperty.get();
+		double y = this.coordYProperty.get();
 		collisionDroite(x,y);
 		collisionGauche(x,y);
 		collisionHaut(x,y);
 		collisionBas();
 
 	}
-	public void collisionDroite (int x,int y) {
+	public void collisionDroite (double x,double y) {
 		if (checkCollision(Outils.coordToTile(x+this.largeur, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+this.largeur, y), this.env)) {
 			if (checkCollision(Outils.coordToTile(x+this.largeur-1, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+this.largeur-1, y), this.env)) {
 				this.coordXProperty.set((int) (x-this.dirDroite)-1);
@@ -149,7 +151,7 @@ public abstract class Personnage {
 			}
 		}
 	}
-	public void collisionGauche (int x,int y) {
+	public void collisionGauche (double x,double y) {
 		if (checkCollision(Outils.coordToTile(x+9, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+9, y), this.env)) {
 			if (checkCollision(Outils.coordToTile(x+10, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+10, y), this.env)) {
 				this.coordXProperty.set((int) (x+this.dirGauche)+1);
@@ -159,14 +161,14 @@ public abstract class Personnage {
 			}
 		}
 	}
-	public void collisionHaut (int x,int y) {
+	public void collisionHaut (double x,double y) {
 		if (checkCollision(Outils.coordToTile(x+17, y-this.hauteur-10), this.env)||checkCollision(Outils.coordToTile(x+12, y-this.hauteur-10), this.env)) {
 			this.setDirY(1);
 		}
 	}
 	public boolean collisionBas () {
-		int x=this.coordXProperty.get();
-		int y=this.coordYProperty.get();
+		double x=this.coordXProperty.get();
+		double y=this.coordYProperty.get();
 		if (checkCollision(Outils.coordToTile(x+17 ,y+1), this.env)||checkCollision(Outils.coordToTile(x+12, y+1), this.env)) {
 			if (checkCollision(Outils.coordToTile(x+17 ,y), this.env)||checkCollision(Outils.coordToTile(x+12, y), this.env)) {
 				this.coordYProperty.set(this.coordYProperty.get()-1);
@@ -189,5 +191,4 @@ public abstract class Personnage {
 		this.inertie();
 		this.move();
 	}
-	
 }

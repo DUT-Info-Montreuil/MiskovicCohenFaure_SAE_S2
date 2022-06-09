@@ -30,7 +30,7 @@ public class Joueur extends Personnage{
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				versDroite=((int)oldValue<(int)newValue);
+				versDroite=((double)oldValue<(double)newValue);
 			}	
 		});
 	}
