@@ -6,7 +6,6 @@ public class Epee extends Utilitaire {
 	public Epee(int mat) {
 		super(mat, "E" + compteur);
 		compteur++;
-		// TODO Auto-generated constructor stub
 	}
 
 }

@@ -29,19 +29,24 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 	@Override
 	public void handle(MouseEvent event) {
 		if (env.getJoueur().getInventaire().itemEnMain() instanceof Pioche) {
-			//Suppression de la case dans le modèle
-			this.env.getTerrain().supprimerCase(numeroCase);
-			//Affichage de l'id 0
-			ImageView img= (ImageView) event.getSource(); //Permet de récupérer l'ImgView
-			env.getJoueur().getInventaire().ajouterItem(new Bloc(Integer.parseInt(img.getId())));
-			Image ciel = images.get("B0");
-			img.setImage(ciel);
+			if (env.getTerrain().getTable()[numeroCase] > 0) {
+				//Suppression de la case dans le modèle
+				this.env.getTerrain().supprimerCase(numeroCase);
+				//Affichage de l'id 0
+				ImageView img= (ImageView) event.getSource(); //Permet de récupérer l'ImgView
+				env.getJoueur().getInventaire().ajouterItem(new Bloc(Integer.parseInt(img.getId())));
+				Image ciel = images.get("B0");
+				img.setImage(ciel);
+			}
 		}
+		
 		if (env.getJoueur().getInventaire().itemEnMain() instanceof Bloc) {
 			ImageView img= (ImageView) event.getSource();
 			if (env.getTerrain().getTable()[numeroCase] == 0) {
+				
 				img.setImage(images.get(env.getJoueur().getInventaire().itemEnMain().getId()));
 				this.env.getTerrain().changerCase(numeroCase, (int) env.getJoueur().getInventaire().itemEnMain().getId().charAt(1));
+				
 			}
 		}
 	} 

@@ -127,8 +127,6 @@ public class Controleur implements Initializable{
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				String idItem = env.getJoueur().getInventaire().idItemEnMain();
 				int curseur = env.getJoueur().getInventaire().getIndexProperty();
-				System.out.println(env.getJoueur().getInventaire().itemEnMain());
-				System.out.println(idItem);
 				inv.changerImage(curseur, idItem);
 			}
 		});

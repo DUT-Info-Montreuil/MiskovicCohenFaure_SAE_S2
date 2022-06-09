@@ -2,23 +2,22 @@ package application.modele.items;
 
 public class Bloc extends Item{
 	
-	public static int quantite = 0;
+	public static int quantite;;
 	
 	public Bloc(int materiau) {
 		super("B" + materiau);
-		quantite++;
+		quantite = 0;
 	}
 	
 	public int getQuantite() {
 		return quantite;
 	}
 	
-	public void ajouterQuantite(int valeur) {
-		quantite += valeur;
+	public void ajouterQuantite() {
+		quantite ++;
 	}
 	
 	public boolean enleverBloc() {
-		System.out.println(quantite);
 		if (quantite > 0) {
 			quantite--;
 			return true;

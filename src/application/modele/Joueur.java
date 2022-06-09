@@ -1,8 +1,6 @@
 package application.modele;
 
-import application.modele.Inventaire;
 import application.modele.items.utilitaires.*;
-import application.modele.items.Bloc;
 
 public class Joueur extends Personnage{
 	
