@@ -55,6 +55,10 @@ public class Inventaire {
 		return items.get(getIndexProperty()).itemIndex();
 	}
 	
+	public void enleverBloc() {
+		
+	}
+	
 	public ListeCaseInventaire listItemsIndex() {
 		return items.get(getIndexProperty());
 	}

@@ -18,6 +18,7 @@ public class Bloc extends Item{
 	}
 	
 	public boolean enleverBloc() {
+		System.out.println(quantite);
 		if (quantite > 0) {
 			quantite--;
 			return true;

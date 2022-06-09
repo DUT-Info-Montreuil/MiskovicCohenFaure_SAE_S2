@@ -21,7 +21,6 @@ public class Joueur extends Personnage{
 		inventaire.ajouterItem(new Epee(0));
 		inventaire.ajouterItem(new Hache(0));
 		inventaire.ajouterItem(new Arc(0));
-		inventaire.ajouterItem(new Bloc(1));
 	}
 	
 	public void saut() {

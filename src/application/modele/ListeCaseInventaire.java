@@ -16,9 +16,12 @@ public class ListeCaseInventaire {
 	}
 
 	public void add(Item item) {
-		if (item.getClass().getSimpleName() == "Bloc") {
-			if (this.contient(item))
+		if (item.getClass().getSimpleName().equals("Bloc")) {
+			
+			if (this.contient(item)) {
 				this.ajouterQuantiteBloc((Bloc) item);
+				System.out.println("test");
+			}
 			else
 				items.add(item);
 		}
@@ -26,16 +29,27 @@ public class ListeCaseInventaire {
 			items.add(item);
 	}
 	
+	public void del(Item item) {
+		if (!this.estVide())
+			items.remove(items.indexOf(item));
+	}
+	
 	public int nombreItems() {
 		return items.size();
 	}
 	
+	//méthodes destinés aux blocs
 	public void ajouterQuantiteBloc(Bloc bloc) {
 		bloc.ajouterQuantite(1);
 	}
 	
+	
 	public boolean contient(Item item) {
-		return items.contains(item);
+		for (int i = 1; i < items.size(); i++)
+			if (items.get(i).getId().equals(item.getId())) {
+				return true;
+			}
+		return false;
 	}
 
 	public boolean estVide() {

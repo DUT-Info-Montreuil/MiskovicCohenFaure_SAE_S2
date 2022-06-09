@@ -46,4 +46,8 @@ public class Terrain {
 	public void supprimerCase(int i) {
 		table[i]=0;
 	}
+	
+	public void changerCase(int i, int bloc) {
+		table[i] = bloc;
+	}
 }

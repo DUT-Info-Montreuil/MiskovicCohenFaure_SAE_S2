@@ -14,17 +14,16 @@ public class InventaireVue {
     private HBox inventaireItems;
     private int tailleInventaire;
     private Image caseInventaireSelect;
-
-    Map<String, Image> images;
+    private Map<String, Image> images;
     
     public InventaireVue(HBox inventaireAff, HBox inventaireSelect, HBox inventaireItems, int tailleInventaire) {
     	this.inventaireAff = inventaireAff;
     	this.inventaireSelect = inventaireSelect;
     	this.tailleInventaire = tailleInventaire;
     	this.inventaireItems = inventaireItems;
+    	images = ImageMap.images;
     	
     	caseInventaireSelect = new Image("application/ressource/inventaire/caseInventaireSelect.png");
-    	images = new HashMap<>();
     }
     
     public void initImagesPioche() {
@@ -52,8 +51,8 @@ public class InventaireVue {
     }
     
     public void initImagesBloc() {
-    	for (int i = 0; i < 2; i++) {
-    		images.put("B" + i, new Image("application/ressource/inventaire/bloc/B" + i + ".png"));
+    	for (int i = 1; i < 3; i++) {
+    		images.put("B" + i, new Image("application/ressource/" + i + ".png"));
     	}
     }
     
@@ -98,7 +97,6 @@ public class InventaireVue {
     }
     
     public void changerImage(int curseur, String idItem) {
-    	System.out.println("curseur : " + curseur);
     	if (idItem == null) {
     		inventaireItems.getChildren().get(curseur).setVisible(false);
     	}

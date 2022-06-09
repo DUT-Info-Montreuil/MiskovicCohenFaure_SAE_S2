@@ -1,8 +1,12 @@
 package application.controleur;
 
 
+import java.util.Map;
+
 import application.modele.Environnement;
+import application.modele.items.Bloc;
 import application.modele.items.utilitaires.Pioche;
+import application.vue.ImageMap;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,10 +17,12 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 
 	private int numeroCase;
 	private Environnement env;
+	Map<String,Image> images;
 
 	public ControleurSourisClique(int numCase, Environnement env) {
 		this.numeroCase = numCase;
 		this.env=env;
+		images = ImageMap.images;
 
 	}
 
@@ -27,8 +33,16 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 			this.env.getTerrain().supprimerCase(numeroCase);
 			//Affichage de l'id 0
 			ImageView img= (ImageView) event.getSource(); //Permet de récupérer l'ImgView
-			Image ciel = new Image("application/ressource/0.png");
+			env.getJoueur().getInventaire().ajouterItem(new Bloc(Integer.parseInt(img.getId())));
+			Image ciel = images.get("B0");
 			img.setImage(ciel);
+		}
+		if (env.getJoueur().getInventaire().itemEnMain() instanceof Bloc) {
+			ImageView img= (ImageView) event.getSource();
+			if (env.getTerrain().getTable()[numeroCase] == 0) {
+				img.setImage(images.get(env.getJoueur().getInventaire().itemEnMain().getId()));
+				this.env.getTerrain().changerCase(numeroCase, (int) env.getJoueur().getInventaire().itemEnMain().getId().charAt(1));
+			}
 		}
 	} 
 }
