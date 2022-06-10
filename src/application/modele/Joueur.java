@@ -2,8 +2,10 @@ package application.modele;
 
 import application.modele.Inventaire;
 import application.modele.items.utilitaires.*;
+import application.vue.JoueurVue;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.image.Image;
 import application.modele.items.Bloc;
 
 public class Joueur extends Personnage{
@@ -13,9 +15,10 @@ public class Joueur extends Personnage{
 	private int iFrame;
 	private boolean versDroite ;
 	
-
 	public Joueur(int coordX, int coordY,Environnement e) {
-		super(coordX, coordY,5,e,23,25);
+		super(coordX, coordY,5,e,23,25,new Image("application/ressource/20.png"));
+		this.getEnv().retirerPerso(this);
+		
 		this.clickD=false;
 		this.clickQ=false;
 		this.iFrame=0;
@@ -26,6 +29,8 @@ public class Joueur extends Personnage{
 		inventaire.ajouterItem(new Hache(0));
 		inventaire.ajouterItem(new Arc(0));
 		
+		this.getEnv().getControleur().ajouterSprite(this.getSprite());
+		
 		this.xProperty().addListener(new ChangeListener<Number>() {
 
 			@Override
@@ -33,6 +38,14 @@ public class Joueur extends Personnage{
 				versDroite=((double)oldValue<(double)newValue);
 			}	
 		});
+	}
+		
+	
+	public void gravite() {
+		if (!this.collisionBas()) {
+			if(this.getDirY() < 5)
+				this.additionnerDirY(1);	
+		}
 	}
 	
 	public void saut() {
@@ -52,6 +65,11 @@ public class Joueur extends Personnage{
 	public void setClickD(boolean clickD) {
 		this.clickD = clickD;
 	}
+	
+	public boolean isVersDroite() {
+		return versDroite;
+	}
+
 	
 	//Gestion de l'inertie
 	public void inertie() {
@@ -115,6 +133,6 @@ public class Joueur extends Personnage{
 					e.perdrePV(1, versDroite);
 				}
 			}
-		}
+		}	
 	}
 }

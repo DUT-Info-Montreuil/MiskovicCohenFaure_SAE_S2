@@ -1,16 +1,22 @@
 package application.modele;
 
+import javafx.scene.image.Image;
+
 public abstract class Mob extends Personnage{
 
 
-	public Mob(int coordX, int coordY,Environnement e,int l,int h) {
-		super(coordX, coordY,3,e,l,h);
+	public Mob(double coordX, double coordY,int pv, Environnement e,int l,int h, Image image) {
+		super(coordX, coordY,pv,e,l,h, image);
+		this.getEnv().ajouterMob(this);
+		this.getSprite().translateXProperty().bind(this.xProperty());
+		this.getSprite().translateYProperty().bind(this.yProperty());
+		this.getEnv().getControleur().ajouterSprite(this.getSprite());
 	}
 
-	public abstract void detectionJoueur();
-	public abstract void deplacement(boolean versDroite);
+	public abstract void detection();
+	
 	public void attaque() {
-		// FAIRE SYSTEME DE HITBOX
+		//SYSTEME DE HITBOX
 		Joueur j=this.getEnv().getJoueur();
 		if ((this.getX()<j.getX()+j.getLargeur()&&this.getX()+this.getLargeur()>j.getX()
 			&& this.getY()+this.getHauteur()>j.getY()&&this.getY()<j.getY()+j.getHauteur())) {
@@ -25,7 +31,7 @@ public abstract class Mob extends Personnage{
 	
 	public void action() {
 		super.action();
-		this.detectionJoueur();
+		this.detection();
 		this.attaque();
 	}
 	

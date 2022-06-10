@@ -1,16 +1,21 @@
 package application.modele;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class Slime extends Mob{
 	
 	private int temps;
 
 	public Slime(int coordX, int coordY, Joueur joueur,Environnement e) {
-		super(coordX, coordY,e,25,15);
-		this.temps=0;
+		super(coordX, coordY,3,e,25,15,new Image("application/ressource/slime.png"));
+		this.temps=99;
+
+	
 	}
 
-	@Override
-	public void detectionJoueur() {
+
+	public void detection() {
 		double xJoueur = this.getJoueur().getX();
 		double yJoueur = this.getJoueur().getY();
 		if (xJoueur-this.getX() < 250 && xJoueur-this.getX() >0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) 
@@ -19,8 +24,8 @@ public class Slime extends Mob{
 		if (xJoueur-this.getX() > -250 && xJoueur-this.getX() <0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) 
 			this.deplacement(false);
 	}
-
-	public void deplacement(boolean versDroite) {
+	
+	public void deplacement (boolean versDroite) {
 		temps++;
 		if (this.temps==100) {
 			if (versDroite) {
@@ -44,7 +49,4 @@ public class Slime extends Mob{
 			}
 		}
 	}
-
-
-
 }

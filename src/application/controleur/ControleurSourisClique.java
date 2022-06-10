@@ -4,10 +4,15 @@ package application.controleur;
 import java.util.Map;
 
 import application.modele.Environnement;
+import application.modele.Fleche;
+import application.modele.Joueur;
 import application.modele.items.Bloc;
+import application.modele.items.utilitaires.Arc;
 import application.modele.items.utilitaires.Epee;
 import application.modele.items.utilitaires.Pioche;
 import application.vue.ImageMap;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,11 +24,13 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 	private int numeroCase;
 	private Environnement env;
 	Map<String,Image> images;
+	private Controleur controleur;
 
-	public ControleurSourisClique(int numCase, Environnement env) {
+	public ControleurSourisClique(int numCase, Environnement env, Controleur contro) {
 		this.numeroCase = numCase;
 		this.env=env;
 		images = ImageMap.images;
+		this.controleur=contro;
 
 	}
 
@@ -53,6 +60,27 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 		}
 		else if (env.getJoueur().getInventaire().itemEnMain() instanceof Epee) {
 			this.env.getJoueur().attaque();
+		}
+		else if (env.getJoueur().getInventaire().itemEnMain() instanceof Arc) {
+			Joueur j=this.env.getJoueur();
+			Fleche fleche=new Fleche(j.getX(), j.getY(), this.env, j.isVersDroite());
+			ImageView fl =new ImageView();
+			fl.setImage(new Image("application/ressource/P0.png"));
+			
+			fl.translateXProperty().bind(fleche.xProperty());
+			fl.translateYProperty().bind(fleche.yProperty());
+			
+			fleche.pvProperty().addListener(new ChangeListener<Number>() {
+
+				@Override
+				public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+					if ((int)newValue==0) {
+						fl.setImage(null);
+						controleur.enleverSprite(fl);
+						env.retirerMob(fleche);
+					}
+				}	
+			});
 		}
 	} 
 }

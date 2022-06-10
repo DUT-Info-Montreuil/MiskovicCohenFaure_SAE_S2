@@ -15,11 +15,6 @@
             <Pane fx:id="terrainPane">
                <children>
                   <TilePane fx:id="terrainMap" prefColumns="120" prefRows="33" tileAlignment="TOP_LEFT" />
-                  <ImageView fx:id="spriteSlime">
-                     <image>
-                        <Image url="@../ressource/slime.png" />
-                     </image>
-                  </ImageView>
                </children>
             </Pane>
             <ImageView fx:id="spriteJoueur" x="960.0">

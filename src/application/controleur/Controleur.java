@@ -66,8 +66,10 @@ public class Controleur implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 
 		//Création Terrain
-		env = new Environnement();
-		TerrainVue terrainVue = new TerrainVue(env, terrainMap);
+		
+		env = new Environnement(this);
+		
+		TerrainVue terrainVue = new TerrainVue(env, terrainMap,this);
 		terrainVue.initTerrain();
 
 		//Indices Terrain
@@ -185,8 +187,7 @@ public class Controleur implements Initializable{
 	}
 
 	public void listenJoueurProperty() {
-		DoubleProperty xCoord = env.getJoueur().xProperty();
-		xCoord.addListener(new ChangeListener<Number>() {
+			env.getJoueur().xProperty().addListener(new ChangeListener<Number>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -202,34 +203,47 @@ public class Controleur implements Initializable{
 			}
 		});
 	}
+	
 
 	//Temporaire
 	public void bindSlime() {
 		for (Mob m : env.getMobs()) {
 			if (m instanceof Slime) {
-				spriteSlime.translateXProperty().bind(m.xProperty());
-				spriteSlime.translateYProperty().bind(m.yProperty());
+//				spriteSlime.translateXProperty().bind(m.xProperty());
+//				spriteSlime.translateYProperty().bind(m.yProperty());
 				
-				m.pvProperty().addListener(new ChangeListener<Number>() {
-
-					@Override
-					public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-						if ((int)newValue==0) {
-							spriteSlime.setImage(null);
-							terrainMap.getChildren().remove(spriteSlime);
-							env.retirerMob(m);
-						}
-					}	
-				});
+//				m.pvProperty().addListener(new ChangeListener<Number>() {
+//
+//					@Override
+//					public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//						if ((int)newValue==0) {
+//							terrainMap.getChildren().remove(spriteSlime);
+//							spriteSlime.setImage(null);
+//							env.retirerMob(m);
+//						}
+//					}	
+//				});
 			}
 		}
+	}
+	
+	public void enleverSprite (ImageView sprite) {
+		terrainPane.getChildren().remove(sprite);
+		sprite.setImage(null);
+	}
+	
+	public void ajouterSprite (ImageView sprite) {
+		this.terrainPane.getChildren().add(sprite);
+	}
+
+	public void ajouterJoueur (ImageView sprite) {
+		this.terrainMap.getChildren().add(sprite);
 	}
 
 	private void initAnimation() {
 		gameLoop = new Timeline();
 		temps=0;
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
-		Personnage joueur=env.getJoueur();
 
 		KeyFrame kf = new KeyFrame(
 				//FPS

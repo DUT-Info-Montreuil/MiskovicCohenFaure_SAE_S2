@@ -2,28 +2,33 @@ package application.modele;
 
 import java.util.ArrayList;
 
+import application.controleur.Controleur;
+
 public class Environnement {
 
 	private Joueur joueur;
 	private Terrain terrain;
 	private ArrayList<Personnage> persos;
 	private ArrayList<Mob> mobs;
+	private Controleur controleur;
 
-	public Environnement() {
+	public Environnement(Controleur c) {
+		
+		this.controleur = c;
 		terrain = new Terrain();
 		persos = new ArrayList<>();
 		joueur = new Joueur(960,-64, this);
 		mobs = new ArrayList<Mob>();
+	
+		
 
 		//Temporaire
 		Mob slime = new Slime(0,64, joueur, this);
-		ajouterMob(slime);
 	}
 
 	//Gestion Liste
 	public void ajouterMob(Mob m) { 
 		mobs.add(m);
-		ajouterPerso(m);
 	}
 
 	public void ajouterPerso(Personnage p) {
@@ -39,6 +44,11 @@ public class Environnement {
 		retirerPerso(p);
 		this.mobs.remove(p);
 	}
+
+	public Controleur getControleur() {
+		return controleur;
+	}
+
 
 	public Joueur getJoueur() {
 		return this.joueur;
@@ -57,21 +67,16 @@ public class Environnement {
 
 	public void unTour () {
 		//Gestion Collision des acteurs
-		for (Personnage p : this.persos) {
+		Personnage p;
+		int i=0;
+		while (i<this.persos.size()) {
+			p=this.mobs.get(i);
 			p.action();
-			if (!p.collisionBas()) {
-				if(p.getDirY() < 5)
-					p.additionnerDirY(0.5);	
-			}
+			i++;
 		}
-		
+
 		//Mouvement + Gravité Joueur
 		joueur.action();
-		if (!joueur.collisionBas()) {
-			if(joueur.getDirY() < 5) {
-				joueur.additionnerDirY(1);
-			}
-		}
 	}
 
 

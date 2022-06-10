@@ -4,6 +4,9 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public abstract class Personnage {
 
@@ -17,9 +20,11 @@ public abstract class Personnage {
 	
 	private int hauteur , largeur;
 	
+	private ImageView sprite;
+	
 	private Environnement env;
 
-	public Personnage (int coordX, int coordY, int pvMax,Environnement e,int l, int h) {
+	public Personnage (double coordX, double coordY, int pvMax,Environnement e,int l, int h, Image image) {
 		this.coordXProperty = new SimpleDoubleProperty(coordX);
 		this.coordYProperty = new SimpleDoubleProperty(coordY);
 		this.dirGauche=0;
@@ -29,13 +34,22 @@ public abstract class Personnage {
 		pvProperty = new SimpleIntegerProperty(pvMax);
 		this.env=e;
 		this.hauteur=h;
-		this.largeur=l;
+		this.largeur=l;this.env.ajouterPerso(this);
+		this.sprite=new ImageView();
+		this.sprite.setImage(image);
 
+
+	
 	}
 
 	public Environnement getEnv() {
 		return env;
 	}
+	
+	public ImageView getSprite() {
+		return sprite;
+	}
+
 
 	//Direction
 	public void move () {
@@ -48,17 +62,22 @@ public abstract class Personnage {
 
 	//PV
 	public void perdrePV(int valeur,boolean versDroite) {
-		if (pvProperty.get() - valeur <= 0) {
-			pvProperty.set(0);
-		}
-		else 
-			pvProperty.set(pvProperty.get() - valeur);
+		pvProperty.set(pvProperty.get() - valeur);
 		if (versDroite)
 			this.setDirDroite(4);
 		else 
 			this.setDirGauche(4);
 		this.setDirY(-5);
 	}
+	
+	public void meurt () {
+		if (this.pvProperty.get()<=0) {
+			this.getEnv().retirerMob(this);
+			this.getEnv().getControleur().enleverSprite(this.sprite);
+			System.out.println("aled");
+		}
+	}
+	
 	public void ajouterPV(int valeur) {
 		if (pvProperty.get() + valeur > pvMax) 
 			pvProperty.set(pvMax);
@@ -141,7 +160,7 @@ public abstract class Personnage {
 		collisionBas();
 
 	}
-	public void collisionDroite (double x,double y) {
+	public boolean collisionDroite (double x,double y) {
 		//verifie si le joueur est est en contact avec un bloc pour l'arreter
 		if (checkCollision(Outils.coordToTile(x+this.largeur, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+this.largeur, y), this.env)) {
 			//verifie si le joueur est dans un bloc pour le sortir
@@ -151,9 +170,11 @@ public abstract class Personnage {
 			else {
 				this.coordXProperty.set((int) (x-this.dirDroite));
 			}
+			return true;
 		}
+		return false;
 	}
-	public void collisionGauche (double x,double y) {
+	public boolean collisionGauche (double x,double y) {
 		//verifie si le joueur est est en contact avec un bloc pour l'arreter
 		if (checkCollision(Outils.coordToTile(x+9, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+9, y), this.env)) {
 			//verifie si le joueur est dans un bloc pour le sortir
@@ -163,7 +184,9 @@ public abstract class Personnage {
 			else {
 				this.coordXProperty.set((int) (x+this.dirGauche));
 			}
+			return true;
 		}
+		return false;
 	}
 	public void collisionHaut (double x,double y) {
 		//verifie si le joueur est est en contact avec un bloc pour l'arreter
@@ -197,5 +220,14 @@ public abstract class Personnage {
 		this.gestionCollision();
 		this.inertie();
 		this.move();
+		this.gravite();
+		this.meurt();
+	}
+	
+	public void gravite() {
+		if (!this.collisionBas()) {
+			if(this.getDirY() < 5)
+				this.additionnerDirY(0.5);	
+		}
 	}
 }

@@ -2,6 +2,7 @@ package application.vue;
 
 import java.util.Map;
 
+import application.controleur.Controleur;
 import application.controleur.ControleurSourisClique;
 import application.controleur.ControleurSourisSurvolage;
 import application.controleur.ControleurSourisSortie;
@@ -16,13 +17,15 @@ public class TerrainVue {
 	private Environnement env;
 	private TilePane terrainMap;
 	private Map<String, Image> images;
+	private Controleur controleur;
 
 
-	public TerrainVue(Environnement env, TilePane terrainMap) {
+	public TerrainVue(Environnement env, TilePane terrainMap, Controleur controleur) {
 		super();
 		this.env = env;
 		this.terrainMap = terrainMap;
 		images = ImageMap.images;
+		this.controleur=controleur;
 	}
 
 	public void initTerrain() {
@@ -48,7 +51,7 @@ public class TerrainVue {
 			terrainMap.getChildren().add(img);
 			img.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, new ControleurSourisSurvolage(env));
 			img.addEventHandler(MouseEvent.MOUSE_EXITED, new ControleurSourisSortie());
-			img.addEventHandler(MouseEvent.MOUSE_CLICKED, new ControleurSourisClique(i,env));
+			img.addEventHandler(MouseEvent.MOUSE_CLICKED, new ControleurSourisClique(i,env,this.controleur));
 		}
 	}
 	
