@@ -12,10 +12,8 @@ public abstract class Mob extends Personnage{
 	public void attaque() {
 		// FAIRE SYSTEME DE HITBOX
 		Joueur j=this.getEnv().getJoueur();
-		if ((this.getX()>j.getX()&&this.getX()<j.getX()+j.getLargeur()
-			|| this.getX()+this.getLargeur()>j.getX()&&this.getX()+this.getLargeur()<j.getX()+j.getLargeur())
-			&& (this.getY()>j.getY()&&this.getY()<j.getY()+j.getHauteur()
-			||this.getY()+this.getHauteur()>j.getY()&&this.getY()+this.getHauteur()<j.getY()+j.getHauteur())) {
+		if ((this.getX()<j.getX()+j.getLargeur()&&this.getX()+this.getLargeur()>j.getX()
+			&& this.getY()+this.getHauteur()>j.getY()&&this.getY()<j.getY()+j.getHauteur())) {
 			j.perdrePV(1,this.getX()<j.getX());
 		}
 	}
