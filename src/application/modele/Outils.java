@@ -21,8 +21,9 @@ public class Outils {
 			}
 			return (x+(y+1)*120);
 		}
-
 	}
+	
+
 	
 	
 
