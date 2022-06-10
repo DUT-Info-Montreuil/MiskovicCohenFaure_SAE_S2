@@ -30,13 +30,10 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 
 	@Override
 	public void handle(MouseEvent event) {
-		int caseJoueur = Outils.coordToTile(env.getJoueur().getX()+16, env.getJoueur().getY());
 
 		//Verif range
-		if ( (caseJoueur - this.numeroCase < 5 && caseJoueur - this.numeroCase > -5) 
-			|| ( (caseJoueur-120) - this.numeroCase < 5 && (caseJoueur-120) - this.numeroCase > -5) 
-			|| ( (caseJoueur+120) - this.numeroCase < 5 && (caseJoueur+120) - this.numeroCase > -5) ) {
-			
+		if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), this.numeroCase)) {
+
 			//PIOCHE
 			if (env.getJoueur().getInventaire().itemEnMain() instanceof Pioche) {
 				if (env.getTerrain().getTable()[numeroCase] > 0) {
@@ -49,10 +46,10 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 					img.setImage(ciel);
 				}
 			}
-			
+
 			//Verif que joueur pose pas bloc sur lui
-			if (!(caseJoueur - this.numeroCase < 1 && caseJoueur - this.numeroCase > -1))
-				
+			if (!(Outils.verifMemeTile(env.getJoueur().getX(), env.getJoueur().getY(), this.numeroCase))) {
+
 				//BLOC
 				if  (env.getJoueur().getInventaire().itemEnMain() instanceof Bloc) {
 					ImageView img= (ImageView) event.getSource();
@@ -64,8 +61,9 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 						this.env.getTerrain().changerCase(numeroCase, (int) idBloc.charAt(1));
 					}
 				}
+			}
 		}
-		
+
 		//EPEE
 		if (env.getJoueur().getInventaire().itemEnMain() instanceof Epee) {
 			this.env.getJoueur().attaque();

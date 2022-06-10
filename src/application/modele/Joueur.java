@@ -1,10 +1,10 @@
 package application.modele;
 
-import application.modele.Inventaire;
+
 import application.modele.items.utilitaires.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import application.modele.items.Bloc;
+
 
 public class Joueur extends Personnage{
 	

@@ -46,7 +46,7 @@ public class TerrainVue {
 				break;
 			}
 			terrainMap.getChildren().add(img);
-			img.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, new ControleurSourisSurvolage(env));
+			img.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, new ControleurSourisSurvolage(i, env));
 			img.addEventHandler(MouseEvent.MOUSE_EXITED, new ControleurSourisSortie());
 			img.addEventHandler(MouseEvent.MOUSE_CLICKED, new ControleurSourisClique(i,env));
 		}

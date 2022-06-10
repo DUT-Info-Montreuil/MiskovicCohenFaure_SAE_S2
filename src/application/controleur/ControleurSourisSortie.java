@@ -7,6 +7,7 @@ import javafx.scene.input.MouseEvent;
 
 public class ControleurSourisSortie implements EventHandler<MouseEvent>{
 
+	
 	public ControleurSourisSortie() {
 	}
 		
