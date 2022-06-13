@@ -69,18 +69,6 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 			
 			fl.translateXProperty().bind(fleche.xProperty());
 			fl.translateYProperty().bind(fleche.yProperty());
-			
-			fleche.pvProperty().addListener(new ChangeListener<Number>() {
-
-				@Override
-				public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-					if ((int)newValue==0) {
-						fl.setImage(null);
-						//controleur.enleverSprite(fl);
-						env.retirerMob(fleche);
-					}
-				}	
-			});
 		}
 	} 
 }
