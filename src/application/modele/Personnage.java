@@ -10,46 +10,48 @@ import javafx.scene.image.ImageView;
 
 public abstract class Personnage {
 
+	//Déplacement
 	private DoubleProperty coordXProperty, coordYProperty;
 	private double dirGauche;
 	private double dirDroite; 
-
 	private double dirY;
+	
+	//PV
 	private IntegerProperty pvProperty;
 	private int pvMax;
 	
+	//Taille Sprite
 	private int hauteur , largeur;
 	
-	private ImageView sprite;
-	
+	//Terrain
 	private Environnement env;
+	
+	//Id
+	private static int compteur=0;
+	private String id;
 
-	public Personnage (double coordX, double coordY, int pvMax,Environnement e,int l, int h, Image image) {
+	public Personnage (double coordX, double coordY, int pvMax,Environnement e,int l, int h) {
 		this.coordXProperty = new SimpleDoubleProperty(coordX);
 		this.coordYProperty = new SimpleDoubleProperty(coordY);
 		this.dirGauche=0;
 		this.dirDroite=0;
 		dirY = 0;
+		
 		this.pvMax = pvMax;
 		pvProperty = new SimpleIntegerProperty(pvMax);
+		
 		this.env=e;
+		
 		this.hauteur=h;
 		this.largeur=l;this.env.ajouterPerso(this);
-		this.sprite=new ImageView();
-		this.sprite.setImage(image);
-
+		
+		id="P" + compteur;
+		compteur++;
+//		this.sprite=new ImageView();
+//		this.sprite.setImage(image);	
+	}
 
 	
-	}
-
-	public Environnement getEnv() {
-		return env;
-	}
-	
-	public ImageView getSprite() {
-		return sprite;
-	}
-
 
 	//Direction
 	public void move () {
@@ -69,15 +71,13 @@ public abstract class Personnage {
 			this.setDirGauche(4);
 		this.setDirY(-5);
 	}
-	
+
 	public void meurt () {
 		if (this.pvProperty.get()<=0) {
 			this.getEnv().retirerMob(this);
-			this.getEnv().getControleur().enleverSprite(this.sprite);
 			System.out.println("aled");
 		}
 	}
-	
 	public void ajouterPV(int valeur) {
 		if (pvProperty.get() + valeur > pvMax) 
 			pvProperty.set(pvMax);
@@ -88,8 +88,7 @@ public abstract class Personnage {
 		return pvProperty.get() <= 0;
 	}
 
-	//Setter & Getter//				listenTerrainXProperty();
-//	listenMobProperty(m);
+	//Setter & Getter
 	public int getPv() {
 		return pvProperty.get();
 	}
@@ -99,8 +98,14 @@ public abstract class Personnage {
 	public int getPvMax() {
 		return pvMax;
 	}
+	public String getId() {
+		return id;
+	}
 	public double getDirGauche() {
 		return this.dirGauche;
+	}
+	public Environnement getEnv() {
+		return env;
 	}
 	public void setDirGauche(double d) {
 		this.dirGauche=d;
@@ -190,7 +195,7 @@ public abstract class Personnage {
 	}
 	public void collisionHaut (double x,double y) {
 		//verifie si le joueur est est en contact avec un bloc pour l'arreter
-		if (checkCollision(Outils.coordToTile(x+17, y-this.hauteur-10), this.env)||checkCollision(Outils.coordToTile(x+12, y-this.hauteur-10), this.env)) {
+		if (checkCollision(Outils.coordToTile(x+this.largeur-1, y-this.hauteur-10), this.env)||checkCollision(Outils.coordToTile(x+10, y-this.hauteur-10), this.env)) {
 			this.setDirY(1);
 		}
 	}

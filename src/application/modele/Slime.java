@@ -8,7 +8,7 @@ public class Slime extends Mob{
 	private int temps;
 
 	public Slime(int coordX, int coordY, Joueur joueur,Environnement e) {
-		super(coordX, coordY,3,e,25,15,new Image("application/ressource/slime.png"));
+		super(coordX, coordY,3,e,25,15);
 		this.temps=99;
 
 	

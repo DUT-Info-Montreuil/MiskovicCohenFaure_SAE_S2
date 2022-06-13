@@ -1,20 +1,21 @@
 package application.controleur;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import application.modele.Environnement;
 import application.modele.Joueur;
 import application.modele.Materiaux;
 import application.modele.Mob;
-import application.modele.Personnage;
 import application.modele.Slime;
+import application.vue.ImageMap;
 import application.vue.InventaireVue;
 import application.vue.JoueurVue;
+import application.vue.MobVue;
 import application.vue.PVVue;
 import application.vue.TerrainVue;
 import javafx.animation.Timeline;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -59,15 +60,18 @@ public class Controleur implements Initializable{
 
 	private Environnement env;
 	private Timeline gameLoop;
-	private int temps;
+	private MobVue mobAffichage;
 
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		//InitialiserImages
+		ImageMap imgs = new ImageMap();
+		
 		//Création Terrain
 		
-		env = new Environnement(this);
+		env = new Environnement();
 		
 		TerrainVue terrainVue = new TerrainVue(env, terrainMap,this);
 		terrainVue.initTerrain();
@@ -95,15 +99,18 @@ public class Controleur implements Initializable{
 		listenOr(mat);
 		listenFer(mat);
 
+		//Mobs
+		this.mobAffichage = new MobVue();
+		this.env.getMobs().addListener(new MobsObsList(this));
+		this.env.creerSlime();
 		//Lancement Joueur
 		this.bindJoueur();
 		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env));
 		root.addEventHandler(KeyEvent.KEY_RELEASED, new ControleurToucheRelache(env));
 		root.addEventHandler(ScrollEvent.SCROLL, new ControleurScroll(env));
 
-		//LancementPersonnage
-		this.bindSlime();
-
+		
+		
 		//Lancement GameLoop
 		initAnimation();
 		gameLoop.play();
@@ -205,44 +212,22 @@ public class Controleur implements Initializable{
 	}
 	
 
-	//Temporaire
-	public void bindSlime() {
-		for (Mob m : env.getMobs()) {
-			if (m instanceof Slime) {
-//				spriteSlime.translateXProperty().bind(m.xProperty());
-//				spriteSlime.translateYProperty().bind(m.yProperty());
-				
-//				m.pvProperty().addListener(new ChangeListener<Number>() {
-//
-//					@Override
-//					public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-//						if ((int)newValue==0) {
-//							terrainMap.getChildren().remove(spriteSlime);
-//							spriteSlime.setImage(null);
-//							env.retirerMob(m);
-//						}
-//					}	
-//				});
-			}
-		}
+	//GESTION SPRITE
+	
+	public void enleverSprite (String id) {
+		System.out.println(id);
+		System.out.println(terrainPane.lookup("#" + id));
+		terrainPane.lookup("#" + id).setVisible(false);
+		terrainPane.getChildren().remove(terrainPane.lookup("#" + id));
+		
 	}
 	
-	public void enleverSprite (ImageView sprite) {
-		terrainPane.getChildren().remove(sprite);
-		sprite.setImage(null);
-	}
-	
-	public void ajouterSprite (ImageView sprite) {
-		this.terrainPane.getChildren().add(sprite);
-	}
-
 	public void ajouterJoueur (ImageView sprite) {
 		this.terrainMap.getChildren().add(sprite);
 	}
 
 	private void initAnimation() {
 		gameLoop = new Timeline();
-		temps=0;
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 
 		KeyFrame kf = new KeyFrame(
@@ -254,10 +239,27 @@ public class Controleur implements Initializable{
 					
 					env.unTour();
 						
-					temps++;
 				})
 				);
 		gameLoop.getKeyFrames().add(kf);
+	}
+
+	public void creerSpriteMob(Mob m) {
+		ImageView mobSprite = null;
+		if (m instanceof Slime) {
+			mobSprite = mobAffichage.creerSlime(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());
+		}
+		
+	}
+
+	public void supprimerSprite(Mob m) {
+		if (m instanceof Slime) {
+			
+		}
+		
 	}
 }
 

@@ -1,12 +1,8 @@
 package application.modele;
 
-import application.modele.Inventaire;
 import application.modele.items.utilitaires.*;
-import application.vue.JoueurVue;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.image.Image;
-import application.modele.items.Bloc;
 
 public class Joueur extends Personnage{
 	
@@ -16,7 +12,7 @@ public class Joueur extends Personnage{
 	private boolean versDroite ;
 	
 	public Joueur(int coordX, int coordY,Environnement e) {
-		super(coordX, coordY,5,e,23,25,new Image("application/ressource/20.png"));
+		super(coordX, coordY,5,e,23,25);
 		this.getEnv().retirerPerso(this);
 		
 		this.clickD=false;
@@ -29,15 +25,14 @@ public class Joueur extends Personnage{
 		inventaire.ajouterItem(new Hache(0));
 		inventaire.ajouterItem(new Arc(0));
 		
-		this.getEnv().getControleur().ajouterSprite(this.getSprite());
-		
-		this.xProperty().addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				versDroite=((double)oldValue<(double)newValue);
-			}	
-		});
+		// A METTRE DANS JOUEUR VUE
+//		this.xProperty().addListener(new ChangeListener<Number>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//				versDroite=((double)oldValue<(double)newValue);
+//			}	
+//		});
 	}
 		
 	

@@ -2,30 +2,28 @@ package application.modele;
 
 import java.util.ArrayList;
 
-import application.controleur.Controleur;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Environnement {
 
 	private Joueur joueur;
 	private Terrain terrain;
 	private ArrayList<Personnage> persos;
-	private ArrayList<Mob> mobs;
-	private Controleur controleur;
+	ObservableList<Mob> mobs;
 
-	public Environnement(Controleur c) {
-		
-		this.controleur = c;
+	public Environnement() {
+
 		terrain = new Terrain();
 		persos = new ArrayList<>();
 		joueur = new Joueur(960,-64, this);
-		mobs = new ArrayList<Mob>();
-	
+		mobs = FXCollections.observableArrayList();
 		
-
-		//Temporaire
-		Mob slime = new Slime(0,64, joueur, this);
 	}
 
+	public void creerSlime() {
+		Mob slime = new Slime(0,64, joueur, this);
+	}
 	//Gestion Liste
 	public void ajouterMob(Mob m) { 
 		mobs.add(m);
@@ -35,20 +33,15 @@ public class Environnement {
 		if (!(p instanceof Joueur))
 			persos.add(p);
 	}
-	
+
 	public void retirerPerso (Personnage p) {
 		this.persos.remove(p);
 	}
-	
+
 	public void retirerMob (Personnage p) {
 		retirerPerso(p);
 		this.mobs.remove(p);
 	}
-
-	public Controleur getControleur() {
-		return controleur;
-	}
-
 
 	public Joueur getJoueur() {
 		return this.joueur;
@@ -61,7 +54,7 @@ public class Environnement {
 	public ArrayList<Personnage> getPersos() {
 		return persos;
 	}
-	public ArrayList<Mob> getMobs() {
+	public ObservableList<Mob> getMobs() {
 		return mobs;
 	}
 
