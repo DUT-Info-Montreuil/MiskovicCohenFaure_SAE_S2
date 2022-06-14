@@ -43,9 +43,8 @@ public abstract class Personnage {
 		this.env=e;
 		
 		this.hauteur=h;
-		this.largeur=l;this.env.ajouterPerso(this);
 		
-		id="P" + compteur;
+		id="Perso" + compteur;
 		compteur++;
 //		this.sprite=new ImageView();
 //		this.sprite.setImage(image);	

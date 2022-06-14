@@ -1,7 +1,6 @@
 package application.controleur;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import application.modele.Environnement;
@@ -10,11 +9,14 @@ import application.modele.Joueur;
 import application.modele.Materiaux;
 import application.modele.mobs.Mob;
 import application.modele.mobs.Slime;
+import application.modele.pnjs.Docteur;
+import application.modele.pnjs.Pnj;
 import application.vue.ImageMap;
 import application.vue.InventaireVue;
 import application.vue.JoueurVue;
 import application.vue.MobVue;
 import application.vue.PVVue;
+import application.vue.PnjVue;
 import application.vue.TerrainVue;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
@@ -62,6 +64,7 @@ public class Controleur implements Initializable{
 	private Environnement env;
 	private Timeline gameLoop;
 	private MobVue mobAffichage;
+	private PnjVue pnjAffichage;
 
 
 	@Override
@@ -74,7 +77,7 @@ public class Controleur implements Initializable{
 		
 		env = new Environnement();
 		
-		TerrainVue terrainVue = new TerrainVue(env, terrainMap,this);
+		TerrainVue terrainVue = new TerrainVue(env, terrainMap);
 		terrainVue.initTerrain();
 
 		//Indices Terrain
@@ -100,6 +103,11 @@ public class Controleur implements Initializable{
 		listenOr(mat);
 		listenFer(mat);
 
+		//Pnj
+		this.pnjAffichage = new PnjVue();
+		this.env.getPnjs().addListener(new PnjsObsList(this));
+		this.env.creerDocteur();
+		
 		//Mobs
 		this.mobAffichage = new MobVue();
 		this.env.getMobs().addListener(new MobsObsList(this));
@@ -262,6 +270,17 @@ public class Controleur implements Initializable{
 			
 		}
 		
+	}
+	
+	public void creerSpritePnj(Pnj p) {
+		ImageView pnjSprite = null;
+		if (p instanceof Docteur) {
+			pnjSprite = this.pnjAffichage.creerDocteur(p.getId());
+			System.out.println(pnjSprite.getImage());
+			terrainPane.getChildren().add(pnjSprite);
+			pnjSprite.translateXProperty().bind(p.xProperty());
+			pnjSprite.translateYProperty().bind(p.yProperty());
+		}
 	}
 
 	public void supprimerSprite(Mob m) {

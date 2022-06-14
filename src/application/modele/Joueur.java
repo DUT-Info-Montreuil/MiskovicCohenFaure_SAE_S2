@@ -106,7 +106,7 @@ public class Joueur extends Personnage{
 	public void attaque () {
 		Personnage e;
 		if (this.versDroite) {
-			for (int i=this.getEnv().getPersos().size()-1;i>=0;i--) {
+			for (int i=this.getEnv().getMobs().size()-1;i>=0;i--) {
 				e=this.getEnv().getMobs().get(i);
 				if (this.getX()+this.getLargeur()<e.getX()+e.getLargeur()
 						&& this.getX()+this.getLargeur()+20>e.getX()
@@ -117,7 +117,7 @@ public class Joueur extends Personnage{
 			}
 		}
 		else {
-			for (int i=this.getEnv().getPersos().size()-1;i>=0;i--) {
+			for (int i=this.getEnv().getMobs().size()-1;i>=0;i--) {
 				e=this.getEnv().getMobs().get(i);
 				if (this.getX()>e.getX() 
 						&& this.getX()-20<e.getX()+e.getLargeur()

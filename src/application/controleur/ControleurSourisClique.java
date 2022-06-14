@@ -12,8 +12,6 @@ import application.modele.items.utilitaires.Arc;
 import application.modele.items.utilitaires.Epee;
 import application.modele.items.utilitaires.Pioche;
 import application.vue.ImageMap;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,13 +23,11 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 	private int numeroCase;
 	private Environnement env;
 	Map<String,Image> images;
-	private Controleur controleur;
 
-	public ControleurSourisClique(int numCase, Environnement env, Controleur contro) {
+	public ControleurSourisClique(int numCase, Environnement env) {
 		this.numeroCase = numCase;
 		this.env=env;
 		images = ImageMap.images;
-		this.controleur=contro;
 
 	}
 
