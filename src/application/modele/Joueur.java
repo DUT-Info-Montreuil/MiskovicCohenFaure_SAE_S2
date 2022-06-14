@@ -13,7 +13,6 @@ public class Joueur extends Personnage{
 	
 	public Joueur(int coordX, int coordY,Environnement e) {
 		super(coordX, coordY,5,e,23,25);
-		this.getEnv().retirerPerso(this);
 		
 		this.clickD=false;
 		this.clickQ=false;
