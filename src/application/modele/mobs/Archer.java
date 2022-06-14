@@ -15,13 +15,23 @@ public class Archer extends Mob {
 	public void detection() {
 		double xJoueur = this.getJoueur().getX();
 		double yJoueur = this.getJoueur().getY();
-		if (xJoueur-this.getX() < 500 && xJoueur-this.getX() >0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) { 
-			this.versDroite=false;
-			this.deplacement();		
+		if (xJoueur-this.getX() < 650 && xJoueur-this.getX() >0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) { 
+			if (xJoueur-this.getX() < 450 && xJoueur-this.getX() >0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) { 
+				this.versDroite=false;
+				this.deplacement();		
+			}
+			else {
+				this.setDirDroite(1);
+			}
 		}
-		if (xJoueur-this.getX() > -500 && xJoueur-this.getX() <0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) { 
-			this.versDroite=true;
-			this.deplacement();
+		if (xJoueur-this.getX() > -650 && xJoueur-this.getX() <0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) { 
+			if (xJoueur-this.getX() > -450 && xJoueur-this.getX() <0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) { 
+				this.versDroite=true;
+				this.deplacement();
+			}
+			else {
+				this.setDirGauche(1);
+			}
 		}
 	}
 	
