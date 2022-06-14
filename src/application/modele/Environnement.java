@@ -2,6 +2,8 @@ package application.modele;
 
 import java.util.ArrayList;
 
+import application.modele.mobs.Archer;
+import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
 import application.modele.mobs.Slime;
 import javafx.collections.FXCollections;
@@ -23,9 +25,17 @@ public class Environnement {
 		
 	}
 
-	public void creerSlime() {
-		Mob slime = new Slime(0,64, joueur, this);
+	public void creerSlime(double x,double y) {
+		this.ajouterMob(new Slime(x,y, this));
 	}
+	
+	public void creerFleche(double x,double y,boolean versDroite) {
+		this.ajouterMob(new Fleche(x,y, this,versDroite));
+	}
+	
+	public void creerArcher(double x,double y) {
+		this.ajouterMob(new Archer(x,y, this));
+	}	
 	//Gestion Liste
 	public void ajouterMob(Mob m) { 
 		mobs.add(m);

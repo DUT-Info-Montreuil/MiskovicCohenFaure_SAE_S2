@@ -24,4 +24,10 @@ public class MobVue {
 		fleche.setId(id);
 		return fleche;
 	}
+	
+	public ImageView creerArcher(String id) {
+		ImageView fleche = new ImageView(images.get("archer"));
+		fleche.setId(id);
+		return fleche;
+	}
 }

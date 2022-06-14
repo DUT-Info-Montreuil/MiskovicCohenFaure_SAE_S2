@@ -9,7 +9,7 @@ public abstract class Mob extends Personnage{
 
 	public Mob(double coordX, double coordY,int pv, Environnement e,int l,int h) {
 		super(coordX, coordY,pv,e,l,h);
-		this.getEnv().ajouterMob(this); 
+		
 	}
 
 	public abstract void detection();

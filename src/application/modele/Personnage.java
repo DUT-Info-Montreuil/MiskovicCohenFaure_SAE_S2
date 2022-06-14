@@ -166,9 +166,9 @@ public abstract class Personnage {
 	}
 	public boolean collisionDroite (double x,double y) {
 		//verifie si le joueur est est en contact avec un bloc pour l'arreter
-		if (checkCollision(Outils.coordToTile(x+this.largeur, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+this.largeur, y), this.env)) {
+		if (checkCollision(Outils.coordToTile(x+this.largeur, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+this.largeur, y-3), this.env)) {
 			//verifie si le joueur est dans un bloc pour le sortir
-			if (checkCollision(Outils.coordToTile(x+this.largeur-1, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+this.largeur-1, y), this.env)) {
+			if (checkCollision(Outils.coordToTile(x+this.largeur-1, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+this.largeur-1, y-3), this.env)) {
 				this.coordXProperty.set((int) (x-this.dirDroite)-1);
 			}
 			else {
@@ -180,9 +180,9 @@ public abstract class Personnage {
 	}
 	public boolean collisionGauche (double x,double y) {
 		//verifie si le joueur est est en contact avec un bloc pour l'arreter
-		if (checkCollision(Outils.coordToTile(x+9, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+9, y), this.env)) {
+		if (checkCollision(Outils.coordToTile(x+9, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+9, y-3), this.env)) {
 			//verifie si le joueur est dans un bloc pour le sortir
-			if (checkCollision(Outils.coordToTile(x+10, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+10, y), this.env)) {
+			if (checkCollision(Outils.coordToTile(x+10, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+10, y-3), this.env)) {
 				this.coordXProperty.set((int) (x+this.dirGauche)+1);
 			}
 			else {
@@ -202,9 +202,9 @@ public abstract class Personnage {
 		double x=this.coordXProperty.get();
 		double y=this.coordYProperty.get();
 		//verifie si le joueur est est en contact avec un bloc pour l'arreter
-		if (checkCollision(Outils.coordToTile(x+17 ,y+1), this.env)||checkCollision(Outils.coordToTile(x+12, y+1), this.env)) {
+		if (checkCollision(Outils.coordToTile(x+this.largeur-1 ,y+1), this.env)||checkCollision(Outils.coordToTile(x+10, y+1), this.env)) {
 			//verifie si le joueur est dans un bloc pour le sortir
-			if (checkCollision(Outils.coordToTile(x+17 ,y), this.env)||checkCollision(Outils.coordToTile(x+12, y), this.env)) {
+			if (checkCollision(Outils.coordToTile(x+this.largeur-1 ,y), this.env)||checkCollision(Outils.coordToTile(x+10, y), this.env)) {
 				this.coordYProperty.set(this.coordYProperty.get()-1);
 			}
 			if (this.getDirY()>0 || this.getDirY()==-1) {
