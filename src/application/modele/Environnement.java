@@ -6,6 +6,7 @@ import application.modele.mobs.Archer;
 import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
 import application.modele.mobs.Slime;
+import application.modele.mobs.Squelette;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -33,9 +34,14 @@ public class Environnement {
 		this.ajouterMob(new Fleche(x,y, this,versDroite));
 	}
 	
+	public void creerSquelette(double x,double y) {
+		this.ajouterMob(new Squelette(x,y, this));
+	}	
+	
 	public void creerArcher(double x,double y) {
 		this.ajouterMob(new Archer(x,y, this));
 	}	
+	
 	//Gestion Liste
 	public void ajouterMob(Mob m) { 
 		mobs.add(m);

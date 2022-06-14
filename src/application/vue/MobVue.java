@@ -30,4 +30,11 @@ public class MobVue {
 		fleche.setId(id);
 		return fleche;
 	}
+	
+	public ImageView creerSquelette(String id) {
+		ImageView fleche = new ImageView(images.get("squelette"));
+		fleche.setId(id);
+		return fleche;
+	}
+	
 }

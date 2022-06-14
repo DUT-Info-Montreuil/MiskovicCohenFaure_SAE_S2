@@ -48,6 +48,10 @@ public class Slime extends Mob{
 		}
 	}
 
+	public void action () {
+		super.action();
+		this.attaque();
+	}
 
 
 }

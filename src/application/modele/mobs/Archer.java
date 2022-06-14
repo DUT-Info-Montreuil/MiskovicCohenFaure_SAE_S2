@@ -18,7 +18,8 @@ public class Archer extends Mob {
 		if (xJoueur-this.getX() < 650 && xJoueur-this.getX() >0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) { 
 			if (xJoueur-this.getX() < 450 && xJoueur-this.getX() >0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) { 
 				this.versDroite=false;
-				this.deplacement();		
+				this.deplacement();	
+				this.attaque();
 			}
 			else {
 				this.setDirDroite(1);
@@ -28,6 +29,7 @@ public class Archer extends Mob {
 			if (xJoueur-this.getX() > -450 && xJoueur-this.getX() <0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) { 
 				this.versDroite=true;
 				this.deplacement();
+				this.attaque();
 			}
 			else {
 				this.setDirGauche(1);

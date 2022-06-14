@@ -31,7 +31,6 @@ public abstract class Mob extends Personnage{
 	public void action() {
 		super.action();
 		this.detection();
-		this.attaque();
 	}
 	
 }

@@ -59,7 +59,7 @@ public class ImageMap {
 		images.put("slime", new Image("application/ressource/slime.png"));
 		images.put("fleche", new Image("application/ressource/Fleche.png"));
 		images.put("archer", new Image("application/ressource/archer.png"));
-
+		images.put("squelette", new Image("application/ressource/squelette.png"));
 
 	}
 }

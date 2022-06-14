@@ -32,6 +32,7 @@ public class Fleche extends Mob{
 		this.detection();
 		this.attaque();
 		this.meurt();
+		this.attaque();
 	}
 	
 	public void attaque() {
