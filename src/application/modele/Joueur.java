@@ -25,14 +25,13 @@ public class Joueur extends Personnage{
 		inventaire.ajouterItem(new Hache(0));
 		inventaire.ajouterItem(new Arc(0));
 		
-		// A METTRE DANS JOUEUR VUE
-//		this.xProperty().addListener(new ChangeListener<Number>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-//				versDroite=((double)oldValue<(double)newValue);
-//			}	
-//		});
+		this.xProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				versDroite=((double)oldValue<(double)newValue);
+			}	
+		});
 	}
 		
 	

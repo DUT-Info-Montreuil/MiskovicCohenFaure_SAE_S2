@@ -3,14 +3,16 @@ package application.modele;
 public class Fleche extends Mob{
 	private boolean versDroite;
 
+
 	public Fleche(double coordX, double coordY, Environnement e, boolean droite) {
 		super(coordX, coordY,1, e, 30, 10);
 		if (droite) {
-			this.setDirDroite(1);
+			this.setDirDroite(5);
 		}
 		else {
-			this.setDirGauche(1);
+			this.setDirGauche(5);
 		}
+		this.versDroite=droite;
 	}
 
 	@Override
@@ -18,7 +20,6 @@ public class Fleche extends Mob{
 		if (this.collisionDroite(this.getX(), this.getY()) 
 				|| this.collisionGauche(this.getX(), this.getY())){
 			this.perdrePV(1, versDroite);
-//			System.out.println("aled");
 		}
 	}
 	
@@ -41,7 +42,6 @@ public class Fleche extends Mob{
 					&& this.getY()+this.getHauteur()>e.getY() ) {
 				e.perdrePV(1, versDroite);
 				this.perdrePV(1, versDroite);
-//				System.out.println("aled");
 			}
 			i++;
 		}

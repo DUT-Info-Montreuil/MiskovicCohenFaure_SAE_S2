@@ -18,4 +18,10 @@ public class MobVue {
 		slime.setId(id);
 		return slime;
 	}
+	
+	public ImageView creerFleche(String id) {
+		ImageView fleche = new ImageView(images.get("fleche"));
+		fleche.setId(id);
+		return fleche;
+	}
 }

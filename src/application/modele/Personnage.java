@@ -75,7 +75,6 @@ public abstract class Personnage {
 	public void meurt () {
 		if (this.pvProperty.get()<=0) {
 			this.getEnv().retirerMob(this);
-			System.out.println("aled");
 		}
 	}
 	public void ajouterPV(int valeur) {

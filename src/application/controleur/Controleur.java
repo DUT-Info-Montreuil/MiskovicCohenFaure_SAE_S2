@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import application.modele.Environnement;
+import application.modele.Fleche;
 import application.modele.Joueur;
 import application.modele.Materiaux;
 import application.modele.Mob;
@@ -215,8 +216,6 @@ public class Controleur implements Initializable{
 	//GESTION SPRITE
 	
 	public void enleverSprite (String id) {
-		System.out.println(id);
-		System.out.println(terrainPane.lookup("#" + id));
 		terrainPane.lookup("#" + id).setVisible(false);
 		terrainPane.getChildren().remove(terrainPane.lookup("#" + id));
 		
@@ -251,6 +250,16 @@ public class Controleur implements Initializable{
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());
+		}
+		else if (m instanceof Fleche) {
+			mobSprite = mobAffichage.creerFleche(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());
+			if (!m.getJoueur().isVersDroite()) {
+				mobSprite.setScaleX(-1);
+			}
+			
 		}
 		
 	}

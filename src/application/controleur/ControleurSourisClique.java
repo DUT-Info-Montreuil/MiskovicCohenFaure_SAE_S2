@@ -63,12 +63,7 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 		}
 		else if (env.getJoueur().getInventaire().itemEnMain() instanceof Arc) {
 			Joueur j=this.env.getJoueur();
-			Fleche fleche=new Fleche(j.getX(), j.getY(), this.env, j.isVersDroite());
-			ImageView fl =new ImageView();
-			fl.setImage(new Image("application/ressource/P0.png"));
-			
-			fl.translateXProperty().bind(fleche.xProperty());
-			fl.translateYProperty().bind(fleche.yProperty());
+			new Fleche(j.getX(), j.getY(), this.env, j.isVersDroite());
 		}
 	} 
 }

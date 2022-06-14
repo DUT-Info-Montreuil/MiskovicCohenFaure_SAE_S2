@@ -47,6 +47,7 @@ public class ImageMap {
 			images.put("B" + i, new Image("application/ressource/" + i + ".png"));
 		}
 	}
+	
 
 //	public void initImagesArbre() {
 //		for (int i = 1; i < 6; i++) {
@@ -56,5 +57,7 @@ public class ImageMap {
 	
 	public void initImagesMobs() {
 		images.put("slime", new Image("application/ressource/slime.png"));
+		images.put("fleche", new Image("application/ressource/Fleche.png"));
+
 	}
 }
