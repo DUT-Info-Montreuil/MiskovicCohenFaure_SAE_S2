@@ -1,5 +1,7 @@
 package application.modele;
 
+import application.modele.mobs.Mob;
+
 public class Fleche extends Mob{
 	private boolean versDroite;
 

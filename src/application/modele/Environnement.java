@@ -2,6 +2,8 @@ package application.modele;
 
 import java.util.ArrayList;
 
+import application.modele.mobs.Mob;
+import application.modele.mobs.Slime;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
