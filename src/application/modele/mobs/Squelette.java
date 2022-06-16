@@ -6,7 +6,7 @@ public class Squelette extends Mob{
 	private boolean versDroite;
 
 	public Squelette(double coordX, double coordY, Environnement e) {
-		super(coordX, coordY, 7, e, 15, 20);
+		super(coordX, coordY, 7, e, 20,15,0,0);
 		this.setDirDroite(1);
 		this.versDroite=true;
 	}
@@ -52,6 +52,8 @@ public class Squelette extends Mob{
 			this.setDirGauche(1);
 		}
 	}
+	
+	
 	
 	
 }

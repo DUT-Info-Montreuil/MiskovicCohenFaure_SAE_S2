@@ -8,7 +8,7 @@ public class Slime extends Mob{
 	private int temps;
 
 	public Slime(double coordX, double coordY,Environnement e) {
-		super(coordX, coordY, 3, e,25,15);
+		super(coordX, coordY, 3, e, 16,18,-15,1);
 		this.temps=0;
 	}
 

@@ -20,9 +20,9 @@ public abstract class Personnage {
 	private IntegerProperty pvProperty;
 	private int pvMax;
 	
-	//Taille Sprite
-	private int hauteur , largeur;
-	
+	//Taille Sprite		(si une valeur est negative alors sa valeur absolue soit etre inferieur a celle de son opposé)
+	private int tHaut,tBas,tDroite,tGauche;
+
 	//Terrain
 	private Environnement env;
 	
@@ -30,7 +30,7 @@ public abstract class Personnage {
 	private static int compteur=0;
 	private String id;
 
-	public Personnage (double coordX, double coordY, int pvMax,Environnement e,int l, int h) {
+	public Personnage (double coordX, double coordY, int pvMax,Environnement e,int h, int d, int b, int g) {
 		this.coordXProperty = new SimpleDoubleProperty(coordX);
 		this.coordYProperty = new SimpleDoubleProperty(coordY);
 		this.dirGauche=0;
@@ -42,8 +42,11 @@ public abstract class Personnage {
 		
 		this.env=e;
 		
-		this.hauteur=h;
-		this.largeur=l;this.env.ajouterPerso(this);
+		this.tHaut=h;
+		this.tDroite=d;
+		this.tBas=b;
+		this.tGauche=g;
+		this.env.ajouterPerso(this);
 		
 		id="P" + compteur;
 		compteur++;
@@ -130,25 +133,34 @@ public abstract class Personnage {
 	public double getDirY() {
 		return dirY;
 	}
-	
 	public void setDirY(int dirY) {
 		this.dirY = dirY;
 	}
-	public int getHauteur() {
-		return hauteur;
+	
+	public int getThaut() {
+		return tHaut;
 	}
 
-	public int getLargeur() {
-		return largeur;
+	public int gettBas() {
+		return tBas;
 	}
+
+	public int gettDroite() {
+		return tDroite;
+	}
+
+	public int gettGauche() {
+		return tGauche;
+	}
+
 	
 	//Gestion de l'inertie
 	public void inertie() {
 		if (this.dirDroite>0) {
-			this.setDirDroite(this.dirDroite-0.2);
+			this.setDirDroite(this.dirDroite-0.1);
 		}
 		if (this.dirGauche>0) {
-			this.setDirGauche(this.dirGauche-0.2);
+			this.setDirGauche(this.dirGauche-0.1);
 		}
 	}
 	
@@ -166,9 +178,9 @@ public abstract class Personnage {
 	}
 	public boolean collisionDroite (double x,double y) {
 		//verifie si le joueur est est en contact avec un bloc pour l'arreter
-		if (checkCollision(Outils.coordToTile(x+this.largeur, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+this.largeur, y-3), this.env)) {
+		if (checkCollision(Outils.coordToTile(x+this.tDroite, y-this.tHaut+1), this.env)||checkCollision(Outils.coordToTile(x+this.tDroite, y+this.tBas-3), this.env)) {
 			//verifie si le joueur est dans un bloc pour le sortir
-			if (checkCollision(Outils.coordToTile(x+this.largeur-1, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+this.largeur-1, y-3), this.env)) {
+			if (checkCollision(Outils.coordToTile(x+this.tDroite-1, y-this.tHaut+1), this.env)||checkCollision(Outils.coordToTile(x+this.tDroite-1, y+this.tBas-3), this.env)) {
 				this.coordXProperty.set((int) (x-this.dirDroite)-1);
 			}
 			else {
@@ -179,10 +191,10 @@ public abstract class Personnage {
 		return false;
 	}
 	public boolean collisionGauche (double x,double y) {
-		//verifie si le joueur est est en contact avec un bloc pour l'arreter
-		if (checkCollision(Outils.coordToTile(x+9, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+9, y-3), this.env)) {
+		//verifie si le jougetLargeureur est est en contact avec un bloc pour l'arreter
+		if (checkCollision(Outils.coordToTile(x-this.tGauche, y-this.tHaut+1), this.env)||checkCollision(Outils.coordToTile(x-this.tGauche, y+this.tBas-3), this.env)) {
 			//verifie si le joueur est dans un bloc pour le sortir
-			if (checkCollision(Outils.coordToTile(x+10, y-this.hauteur), this.env)||checkCollision(Outils.coordToTile(x+10, y-3), this.env)) {
+			if (checkCollision(Outils.coordToTile(x-this.tGauche+1, y-this.tHaut+1), this.env)||checkCollision(Outils.coordToTile(x-this.tGauche+1, y+this.tBas-3), this.env)) {
 				this.coordXProperty.set((int) (x+this.dirGauche)+1);
 			}
 			else {
@@ -194,7 +206,7 @@ public abstract class Personnage {
 	}
 	public void collisionHaut (double x,double y) {
 		//verifie si le joueur est est en contact avec un bloc pour l'arreter
-		if (checkCollision(Outils.coordToTile(x+this.largeur-1, y-this.hauteur-10), this.env)||checkCollision(Outils.coordToTile(x+10, y-this.hauteur-10), this.env)) {
+		if (checkCollision(Outils.coordToTile(x+this.tDroite-3, y-this.tHaut), this.env)||checkCollision(Outils.coordToTile(x-this.tGauche+3, y-this.tHaut), this.env)) {
 			this.setDirY(1);
 		}
 	}
@@ -202,9 +214,9 @@ public abstract class Personnage {
 		double x=this.coordXProperty.get();
 		double y=this.coordYProperty.get();
 		//verifie si le joueur est est en contact avec un bloc pour l'arreter
-		if (checkCollision(Outils.coordToTile(x+this.largeur-1 ,y+1), this.env)||checkCollision(Outils.coordToTile(x+10, y+1), this.env)) {
+		if (checkCollision(Outils.coordToTile(x+this.tDroite-1 ,y+1+this.tBas), this.env)||checkCollision(Outils.coordToTile(x-this.tGauche+1, y+1+this.tBas), this.env)) {
 			//verifie si le joueur est dans un bloc pour le sortir
-			if (checkCollision(Outils.coordToTile(x+this.largeur-1 ,y), this.env)||checkCollision(Outils.coordToTile(x+10, y), this.env)) {
+			if (checkCollision(Outils.coordToTile(x+this.tDroite-1 ,y+this.tBas), this.env)||checkCollision(Outils.coordToTile(x-this.tGauche+1, y+this.tBas), this.env)) {
 				this.coordYProperty.set(this.coordYProperty.get()-1);
 			}
 			if (this.getDirY()>0 || this.getDirY()==-1) {

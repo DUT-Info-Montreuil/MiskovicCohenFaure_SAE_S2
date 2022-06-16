@@ -6,8 +6,8 @@ import application.modele.Joueur;
 public class Docteur extends Pnj {
 
 
-	public Docteur(int coordX, int coordY, Environnement e, int l, int h) {
-		super(coordX, coordY, e, l, h);
+	public Docteur(int coordX, int coordY, Environnement e) {
+		super(coordX, coordY,1, e, 10,10,10,10);
 		// TODO Auto-generated constructor stub
 	}
 

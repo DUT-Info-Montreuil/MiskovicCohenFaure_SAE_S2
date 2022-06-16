@@ -5,8 +5,8 @@ import application.modele.Personnage;
 
 public abstract class Pnj extends Personnage{
 
-	public Pnj(int coordX, int coordY, Environnement e, int l, int h) {
-		super(coordX, coordY, 0, e, l, h);
+	public Pnj(double coordX, double coordY, int pvMax,Environnement e,int h, int d, int b, int g) {
+		super ( coordX,  coordY,  pvMax, e, h,  d,  b,  g) ;
 	}
 	
 	public abstract void action();
