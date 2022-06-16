@@ -61,6 +61,8 @@ public class ImageMap {
 		images.put("fleche", new Image("application/ressource/Fleche.png"));
 		images.put("archer", new Image("application/ressource/archer.png"));
 		images.put("squelette", new Image("application/ressource/squelette.png"));
+		images.put("Boss", new Image("application/ressource/Boss.png"));
+		images.put("BouleDeFeu", new Image("application/ressource/Bouledefeu.png"));
 
 	}
 	

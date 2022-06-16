@@ -8,6 +8,8 @@ import application.modele.Joueur;
 import application.modele.Materiaux;
 import application.modele.Outils;
 import application.modele.mobs.Archer;
+import application.modele.mobs.Boss;
+import application.modele.mobs.BouleDeFeu;
 import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
 import application.modele.mobs.Slime;
@@ -115,9 +117,10 @@ public class Controleur implements Initializable{
 		//Mobs
 		this.mobAffichage = new MobVue();
 		this.env.getMobs().addListener(new MobsObsList(this));
-		env.creerSlime(0, 64);
-		env.creerArcher(1000, 64);
-		env.creerSquelette(2000, 64);
+//		env.creerSlime(0, 64);
+//		env.creerArcher(1000, 64);
+//		env.creerSquelette(2000, 64);
+		env.creerBoss(1000, 64);
 		//Lancement Joueur
 		this.bindJoueur();
 		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env));
@@ -265,11 +268,12 @@ public class Controleur implements Initializable{
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());
 		}
-		else if (m instanceof Fleche) {
-			mobSprite = mobAffichage.creerFleche(m.getId());
+		else if (m instanceof BouleDeFeu) {
+			mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
-			mobSprite.translateYProperty().bind(m.yProperty());			if (!((Fleche)m).isVersDroite()) {
+			mobSprite.translateYProperty().bind(m.yProperty());		
+			if (!((BouleDeFeu)m).isVersDroite()) {
 				mobSprite.setScaleX(-1);
 			}
 		}
@@ -285,6 +289,21 @@ public class Controleur implements Initializable{
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());
+		}
+		else if(m instanceof Boss) {
+			mobSprite = mobAffichage.creerBoss(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());
+		}
+		else if (m instanceof Fleche) {
+			mobSprite = mobAffichage.creerFleche(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());		
+			if (!((Fleche)m).isVersDroite()) {
+				mobSprite.setScaleX(-1);
+			}
 		}
 	}
 	

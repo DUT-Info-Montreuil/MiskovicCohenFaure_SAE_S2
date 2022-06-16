@@ -3,6 +3,8 @@ package application.modele;
 import java.util.ArrayList;
 
 import application.modele.mobs.Archer;
+import application.modele.mobs.Boss;
+import application.modele.mobs.BouleDeFeu;
 import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
 import application.modele.mobs.Slime;
@@ -47,7 +49,15 @@ public class Environnement {
 	
 	public void creerArcher(double x,double y) {
 		this.ajouterMob(new Archer(x,y, this));
+	}
+	
+	public void creerBoss(double x,double y) {
+		this.ajouterMob(new Boss(x,y, this));
 	}	
+	
+	public void creerBouleDeFeu(double x,double y,boolean versDroite) {
+		this.ajouterMob(new BouleDeFeu(x,y, this,versDroite));
+	}
 	
 	//Gestion Liste
 	public void ajouterMob(Mob m) { 

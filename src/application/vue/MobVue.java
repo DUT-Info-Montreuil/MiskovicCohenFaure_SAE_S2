@@ -36,5 +36,14 @@ public class MobVue {
 		fleche.setId(id);
 		return fleche;
 	}
-	
+	public ImageView creerBoss(String id) {
+		ImageView fleche = new ImageView(images.get("Boss"));
+		fleche.setId(id);
+		return fleche;
+	}
+	public ImageView creerBouleDeFeu(String id) {
+		ImageView fleche = new ImageView(images.get("BouleDeFeu"));
+		fleche.setId(id);
+		return fleche;
+	}
 }

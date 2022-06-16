@@ -37,7 +37,6 @@ public class Squelette extends Mob{
 				&&this.collisionBas()){
 			this.setDirY(-6);
 		}
-		this.attaque();
 	}
 	
 	public void deplacementPassif() {
@@ -52,8 +51,10 @@ public class Squelette extends Mob{
 			this.setDirGauche(1);
 		}
 	}
-	
-	
-	
+	public void action () {
+		super.action();
+		this.attaque();
+	}
+
 	
 }
