@@ -16,10 +16,7 @@ public class JoueurVue {
 	private ArrayList <Image> images;
 	private int temps;
 	
-//	this.ajouterImage(new Image("application/ressource/20.png")); 
-//	this.ajouterImage(new Image("application/ressource/21.png"));
-//	this.ajouterImage(new Image("application/ressource/22.png"));
-	
+
 	public JoueurVue (DoubleProperty x, DoubleProperty y,ImageView i) {
 		this.coordX=x;
 		this.coordY=y;

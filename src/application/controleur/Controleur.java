@@ -4,9 +4,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.modele.Environnement;
-import application.modele.Fleche;
 import application.modele.Joueur;
 import application.modele.Materiaux;
+import application.modele.mobs.Archer;
+import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
 import application.modele.mobs.Slime;
 import application.modele.pnjs.Docteur;
@@ -71,7 +72,7 @@ public class Controleur implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 
 		//InitialiserImages
-		ImageMap imgs = new ImageMap();
+		new ImageMap();
 		
 		//Création Terrain
 		
@@ -111,7 +112,8 @@ public class Controleur implements Initializable{
 		//Mobs
 		this.mobAffichage = new MobVue();
 		this.env.getMobs().addListener(new MobsObsList(this));
-		this.env.creerSlime();
+		env.creerSlime(0, 64);
+		env.creerArcher(1000, 64);
 		//Lancement Joueur
 		this.bindJoueur();
 		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env));
@@ -263,11 +265,15 @@ public class Controleur implements Initializable{
 			mobSprite = mobAffichage.creerFleche(m.getId());
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
-			mobSprite.translateYProperty().bind(m.yProperty());
-			if (!m.getJoueur().isVersDroite()) {
+			mobSprite.translateYProperty().bind(m.yProperty());			if (!((Fleche)m).isVersDroite()) {
 				mobSprite.setScaleX(-1);
 			}
-			
+		}
+		else if(m instanceof Archer) {
+			mobSprite = mobAffichage.creerArcher(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());
 		}
 		
 	}

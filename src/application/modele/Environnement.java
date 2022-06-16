@@ -2,6 +2,8 @@ package application.modele;
 
 import java.util.ArrayList;
 
+import application.modele.mobs.Archer;
+import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
 import application.modele.mobs.Slime;
 import application.modele.pnjs.Docteur;
@@ -26,15 +28,22 @@ public class Environnement {
 		
 	}
 
-	public void creerSlime() {
-		Mob slime = new Slime(100,-64, joueur, this);
-		this.ajouterMob(slime);
+	public void creerSlime(double x,double y) {
+		this.ajouterMob(new Slime(x,y, this));
+	}
+	
+	public void creerFleche(double x,double y,boolean versDroite) {
+		this.ajouterMob(new Fleche(x,y, this,versDroite));
 	}
 	
 	public void creerDocteur() {
 		Docteur doc = new Docteur(1300, 64, this);
 		pnjs.add(doc);
 	}
+	
+	public void creerArcher(double x,double y) {
+		this.ajouterMob(new Archer(x,y, this));
+	}	
 	//Gestion Liste
 	public void ajouterMob(Mob m) { 
 		mobs.add(m);
@@ -73,9 +82,6 @@ public class Environnement {
 		for (Pnj p: pnjs) {
 			p.action();
 		}
-		
-		
-		
 
 		//Mouvement + Gravité Joueur
 		joueur.action();

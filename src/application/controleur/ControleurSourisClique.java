@@ -4,13 +4,13 @@ package application.controleur;
 import java.util.Map;
 
 import application.modele.Environnement;
-import application.modele.Fleche;
 import application.modele.Joueur;
 import application.modele.Outils;
 import application.modele.items.Bloc;
 import application.modele.items.utilitaires.Arc;
 import application.modele.items.utilitaires.Epee;
 import application.modele.items.utilitaires.Pioche;
+import application.modele.mobs.Fleche;
 import application.vue.ImageMap;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -73,7 +73,13 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 		}
 		else if (env.getJoueur().getInventaire().itemEnMain() instanceof Arc) {
 			Joueur j=this.env.getJoueur();
-			new Fleche(j.getX(), j.getY(), this.env, j.isVersDroite());
+			//place la fleche devant ou derriere le joueur pour pas qu elle ne le touche
+			if (j.isVersDroite()) {
+				this.env.creerFleche(j.getX()+j.getLargeur(), j.getY(), j.isVersDroite());
+			}
+			else {
+				this.env.creerFleche(j.getX()-30, j.getY(), j.isVersDroite());
+			}
 		}
 	} 
 }
