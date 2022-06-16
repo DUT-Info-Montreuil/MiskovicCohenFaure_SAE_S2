@@ -60,14 +60,12 @@ public class ImageMap {
 		images.put("slime", new Image("application/ressource/slime.png"));
 		images.put("fleche", new Image("application/ressource/Fleche.png"));
 		images.put("archer", new Image("application/ressource/archer.png"));
-
+		images.put("squelette", new Image("application/ressource/squelette.png"));
 
 	}
 	
 	public void initImagesPnj() {
 		images.put("docteur", new Image("application/ressource/png/docteur/D1.gif"));
-		images.put("docteurDepl1", new Image("application/ressource/png/docteur/D2.png"));
-		images.put("docteurDepl2", new Image("application/ressource/png/docteur/D3.png"));
 		
 		
 	}

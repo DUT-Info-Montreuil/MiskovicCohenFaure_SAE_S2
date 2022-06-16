@@ -9,7 +9,7 @@ public class Fleche extends Mob{
 
 	public Fleche(double coordX, double coordY, Environnement e, boolean droite) {
 		//modifier souris clique et attaque de archer si l'on modifie la largeur
-		super(coordX, coordY,1, e, 30, 10);
+		super(coordX, coordY,1, e, 10,30,0,0);
 		this.versDroite=droite;
 		if (droite) {
 			this.setDirDroite(5);
@@ -49,10 +49,10 @@ public class Fleche extends Mob{
 	}
 	
 	public void touchePerso (Personnage e) {
-		if (this.getX()<e.getX()+e.getLargeur()
-				&& this.getX()+this.getLargeur()>e.getX()
-				&& this.getY()<e.getY()+e.getHauteur()
-				&& this.getY()+this.getHauteur()>e.getY() ) {
+		if (this.getX()-this.gettGauche()<e.getX()+e.gettDroite()
+				&& this.getX()+this.gettDroite()>e.getX()-e.gettGauche()
+				&& this.getY()+this.gettBas()>e.getY()-e.getThaut()
+				&& this.getY()-this.getThaut()<e.getY()+e.gettBas()   ) {
 			e.perdrePV(1, versDroite);
 			this.perdrePV(1, versDroite);
 		}

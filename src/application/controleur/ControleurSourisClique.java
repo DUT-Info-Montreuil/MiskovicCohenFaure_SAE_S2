@@ -74,7 +74,7 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 			Joueur j=this.env.getJoueur();
 			//place la fleche devant ou derriere le joueur pour pas qu elle ne le touche
 			if (j.isVersDroite()) {
-				this.env.creerFleche(j.getX()+j.getLargeur(), j.getY(), j.isVersDroite());
+				this.env.creerFleche(j.getX()+30, j.getY(), j.isVersDroite());
 			}
 			else {
 				this.env.creerFleche(j.getX()-30, j.getY(), j.isVersDroite());

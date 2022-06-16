@@ -32,11 +32,12 @@ public class PVVue {
 		int i = 0;
 		
 		while (i < pvMax) {
-			while (i < pv) {
+			if (i < pv) {
 				((ImageView) pointsDeVie.getChildren().get(i)).setImage(images.get(0));
-				i++;
 			}
-			((ImageView) pointsDeVie.getChildren().get(i)).setImage(images.get(1));
+			else {
+				((ImageView) pointsDeVie.getChildren().get(i)).setImage(images.get(1));
+			}
 			i++;
 		}
 	}

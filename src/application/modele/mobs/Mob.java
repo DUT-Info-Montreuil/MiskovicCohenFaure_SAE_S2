@@ -5,20 +5,17 @@ import application.modele.Joueur;
 import application.modele.Personnage;
 
 public abstract class Mob extends Personnage{
-
-
-	public Mob(double coordX, double coordY,int pv, Environnement e,int l,int h) {
-		super(coordX, coordY,pv,e,l,h);
-	} 
 		
-
+	public Mob(double coordX, double coordY, int pvMax,Environnement e,int h, int d, int b, int g) {
+		super ( coordX,  coordY,  pvMax, e, h,  d,  b,  g) ;
+	}
 	public abstract void detection();
 	
 	public void attaque() {
 		//SYSTEME DE HITBOX
 		Joueur j=this.getEnv().getJoueur();
-		if ((this.getX()<j.getX()+j.getLargeur()&&this.getX()+this.getLargeur()>j.getX()
-			&& this.getY()+this.getHauteur()>j.getY()&&this.getY()<j.getY()+j.getHauteur())) {
+		if ((this.getX()-this.gettGauche()<j.getX()+j.gettDroite()&&this.getX()+this.gettDroite()>j.getX()-j.gettGauche()
+			&& this.getY()+this.gettBas()>j.getY()-j.getThaut()&&this.getY()-this.getThaut()<j.getY()+j.gettBas())) {
 			j.perdrePV(1,this.getX()<j.getX());
 		}
 	}
@@ -31,7 +28,6 @@ public abstract class Mob extends Personnage{
 	public void action() {
 		super.action();
 		this.detection();
-		this.attaque();
 	}
 	
 }

@@ -12,7 +12,7 @@ public class Joueur extends Personnage{
 	private boolean versDroite ;
 	
 	public Joueur(int coordX, int coordY,Environnement e) {
-		super(coordX, coordY,5,e,23,25);
+		super(coordX, coordY,5,e,20,25,0,-9);
 		
 		this.clickD=false;
 		this.clickQ=false;
@@ -108,10 +108,10 @@ public class Joueur extends Personnage{
 		if (this.versDroite) {
 			for (int i=this.getEnv().getMobs().size()-1;i>=0;i--) {
 				e=this.getEnv().getMobs().get(i);
-				if (this.getX()+this.getLargeur()<e.getX()+e.getLargeur()
-						&& this.getX()+this.getLargeur()+20>e.getX()
-						&& this.getY()<e.getY()+e.getHauteur()
-						&& this.getY()+this.getHauteur()>e.getY() ) {
+				if (this.getX()+this.gettDroite()<e.getX()+e.gettDroite()
+						&& this.getX()+this.gettDroite()+20>e.getX()-e.gettGauche()
+						&& this.getY()+this.gettBas()>e.getY()-e.getThaut()
+						&& this.getY()-this.getThaut()<e.getY()+e.gettBas()  ) {
 					e.perdrePV(1, versDroite);
 				}
 			}
@@ -119,10 +119,10 @@ public class Joueur extends Personnage{
 		else {
 			for (int i=this.getEnv().getMobs().size()-1;i>=0;i--) {
 				e=this.getEnv().getMobs().get(i);
-				if (this.getX()>e.getX() 
-						&& this.getX()-20<e.getX()+e.getLargeur()
-						&& this.getY()<e.getY()+e.getHauteur()
-						&& this.getY()+this.getHauteur()>e.getY() ) {
+				if (this.getX()-this.gettGauche()>e.getX()-e.gettGauche()
+						&& this.getX()-this.gettGauche()-20<e.getX()+e.gettDroite()
+						&& this.getY()+this.gettBas()>e.getY()-e.getThaut()
+						&& this.getY()-this.getThaut()<e.getY()+e.gettBas() ) {
 					e.perdrePV(1, versDroite);
 				}
 			}

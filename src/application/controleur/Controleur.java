@@ -11,6 +11,7 @@ import application.modele.mobs.Archer;
 import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
 import application.modele.mobs.Slime;
+import application.modele.mobs.Squelette;
 import application.modele.pnjs.Docteur;
 import application.modele.pnjs.Pnj;
 import application.vue.ImageMap;
@@ -36,7 +37,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
-import javafx.scene.input.*;
 
 public class Controleur implements Initializable{
 
@@ -117,6 +117,7 @@ public class Controleur implements Initializable{
 		this.env.getMobs().addListener(new MobsObsList(this));
 		env.creerSlime(0, 64);
 		env.creerArcher(1000, 64);
+		env.creerSquelette(2000, 64);
 		//Lancement Joueur
 		this.bindJoueur();
 		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env));
@@ -279,6 +280,12 @@ public class Controleur implements Initializable{
 			mobSprite.translateYProperty().bind(m.yProperty());
 		}
 		
+		else if(m instanceof Squelette) {
+			mobSprite = mobAffichage.creerSquelette(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());
+		}
 	}
 	
 	public void creerSpritePnj(Pnj p) {

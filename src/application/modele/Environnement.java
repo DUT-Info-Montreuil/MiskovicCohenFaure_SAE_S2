@@ -6,6 +6,7 @@ import application.modele.mobs.Archer;
 import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
 import application.modele.mobs.Slime;
+import application.modele.mobs.Squelette;
 import application.modele.pnjs.Docteur;
 import application.modele.pnjs.Pnj;
 import javafx.collections.FXCollections;
@@ -40,10 +41,14 @@ public class Environnement {
 		Docteur doc = new Docteur(1300, 64, this);
 		pnjs.add(doc);
 	}
+	public void creerSquelette(double x,double y) {
+		this.ajouterMob(new Squelette(x,y, this));
+	}	
 	
 	public void creerArcher(double x,double y) {
 		this.ajouterMob(new Archer(x,y, this));
 	}	
+	
 	//Gestion Liste
 	public void ajouterMob(Mob m) { 
 		mobs.add(m);
