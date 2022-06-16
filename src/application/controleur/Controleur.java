@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import application.modele.Environnement;
 import application.modele.Joueur;
 import application.modele.Materiaux;
+import application.modele.Outils;
 import application.modele.mobs.Archer;
 import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
@@ -28,12 +29,14 @@ import javafx.fxml.Initializable;
 import javafx.animation.KeyFrame;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
+import javafx.scene.input.*;
 
 public class Controleur implements Initializable{
 
@@ -282,7 +285,16 @@ public class Controleur implements Initializable{
 		ImageView pnjSprite = null;
 		if (p instanceof Docteur) {
 			pnjSprite = this.pnjAffichage.creerDocteur(p.getId());
-			System.out.println(pnjSprite.getImage());
+			pnjSprite.setOnMouseClicked(event ->
+	        {
+	        	if (event.getButton() == MouseButton.SECONDARY)
+	            {
+	        		if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), Outils.coordToTile(p.getX(),p.getY()))) {
+	        			((Docteur) p).soigne();
+	        		}
+	            }
+	        });
+				
 			terrainPane.getChildren().add(pnjSprite);
 			pnjSprite.translateXProperty().bind(p.xProperty());
 			pnjSprite.translateYProperty().bind(p.yProperty());

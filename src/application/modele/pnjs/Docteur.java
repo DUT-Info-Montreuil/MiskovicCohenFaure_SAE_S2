@@ -10,4 +10,9 @@ public class Docteur extends Pnj {
 		super(coordX, coordY, e);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public void soigne() {
+		Joueur j = this.getEnv().getJoueur();
+		j.ajouterPV(j.getPvMax());
+	}
 }

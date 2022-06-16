@@ -10,7 +10,6 @@ import application.modele.items.Bloc;
 import application.modele.items.utilitaires.Arc;
 import application.modele.items.utilitaires.Epee;
 import application.modele.items.utilitaires.Pioche;
-import application.modele.mobs.Fleche;
 import application.vue.ImageMap;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;

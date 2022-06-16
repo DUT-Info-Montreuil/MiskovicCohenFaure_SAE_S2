@@ -8,6 +8,7 @@ import application.controleur.ControleurSourisSortie;
 import application.modele.Environnement;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
 
