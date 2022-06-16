@@ -7,9 +7,14 @@ import java.util.ResourceBundle;
 import application.modele.Environnement;
 import application.modele.Fleche;
 import application.modele.Joueur;
-import application.modele.Materiaux;
+import application.modele.craft.EpeeCraft;
+import application.modele.craft.OutilCraft;
+import application.modele.craft.HacheCraft;
+import application.modele.craft.PiocheCraft;
+import application.modele.craft.materiaux.Materiaux;
 import application.modele.mobs.Mob;
 import application.modele.mobs.Slime;
+import application.vue.CraftVue;
 import application.vue.ImageMap;
 import application.vue.InventaireVue;
 import application.vue.JoueurVue;
@@ -17,9 +22,11 @@ import application.vue.MobVue;
 import application.vue.PVVue;
 import application.vue.TerrainVue;
 import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.animation.KeyFrame;
@@ -30,12 +37,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class Controleur implements Initializable{
 
 	@FXML
-    private Pane terrainPane;
+	private Pane terrainPane;
+	@FXML
+	private Pane craftPane;
 	@FXML
 	private TilePane terrainMap;
 	@FXML
@@ -53,11 +63,13 @@ public class Controleur implements Initializable{
 	@FXML
 	private HBox inventaireItems;
 	@FXML
-    private javafx.scene.text.Text ferText;
-    @FXML
-    private javafx.scene.text.Text orText;
-    @FXML
-    private javafx.scene.text.Text diamantText;
+	private Text boisText;
+	@FXML
+	private Text ferText;
+	@FXML
+	private Text orText;
+	@FXML
+	private Text diamantText;
 
 	private Environnement env;
 	private Timeline gameLoop;
@@ -69,12 +81,12 @@ public class Controleur implements Initializable{
 
 		//InitialiserImages
 		ImageMap imgs = new ImageMap();
-		
+
 		//Création Terrain
-		
+
 		env = new Environnement();
-		
-		TerrainVue terrainVue = new TerrainVue(env, terrainMap,this);
+
+		TerrainVue terrainVue = new TerrainVue(env, terrainMap);
 		terrainVue.initTerrain();
 
 		//Indices Terrain
@@ -93,60 +105,54 @@ public class Controleur implements Initializable{
 		inventaire.initInventaire();
 		this.listenInventaire(inventaire);
 		this.listenInventaireCase(inventaire);
-		
+
 		//Matériaux
-		Materiaux mat = new Materiaux();
-		listenDiamant(mat);
-		listenOr(mat);
-		listenFer(mat);
+		ArrayList<Materiaux> comptMat = env.getJoueur().getCompteurMateriaux();
+		boisText.textProperty().bind(Bindings.convert(comptMat.get(0).matProperty()));
+		ferText.textProperty().bind(Bindings.convert(comptMat.get(1).matProperty()));
+		orText.textProperty().bind(Bindings.convert(comptMat.get(2).matProperty()));
+		diamantText.textProperty().bind(Bindings.convert(comptMat.get(3).matProperty()));
+
+
 
 		//Mobs
 		this.mobAffichage = new MobVue();
 		this.env.getMobs().addListener(new MobsObsList(this));
 		this.env.creerSlime();
+
+		//Init Craft
+		CraftVue craft = new CraftVue(terrainPane, craftPane);
+		this.env.getJoueur().getCompteurMateriaux().get(0).ajouterMat(2);
+		this.env.getJoueur().getCompteurMateriaux().get(1).ajouterMat(2);
+		this.env.getJoueur().getCompteurMateriaux().get(2).ajouterMat(2);
+
 		//Lancement Joueur
 		this.bindJoueur();
-		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env));
+		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env, craft));
 		root.addEventHandler(KeyEvent.KEY_RELEASED, new ControleurToucheRelache(env));
 		root.addEventHandler(ScrollEvent.SCROLL, new ControleurScroll(env));
 
-		
-		
 		//Lancement GameLoop
 		initAnimation();
 		gameLoop.play();
 
 	}
 
-	public void listenDiamant (Materiaux mat) {
-		IntegerProperty diamant = mat.diamantProperty();
-		diamant.addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				diamantText.setText("" + newValue);
-			}
-		});
-	}
-	public void listenOr (Materiaux mat) {
-		IntegerProperty or = mat.orProperty();
-		or.addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				orText.setText("" + newValue);
-			}
-		});
-	}
-	public void listenFer (Materiaux mat) {
-		IntegerProperty fer = mat.ferProperty();
-		fer.addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				ferText.setText("" + newValue);
-			}
-		});
+	@FXML
+	void ameliorationEpee(ActionEvent event) {
+		this.env.getJoueur().getEpee().craft();
 	}
 	
-	
+	@FXML
+    void ameliorationHache(ActionEvent event) {
+		this.env.getJoueur().getHache().craft();
+    }
+
+    @FXML
+    void ameliorationPioche(ActionEvent event) {
+    	this.env.getJoueur().getPioche().craft();
+    }
+
 	public void listenPV(PVVue pvVue) {
 		IntegerProperty pv = env.getJoueur().pvProperty();
 
@@ -172,7 +178,9 @@ public class Controleur implements Initializable{
 		});
 
 	}
-	
+
+
+
 	public void listenInventaireCase(InventaireVue inv) {
 		IntegerProperty curseurCase = env.getJoueur().getInventaire().indexCaseProperty();
 		curseurCase.addListener(new ChangeListener<Number>() {
@@ -195,7 +203,7 @@ public class Controleur implements Initializable{
 	}
 
 	public void listenJoueurProperty() {
-			env.getJoueur().xProperty().addListener(new ChangeListener<Number>() {
+		env.getJoueur().xProperty().addListener(new ChangeListener<Number>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -211,16 +219,16 @@ public class Controleur implements Initializable{
 			}
 		});
 	}
-	
+
 
 	//GESTION SPRITE
-	
+
 	public void enleverSprite (String id) {
 		terrainPane.lookup("#" + id).setVisible(false);
 		terrainPane.getChildren().remove(terrainPane.lookup("#" + id));
-		
+
 	}
-	
+
 	public void ajouterJoueur (ImageView sprite) {
 		this.terrainMap.getChildren().add(sprite);
 	}
@@ -235,9 +243,9 @@ public class Controleur implements Initializable{
 				// on définit ce qui se passe à chaque frame 
 				// c'est un eventHandler d'ou le lambda
 				(ev ->{
-					
+
 					env.unTour();
-						
+
 				})
 				);
 		gameLoop.getKeyFrames().add(kf);
@@ -259,16 +267,16 @@ public class Controleur implements Initializable{
 			if (!m.getJoueur().isVersDroite()) {
 				mobSprite.setScaleX(-1);
 			}
-			
+
 		}
-		
+
 	}
 
 	public void supprimerSprite(Mob m) {
 		if (m instanceof Slime) {
-			
+
 		}
-		
+
 	}
 }
 

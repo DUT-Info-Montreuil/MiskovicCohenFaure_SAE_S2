@@ -1,12 +1,28 @@
 package application.modele;
 
+import java.util.ArrayList;
+
+import application.modele.craft.EpeeCraft;
+import application.modele.craft.HacheCraft;
+import application.modele.craft.OutilCraft;
+import application.modele.craft.PiocheCraft;
+import application.modele.craft.materiaux.Bois;
+import application.modele.craft.materiaux.Diamant;
+import application.modele.craft.materiaux.Fer;
+import application.modele.craft.materiaux.Materiaux;
+import application.modele.craft.materiaux.Or;
 import application.modele.items.utilitaires.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
 public class Joueur extends Personnage{
 	
-	Inventaire inventaire;
+	private Inventaire inventaire;
+	private ArrayList<Materiaux> compteurMateriaux;
+	//0:Bois 1:Fer 2:Or 3:Diamant
+	
+	private OutilCraft epee, hache, pioche;
+	
 	private boolean clickQ, clickD;
 	private int iFrame;
 	private boolean versDroite ;
@@ -18,11 +34,15 @@ public class Joueur extends Personnage{
 		this.clickQ=false;
 		this.iFrame=0;
 		this.versDroite=true;
-		inventaire = new Inventaire();
-		inventaire.ajouterItem(new Pioche(0));
-		inventaire.ajouterItem(new Epee(0));
-		inventaire.ajouterItem(new Hache(0));
-		inventaire.ajouterItem(new Arc(0));
+		this.inventaire = new Inventaire();
+		this.inventaire.ajouterItem(new Pioche(0));
+		this.inventaire.ajouterItem(new Epee(0));
+		this.inventaire.ajouterItem(new Hache(0));
+		this.inventaire.ajouterItem(new Arc(0));
+		this.compteurMateriaux = new ArrayList<Materiaux>();
+		initCompteurMateriaux();
+		
+		initCraft();
 		
 		this.xProperty().addListener(new ChangeListener<Number>() {
 
@@ -32,8 +52,26 @@ public class Joueur extends Personnage{
 			}	
 		});
 	}
-		
+	public ArrayList<Materiaux> getCompteurMateriaux() {
+		return compteurMateriaux;
+	}
 	
+	public void initCraft() {
+		this.epee = new EpeeCraft(this);
+		this.hache  = new HacheCraft(this);
+		this.pioche  = new PiocheCraft(this);
+	}
+	
+	public void initCompteurMateriaux() {
+		Materiaux bois = new Bois();
+		this.compteurMateriaux.add(bois);
+		Materiaux fer = new Fer();
+		this.compteurMateriaux.add(fer);
+		Materiaux or = new Or();
+		this.compteurMateriaux.add(or);
+		Materiaux diamant = new Diamant();
+		this.compteurMateriaux.add(diamant);
+	}
 	public void gravite() {
 		if (!this.collisionBas()) {
 			if(this.getDirY() < 5)
@@ -128,4 +166,15 @@ public class Joueur extends Personnage{
 			}
 		}	
 	}
+	public OutilCraft getEpee() {
+		return epee;
+	}
+	public OutilCraft getHache() {
+		return hache;
+	}
+	public OutilCraft getPioche() {
+		return pioche;
+	}
+	
+	
 }

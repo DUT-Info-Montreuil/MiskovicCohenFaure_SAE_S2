@@ -8,11 +8,18 @@ import application.modele.items.Item;
 public class ListeCaseInventaire {
 	private ArrayList<Item> items;
 	private int index;
+	private int indexMax;
+	//0:Main_vide 1:Fer 2:Or 3:Diamant
 
 	public ListeCaseInventaire() {
 		items = new ArrayList<Item>();
 		items.add(null);
 		index = 0;
+		indexMax=0;
+	}
+
+	public int getIndexMax() {
+		return indexMax;
 	}
 
 	public void add(Item item) {
@@ -66,7 +73,7 @@ public class ListeCaseInventaire {
 	}
 
 	public boolean augmenterIndex() {
-		if (index < items.size() - 1) {
+		if (index < indexMax) {
 			index ++;
 			return true;
 		}
@@ -106,6 +113,10 @@ public class ListeCaseInventaire {
 
 	public ArrayList<Item> getItems() {
 		return items;
+	}
+	
+	public void augmenterIndexMax() {
+		this.indexMax++;
 	}
 
 }

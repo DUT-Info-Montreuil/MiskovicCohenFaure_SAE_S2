@@ -20,9 +20,9 @@ public class Environnement {
 		persos = new ArrayList<>();
 		joueur = new Joueur(960,-64, this);
 		mobs = FXCollections.observableArrayList();
-		
-	}
 
+	}
+	
 	public void creerSlime() {
 		Mob slime = new Slime(0,64, joueur, this);
 	}
