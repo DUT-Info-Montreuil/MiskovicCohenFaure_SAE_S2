@@ -12,7 +12,7 @@ public class HacheCraft extends OutilCraft {
 	@Override
 	public void craft() {
 		int indMax = getOutilCase().getIndexMax();
-		if (indMax !=3) 
+		if (indMax !=4) 
 			if (getMateriauxCompteur().get(0).getMat() >= 1 && getMateriauxCompteur().get(indMax+1).getMat() >= 3) {
 				getMateriauxCompteur().get(0).retirerMat(1);
 				getMateriauxCompteur().get(indMax+1).retirerMat(2);

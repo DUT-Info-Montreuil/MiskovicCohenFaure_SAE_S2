@@ -9,7 +9,7 @@ public class ListeCaseInventaire {
 	private ArrayList<Item> items;
 	private int index;
 	private int indexMax;
-	//0:Main_vide 1:Fer 2:Or 3:Diamant
+	//0:Main_vide 1:Pierre 2:Fer 3:Or 4:Diamant
 
 	public ListeCaseInventaire() {
 		items = new ArrayList<Item>();

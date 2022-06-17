@@ -20,13 +20,13 @@ public class ImageMap {
 	}
 
 	public void initImagesPioche() {
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 5; i++) {
 			images.put("P" + i, new Image("application/ressource/inventaire/pioche/P" + i + ".png"));
 		}
 	}
 
 	public void initImagesEpee() {
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 5; i++) {
 			images.put("E" + i, new Image("application/ressource/inventaire/epee/E" + i + ".png"));
 		}
 	}
@@ -38,7 +38,7 @@ public class ImageMap {
 	}
 
 	public void initImagesHache() {
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 5; i++) {
 			images.put("H" + i, new Image("application/ressource/inventaire/hache/H" + i + ".png"));
 		}
 	}
