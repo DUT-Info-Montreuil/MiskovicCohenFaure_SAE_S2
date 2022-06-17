@@ -209,7 +209,7 @@ public class Controleur implements Initializable{
 		Joueur j = env.getJoueur();
 		spriteJoueur.translateYProperty().bind(j.yProperty());
 		listenJoueurProperty();
-		new JoueurVue(j.xProperty(),j.yProperty(),spriteJoueur);
+		new JoueurVue(j.getDirDroiteProperty(),j.getDirGaucheProperty(),j.xProperty(),spriteJoueur);
 
 	}
 
