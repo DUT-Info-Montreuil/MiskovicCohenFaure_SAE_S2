@@ -2,15 +2,16 @@ package application.modele.mobs;
 
 import application.modele.Environnement;
 import application.modele.Joueur;
+import application.modele.Outils;
 
 public class Boss extends Mob{
 	private int temps;
 	private boolean versDroite;
-
+	
 	public Boss(double coordX, double coordY, Environnement e) {
 		super(coordX, coordY, 30, e, 20,20,0,0);
 		this.setDirDroite(1);
-		this.temps=400;
+		this.temps=0;
 		this.versDroite=true;
 	}
 
@@ -41,7 +42,12 @@ public class Boss extends Mob{
 			}
 		}
 		else {
-			
+			if (this.temps<400) {
+				this.phase2V1(versDroite);
+			}
+			else {
+				this.phase2V2();
+			}
 		}
 		if (temps==1000) {
 			temps=0;
@@ -67,7 +73,7 @@ public class Boss extends Mob{
 		if ((this.collisionDroite(this.getX(), this.getY())||
 				this.collisionGauche(this.getX(), this.getY()))
 				&&this.collisionBas()){
-			this.setDirY(-6);
+			this.setDirY(-3);
 		}
 		
 	}
@@ -92,11 +98,32 @@ public class Boss extends Mob{
 	}
 	
 	public void phase2V1 (boolean versDroite) {
-		//s ecraser
+		if (checkCollision(Outils.coordToTile(this.getX(), this.getY()+100), this.getEnv())
+			&& this.getDirY()>-2) {
+				this.additionnerDirY(-0.2);
+		}
+		if (versDroite) {
+			this.setDirDroite(3);
+		}
+		else {
+			this.setDirGauche(3);
+		}
+		if (this.temps%40==0) {
+			this.getEnv().creerBouleBas(this.getX(), this.getY()+10, versDroite);
+		}
+		
 	}
 	
-	public void phase2V2 (boolean versDroite) {
-		//?
+	public void phase2V2 () {
+		if (!this.collisionBas()) {
+			this.additionnerDirY(1);
+			this.attaque(3);
+		}
+		else if (temps<700) {
+			this.getEnv().creerOnde(this.getX()-5, this.getY(), false);
+			this.getEnv().creerOnde(this.getX()+30, this.getY(), true);
+			this.temps=700;
+		}
 	}
 
 	
@@ -120,5 +147,20 @@ public class Boss extends Mob{
 			&& this.getY()+this.gettBas()>j.getY()-j.getThaut()&&this.getY()-this.getThaut()<j.getY()+j.gettBas())) {
 			j.perdrePV(pv,this.getX()<j.getX());
 		}
+	}
+	
+	public void gravite() {
+		if (!this.collisionBas()) {
+			if(this.getDirY() < 2)
+				this.additionnerDirY(0.1);	
+		}
+	}
+	public void perdrePV(int valeur,boolean versDroite) {
+		this.setPvProperty(this.getPv() - valeur);
+		if (versDroite)
+			this.setDirDroite(4);
+		else 
+			this.setDirGauche(4);
+		this.setDirY(-2);
 	}
 }

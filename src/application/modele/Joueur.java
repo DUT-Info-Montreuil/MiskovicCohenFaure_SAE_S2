@@ -43,7 +43,7 @@ public class Joueur extends Personnage{
 	
 	public void saut() {
 		if (this.collisionBas()) {
-			super.additionnerDirY(-10);
+			this.additionnerDirY(-10);
 		}
 	}
 	

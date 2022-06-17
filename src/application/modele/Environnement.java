@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import application.modele.mobs.Archer;
 import application.modele.mobs.Boss;
+import application.modele.mobs.BouleBas;
 import application.modele.mobs.BouleDeFeu;
 import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
+import application.modele.mobs.Onde;
 import application.modele.mobs.Slime;
 import application.modele.mobs.Squelette;
 import application.modele.pnjs.Docteur;
@@ -57,6 +59,14 @@ public class Environnement {
 	
 	public void creerBouleDeFeu(double x,double y,boolean versDroite) {
 		this.ajouterMob(new BouleDeFeu(x,y, this,versDroite));
+	}
+	
+	public void creerBouleBas(double x,double y,boolean versDroite) {
+		this.ajouterMob(new BouleBas(x,y, this,versDroite));
+	}
+	
+	public void creerOnde (double x,double y,boolean versDroite) {
+		this.ajouterMob(new Onde(x,y, this,versDroite));
 	}
 	
 	//Gestion Liste

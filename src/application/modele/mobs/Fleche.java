@@ -19,7 +19,6 @@ public class Fleche extends Mob{
 		}
 	}
 
-	@Override
 	public void detection() {
 		if (this.collisionDroite(this.getX(), this.getY()) 
 				|| this.collisionGauche(this.getX(), this.getY())){
@@ -41,14 +40,14 @@ public class Fleche extends Mob{
 		while (i<this.getEnv().getMobs().size()) {
 			e=this.getEnv().getMobs().get(i);
 			if (e!=this) {
-				this.touchePerso(e);
+				this.touchePerso(e,this.versDroite);
 			}
 			i++;
 		}
-		this.touchePerso(this.getJoueur());
+		this.touchePerso(this.getJoueur(),this.versDroite);
 	}
 	
-	public void touchePerso (Personnage e) {
+	public void touchePerso (Personnage e,boolean versDroite) {
 		if (this.getX()-this.gettGauche()<e.getX()+e.gettDroite()
 				&& this.getX()+this.gettDroite()>e.getX()-e.gettGauche()
 				&& this.getY()+this.gettBas()>e.getY()-e.getThaut()

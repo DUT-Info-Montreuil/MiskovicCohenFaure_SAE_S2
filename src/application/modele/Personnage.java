@@ -18,6 +18,7 @@ public abstract class Personnage {
 	
 	//PV
 	private IntegerProperty pvProperty;
+
 	private int pvMax;
 	
 	//Taille Sprite		(si une valeur est negative alors sa valeur absolue soit etre inferieur a celle de son opposé)
@@ -132,7 +133,7 @@ public abstract class Personnage {
 	public double getDirY() {
 		return dirY;
 	}
-	public void setDirY(int dirY) {
+	public void setDirY(double dirY) {
 		this.dirY = dirY;
 	}
 	
@@ -150,6 +151,10 @@ public abstract class Personnage {
 
 	public int gettGauche() {
 		return tGauche;
+	}
+	
+	public void setPvProperty(int pvProperty) {
+		this.pvProperty.set(pvProperty);
 	}
 
 	
@@ -227,8 +232,14 @@ public abstract class Personnage {
 			return false;
 		}
 	}
-	private boolean checkCollision (int x,Environnement e) {
-		return (x<0 || e.getTerrain().getTable()[x]>0);
+	public boolean checkCollision (int x,Environnement e) {
+		if (x<e.getTerrain().getTable().length) {
+			return (x<0 || e.getTerrain().getTable()[x]>0);
+		}
+		else {
+			System.out.println("erreur de collision (checkcollision)");
+			return true;
+		}
 	}
 	
 	public void action() {

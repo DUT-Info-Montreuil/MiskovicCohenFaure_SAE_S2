@@ -9,9 +9,11 @@ import application.modele.Materiaux;
 import application.modele.Outils;
 import application.modele.mobs.Archer;
 import application.modele.mobs.Boss;
+import application.modele.mobs.BouleBas;
 import application.modele.mobs.BouleDeFeu;
 import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
+import application.modele.mobs.Onde;
 import application.modele.mobs.Slime;
 import application.modele.mobs.Squelette;
 import application.modele.pnjs.Docteur;
@@ -277,6 +279,13 @@ public class Controleur implements Initializable{
 				mobSprite.setScaleX(-1);
 			}
 		}
+		else if (m instanceof BouleBas) {
+			mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());		
+			mobSprite.setRotate(90);
+		}
 		else if(m instanceof Archer) {
 			mobSprite = mobAffichage.creerArcher(m.getId());
 			terrainPane.getChildren().add(mobSprite);
@@ -295,6 +304,12 @@ public class Controleur implements Initializable{
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());
+		}
+		else if (m instanceof Onde) {
+			mobSprite = mobAffichage.creerOnde(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());		
 		}
 		else if (m instanceof Fleche) {
 			mobSprite = mobAffichage.creerFleche(m.getId());

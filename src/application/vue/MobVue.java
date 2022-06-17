@@ -46,4 +46,9 @@ public class MobVue {
 		fleche.setId(id);
 		return fleche;
 	}
+	public ImageView creerOnde(String id) {
+		ImageView fleche = new ImageView(images.get("onde"));
+		fleche.setId(id);
+		return fleche;
+	}
 }
