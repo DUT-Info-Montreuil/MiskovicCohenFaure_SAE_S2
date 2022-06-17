@@ -1,6 +1,7 @@
 package application.vue;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -40,8 +41,37 @@ public class CraftVue {
 		bout.setVisible(false);
 	}
 	
-	public void ameliorerText(Text txt) {
-		
+	public void cacherTextArea(TextArea txt) {
+		txt.setText("Plus d'amélioration\ndisponible\nBravo!");
+		this.terrainPane.requestFocus();
+	}
+	
+	public void ameliorerTextEpee(TextArea txt, int niv) {
+		if (niv==1)
+			txt.setText("Recette :\n"
+					+ "\n"
+					+ "-1 Bois\n"
+					+ "-2 Or");
+		else
+			txt.setText("Recette :\n"
+					+ "\n"
+					+ "-1 Bois\n"
+					+ "-2 Diamant");
+		this.terrainPane.requestFocus();
+	}
+	
+	public void ameliorerTextPiocheHache(TextArea txt, int niv) {
+		if (niv==1)
+			txt.setText("Recette :\n"
+					+ "\n"
+					+ "-1 Bois\n"
+					+ "-3 Or");
+		else
+			txt.setText("Recette :\n"
+					+ "\n"
+					+ "-1 Bois\n"
+					+ "-3 Diamant");
+		this.terrainPane.requestFocus();
 	}
 	
 }

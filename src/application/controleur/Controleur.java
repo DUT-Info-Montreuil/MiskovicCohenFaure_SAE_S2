@@ -6,10 +6,6 @@ import java.util.ResourceBundle;
 
 import application.modele.Environnement;
 import application.modele.Joueur;
-import application.modele.craft.EpeeCraft;
-import application.modele.craft.OutilCraft;
-import application.modele.craft.HacheCraft;
-import application.modele.craft.PiocheCraft;
 import application.modele.craft.materiaux.Materiaux;
 import application.modele.Outils;
 import application.modele.mobs.Archer;
@@ -41,6 +37,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.animation.KeyFrame;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -88,6 +85,12 @@ public class Controleur implements Initializable{
 	private Button bouttonPioche;
 	@FXML
 	private Button bouttonHache;
+	@FXML
+	private TextArea recetteHache;
+	@FXML
+	private TextArea recetteEpee;
+	@FXML
+	private TextArea recettePioche;
 
 
 	private Environnement env;
@@ -165,7 +168,7 @@ public class Controleur implements Initializable{
 		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env, craft));
 		root.addEventHandler(KeyEvent.KEY_RELEASED, new ControleurToucheRelache(env));
 		root.addEventHandler(ScrollEvent.SCROLL, new ControleurScroll(env));
-		
+
 
 		//Lancement GameLoop
 		initAnimation();
@@ -194,20 +197,38 @@ public class Controleur implements Initializable{
 
 	@FXML
 	void ameliorationEpee(ActionEvent event) {
-		if (!this.env.getJoueur().getEpee().craft())
-			this.craft.cacherBoutton(bouttonEpee);
+		int indMax = this.env.getJoueur().getEpee().getOutilCase().getIndexMax();
+		if (this.env.getJoueur().getEpee().craft()) {
+			this.craft.ameliorerTextEpee(recetteEpee, indMax);
+			if (indMax == 3) {
+				this.craft.cacherBoutton(bouttonEpee);
+				this.craft.cacherTextArea(recetteEpee);
+			}
+		}
 	}
 
 	@FXML
 	void ameliorationHache(ActionEvent event) {
-		if(!this.env.getJoueur().getHache().craft())
-			this.craft.cacherBoutton(bouttonHache);
+		int indMax = this.env.getJoueur().getHache().getOutilCase().getIndexMax();
+		if (this.env.getJoueur().getHache().craft()) {
+			this.craft.ameliorerTextPiocheHache(recetteHache, indMax);
+			if (indMax == 3) {
+				this.craft.cacherBoutton(bouttonHache);
+				this.craft.cacherTextArea(recetteHache);
+			}
+		}
 	}
 
 	@FXML
 	void ameliorationPioche(ActionEvent event) {
-		if (!this.env.getJoueur().getPioche().craft())
-			this.craft.cacherBoutton(bouttonPioche);
+		int indMax = this.env.getJoueur().getPioche().getOutilCase().getIndexMax();
+		if (this.env.getJoueur().getPioche().craft()) {
+			this.craft.ameliorerTextPiocheHache(recettePioche, indMax);
+			if (indMax == 3) {
+				this.craft.cacherBoutton(bouttonPioche);
+				this.craft.cacherTextArea(recettePioche);
+			}
+		}
 	}
 
 	public void listenPV(PVVue pvVue) {
