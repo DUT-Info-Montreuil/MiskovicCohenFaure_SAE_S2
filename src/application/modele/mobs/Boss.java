@@ -120,7 +120,9 @@ public class Boss extends Mob{
 			this.attaque(3);
 		}
 		else if (temps<700) {
-			this.getEnv().creerOnde(this.getX()-5, this.getY(), false);
+			this.setDirDroite(0);
+			this.setDirGauche(0);
+			this.getEnv().creerOnde(this.getX()-30, this.getY(), false);
 			this.getEnv().creerOnde(this.getX()+30, this.getY(), true);
 			this.temps=700;
 		}

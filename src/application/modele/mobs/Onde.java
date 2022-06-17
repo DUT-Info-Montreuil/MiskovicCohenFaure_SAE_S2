@@ -8,10 +8,9 @@ public class Onde extends Mob {
 	private boolean versDroite;
 
 	public Onde(double coordX, double coordY, Environnement e,boolean versDroite) {
-		super(coordX, coordY , 1, e,10,10,0,0);
+		super(coordX, coordY , 1, e,10,5,0,5);
 		this.temps=5;
 		this.versDroite=versDroite;
-		System.out.println("jexiste");
 	}
 
 	@Override
