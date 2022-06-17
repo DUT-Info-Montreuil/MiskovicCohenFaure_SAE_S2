@@ -44,8 +44,8 @@ public class ImageMap {
 	}
 
 	public void initImagesBloc() {
-		for (int i = 1; i < 3; i++) {
-			images.put("B" + i, new Image("application/ressource/" + i + ".png"));
+		for (int i = 0; i < 8; i++) {
+			images.put("B" + i, new Image("application/ressource/tiles/" + i + ".png"));
 		}
 	}
 	

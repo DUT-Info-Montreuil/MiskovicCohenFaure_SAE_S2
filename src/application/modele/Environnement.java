@@ -30,9 +30,9 @@ public class Environnement {
 		joueur = new Joueur(960,-64, this);
 		
 		mobs = FXCollections.observableArrayList();
-		
-	}
 
+	}
+	
 	public void creerSlime(double x,double y) {
 		this.ajouterMob(new Slime(x,y, this));
 	}
@@ -68,7 +68,6 @@ public class Environnement {
 	public void creerOnde (double x,double y,boolean versDroite) {
 		this.ajouterMob(new Onde(x,y, this,versDroite));
 	}
-	
 	//Gestion Liste
 	public void ajouterMob(Mob m) { 
 		mobs.add(m);

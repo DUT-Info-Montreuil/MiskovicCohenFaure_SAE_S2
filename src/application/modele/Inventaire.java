@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Inventaire {
 	ArrayList<ListeCaseInventaire> items;
+
 	IntegerProperty indexProperty;
 	IntegerProperty indexCaseProperty;
 	
@@ -44,6 +45,10 @@ public class Inventaire {
 		}
 	}
 	
+	public ArrayList<ListeCaseInventaire> getItems() {
+		return items;
+	}
+	
 	public String idItemEnMain() {
 		if (this.itemEnMain() == null) {
 			return null;
@@ -62,6 +67,10 @@ public class Inventaire {
 	
 	public ListeCaseInventaire listItemsIndex() {
 		return items.get(getIndexProperty());
+	}
+	
+	public ListeCaseInventaire getlisteCaseInventaireAvecIndex(int ind) {
+		return this.items.get(ind);
 	}
 	
 	public void changerCase(int valeur) {

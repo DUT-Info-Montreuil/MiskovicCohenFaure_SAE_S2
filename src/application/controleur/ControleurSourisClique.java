@@ -43,9 +43,18 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 				if (env.getTerrain().getTable()[numeroCase] > 0) {
 					//Suppression de la case dans le modèle
 					this.env.getTerrain().supprimerCase(numeroCase);
-					//Affichage de l'id 0
-					ImageView img= (ImageView) event.getSource(); //Permet de récupérer l'ImgView
-					env.getJoueur().getInventaire().ajouterItem(new Bloc(Integer.parseInt(img.getId())));
+					ImageView img= (ImageView) event.getSource();
+					if (img.getId() == "4")
+						this.env.getJoueur().getCompteurMateriaux().get(1).ajouterMat(1);
+					else if (img.getId() == "5")
+						this.env.getJoueur().getCompteurMateriaux().get(2).ajouterMat(1);
+					else if (img.getId() == "6")
+						this.env.getJoueur().getCompteurMateriaux().get(3).ajouterMat(1);
+					else
+						env.getJoueur().getInventaire().ajouterItem(new Bloc(Integer.parseInt(img.getId())));
+
+
+
 					Image ciel = images.get("B0");
 					img.setImage(ciel);
 				}

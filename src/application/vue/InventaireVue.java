@@ -26,42 +26,7 @@ public class InventaireVue {
     	caseInventaireSelect = new Image("application/ressource/inventaire/caseInventaireSelect.png");
     }
     
-    public void initImagesPioche() {
-    	for (int i = 0; i < 2; i++) {
-    		images.put("P" + i, new Image("application/ressource/inventaire/pioche/P" + i + ".png"));
-    	}
-    }
-    
-    public void initImagesEpee() {
-    	for (int i = 0; i < 2; i++) {
-    		images.put("E" + i, new Image("application/ressource/inventaire/epee/E" + i + ".png"));
-    	}
-    }
-    
-    public void initImagesArc() {
-    	for (int i = 0; i < 2; i++) {
-    		images.put("A" + i, new Image("application/ressource/inventaire/arc/A" + i + ".png"));
-    	}
-    }
-    
-    public void initImagesHache() {
-    	for (int i = 0; i < 2; i++) {
-    		images.put("H" + i, new Image("application/ressource/inventaire/hache/H" + i + ".png"));
-    	}
-    }
-    
-    public void initImagesBloc() {
-    	for (int i = 1; i < 3; i++) {
-    		images.put("B" + i, new Image("application/ressource/" + i + ".png"));
-    	}
-    }
-    
     public void initInventaire() {
-    	this.initImagesPioche();
-    	this.initImagesEpee();
-    	this.initImagesArc();
-    	this.initImagesHache();
-    	this.initImagesBloc();
     	
     	inventaireAff.getChildren().add(new ImageView(images.get("E0")));
     	inventaireAff.getChildren().add(new ImageView(images.get("P0")));

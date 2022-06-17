@@ -240,7 +240,6 @@ public abstract class Personnage {
 			return (x<0 || e.getTerrain().getTable()[x]>0);
 		}
 		else {
-			System.out.println("erreur de collision (checkcollision)");
 			return true;
 		}
 	}

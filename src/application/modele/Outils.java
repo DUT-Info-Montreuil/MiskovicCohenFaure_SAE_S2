@@ -19,15 +19,15 @@ public class Outils {
 			else {
 				y=-1;
 			}
-			return (x+(y+1)*120);
+			return (x+(y+1)*240);
 		}
 	}
 	
 	public static boolean verifRange(double xJoueur, double yJoueur, int numeroCase) {
 		int caseJoueur = coordToTile(xJoueur+16, yJoueur);
 		return ( (caseJoueur - numeroCase < 5 && caseJoueur - numeroCase > -5) 
-				|| ( (caseJoueur-120) - numeroCase < 5 && (caseJoueur-120) - numeroCase > -5) 
-				|| ( (caseJoueur+120) - numeroCase < 5 && (caseJoueur+120) - numeroCase > -5) );
+				|| ( (caseJoueur-240) - numeroCase < 5 && (caseJoueur-240) - numeroCase > -5) 
+				|| ( (caseJoueur+240) - numeroCase < 5 && (caseJoueur+240) - numeroCase > -5) );
 	}
 	
 	public static boolean verifMemeTile(double xJoueur, double yJoueur, int numeroCase) {
