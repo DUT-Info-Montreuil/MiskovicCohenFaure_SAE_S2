@@ -27,7 +27,7 @@ public class TerrainVue {
 		images = ImageMap.images;
 	}
 
-	public void initTerrain() {
+	public void initTerrain(JoueurVue joueurVue) {
 		ImageView img = null;
 		int[] terrain = env.getTerrain().getTable();
 		this.initImagesBloc();
@@ -50,7 +50,7 @@ public class TerrainVue {
 			terrainMap.getChildren().add(img);
 			img.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, new ControleurSourisSurvolage(i, env));
 			img.addEventHandler(MouseEvent.MOUSE_EXITED, new ControleurSourisSortie());
-			img.addEventHandler(MouseEvent.MOUSE_CLICKED, new ControleurSourisClique(i,env));
+			img.addEventHandler(MouseEvent.MOUSE_CLICKED, new ControleurSourisClique(i,env,joueurVue));
 		}
 	}
 	

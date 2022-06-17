@@ -1,6 +1,7 @@
 package application.controleur;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import application.modele.Environnement;
@@ -18,6 +19,7 @@ import application.modele.mobs.Slime;
 import application.modele.mobs.Squelette;
 import application.modele.pnjs.Docteur;
 import application.modele.pnjs.Pnj;
+import application.vue.Animation;
 import application.vue.ImageMap;
 import application.vue.InventaireVue;
 import application.vue.JoueurVue;
@@ -73,6 +75,7 @@ public class Controleur implements Initializable{
 	private Timeline gameLoop;
 	private MobVue mobAffichage;
 	private PnjVue pnjAffichage;
+	private ArrayList <Animation> animations;
 
 
 	@Override
@@ -85,8 +88,10 @@ public class Controleur implements Initializable{
 		
 		env = new Environnement();
 		
+		this.animations=new ArrayList<Animation>();
+		
 		TerrainVue terrainVue = new TerrainVue(env, terrainMap);
-		terrainVue.initTerrain();
+		terrainVue.initTerrain(this.bindJoueur());
 
 		//Indices Terrain
 		int pxl = 32;
@@ -124,12 +129,11 @@ public class Controleur implements Initializable{
 //		env.creerSquelette(2000, 64);
 		env.creerBoss(1000, 64);
 		//Lancement Joueur
-		this.bindJoueur();
+		
+
 		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env));
 		root.addEventHandler(KeyEvent.KEY_RELEASED, new ControleurToucheRelache(env));
 		root.addEventHandler(ScrollEvent.SCROLL, new ControleurScroll(env));
-
-		
 		
 		//Lancement GameLoop
 		initAnimation();
@@ -205,11 +209,13 @@ public class Controleur implements Initializable{
 	}
 
 
-	public void bindJoueur() {
+	public JoueurVue bindJoueur() {
 		Joueur j = env.getJoueur();
+		JoueurVue a=new JoueurVue(j.getDirDroiteProperty(),j.getDirGaucheProperty(),j.xProperty(),spriteJoueur);
 		spriteJoueur.translateYProperty().bind(j.yProperty());
 		listenJoueurProperty();
-		new JoueurVue(j.getDirDroiteProperty(),j.getDirGaucheProperty(),j.xProperty(),spriteJoueur);
+		this.animations.add(a);
+		return a;
 
 	}
 

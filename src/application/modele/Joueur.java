@@ -10,6 +10,7 @@ public class Joueur extends Personnage{
 	private boolean clickQ, clickD;
 	private int iFrame;
 	private boolean versDroite ;
+	private int cooldownArc;
 	
 	public Joueur(int coordX, int coordY,Environnement e) {
 		super(coordX, coordY,5,e,20,25,0,-9);
@@ -18,6 +19,7 @@ public class Joueur extends Personnage{
 		this.clickQ=false;
 		this.iFrame=0;
 		this.versDroite=true;
+		this.cooldownArc=0;
 		inventaire = new Inventaire();
 		inventaire.ajouterItem(new Pioche(0));
 		inventaire.ajouterItem(new Epee(0));
@@ -94,6 +96,9 @@ public class Joueur extends Personnage{
 		if (this.iFrame!=0) {
 			this.iFrame--;
 		}
+		if (this.cooldownArc!=0) {
+			this.cooldownArc--;
+		}
 	}
 	
 	public void perdrePV(int valeur,boolean versDroite) {
@@ -127,5 +132,18 @@ public class Joueur extends Personnage{
 				}
 			}
 		}	
+	}
+	
+	public void fleche () {
+		//place la fleche devant ou derriere le joueur pour pas qu elle ne le touche
+		if (this.cooldownArc==0) {
+			if (this.isVersDroite()) {
+				this.getEnv().creerFleche(this.getX()+30, this.getY(), this.isVersDroite());
+			}
+			else {
+				this.getEnv().creerFleche(this.getX()-30, this.getY(), this.isVersDroite());
+			}
+			this.cooldownArc=75;
+		}
 	}
 }

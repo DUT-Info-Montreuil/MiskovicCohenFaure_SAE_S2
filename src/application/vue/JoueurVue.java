@@ -12,7 +12,6 @@ public class JoueurVue extends Animation {
 	
 	private DoubleProperty d;
 	private DoubleProperty g;
-	private DoubleProperty x;
 	private ImageView image;
 	private ArrayList <Image> images;
 	private int attTemps;
@@ -23,7 +22,6 @@ public class JoueurVue extends Animation {
 		super (x,i);
 		this.d=d;
 		this.g=g;
-		this.x=x;
 		this.image=i;
 		this.images=new ArrayList<Image>();
 		this.images.add(new Image("application/ressource/20.png"));

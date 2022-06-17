@@ -5,19 +5,14 @@ import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public abstract class Animation {
+public class Animation {
 	
-	private DoubleProperty x;
 	private ImageView image;
-	private ArrayList <Animation> animations;
 
 	public Animation (DoubleProperty x,ImageView i) {
-		this.x=x;
 		this.image=i;
-		this.animations=new ArrayList<Animation>();
 
 		
 		x.addListener(new ChangeListener<Number>() {
@@ -39,15 +34,14 @@ public abstract class Animation {
 		}
 	}
 	
-	public void ajouterAnim (Animation a) {
-		this.animations.add(a);
-	}
+//	
+//	public void animUnTour() {
+//		for (Animation a : this.animations) {
+//			a.action();
+//		}
+//	}
 	
-	public void animUnTour() {
-		for (Animation a : this.animations) {
-			a.action();
-		}
+	public  void action () {
+		
 	}
-	
-	public abstract void action ();
 }
