@@ -91,7 +91,7 @@ public class Controleur implements Initializable{
 
 		//Indices Terrain
 		int pxl = 32;
-		int longueur = 120;
+		int longueur = 240;
 		int hauteur = 33;
 		terrainMap.setMaxSize(longueur*pxl , hauteur*pxl);
 
@@ -208,14 +208,14 @@ public class Controleur implements Initializable{
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 
-				if ((double) newValue > 960 && (double) newValue < 2880)  {
+				if ((double) newValue > 960 && (double) newValue < 6720)  {
 					terrainPane.setTranslateX(-(double) newValue+960);
 				}
 				else if ((double) newValue <= 960 ) {
 					spriteJoueur.setTranslateX((double) newValue-960);
 				}
 				else
-					spriteJoueur.setTranslateX((double) newValue-2880);
+					spriteJoueur.setTranslateX((double) newValue-6720);
 			}
 		});
 	}

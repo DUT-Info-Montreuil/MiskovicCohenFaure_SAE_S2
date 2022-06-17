@@ -16,7 +16,7 @@
          <children>
             <Pane fx:id="terrainPane">
                <children>
-                  <TilePane fx:id="terrainMap" prefColumns="120" prefRows="33" tileAlignment="TOP_LEFT" />
+                  <TilePane fx:id="terrainMap" prefColumns="240" prefRows="33" tileAlignment="TOP_LEFT" />
                </children>
             </Pane>
             <ImageView fx:id="spriteJoueur" x="960.0">

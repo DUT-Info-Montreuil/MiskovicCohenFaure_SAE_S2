@@ -15,7 +15,7 @@ public class ListeCaseInventaire {
 		items = new ArrayList<Item>();
 		items.add(null);
 		index = 0;
-		indexMax=0;
+		indexMax=1;
 	}
 
 	public int getIndexMax() {
@@ -27,8 +27,10 @@ public class ListeCaseInventaire {
 			if (this.contient(item.getId())) {
 				this.ajouterQuantiteBloc(item.getId());
 			}
-			else
+			else {
 				items.add(item);
+				this.augmenterIndexMax();
+			}
 		}
 		else
 			items.add(item);
@@ -73,7 +75,7 @@ public class ListeCaseInventaire {
 	}
 
 	public boolean augmenterIndex() {
-		if (index < indexMax) {
+		if (index < indexMax && index < items.size()-1) {
 			index ++;
 			return true;
 		}

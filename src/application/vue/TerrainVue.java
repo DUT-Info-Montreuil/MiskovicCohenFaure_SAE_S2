@@ -45,6 +45,26 @@ public class TerrainVue {
 				img = new ImageView(images.get("B2"));
 				img.setId("2");
 				break;
+			case 3: 
+				img = new ImageView(images.get("B3"));
+				img.setId("3");
+				break;
+			case 4: 
+				img = new ImageView(images.get("B4"));
+				img.setId("4");
+				break;
+			case 5: 
+				img = new ImageView(images.get("B5"));
+				img.setId("5");
+				break;
+			case 6: 
+				img = new ImageView(images.get("B6"));
+				img.setId("6");
+				break;
+			case 7: 
+				img = new ImageView(images.get("B7"));
+				img.setId("7");
+				break;
 			}
 			terrainMap.getChildren().add(img);
 			img.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, new ControleurSourisSurvolage(i, env));
@@ -54,8 +74,8 @@ public class TerrainVue {
 	}
 	
 	public void initImagesBloc() {
-    	for (int i = 0; i < 3; i++) {
-    		images.put("B" + i, new Image("application/ressource/" + i + ".png"));
+    	for (int i = 0; i < 8; i++) {
+    		images.put("B" + i, new Image("application/ressource/tiles/" + i + ".png"));
     	}
     }
 

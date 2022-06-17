@@ -10,11 +10,11 @@ public class Terrain {
 	private int table[];
 
 	public Terrain() {
-		table = new int[120*33];
+		table = new int[240*33];
 		try {
 
 			Reader reader;
-			reader = new FileReader("/home/etudiants/info/hcohen/git/SaEDev_S2/src/application/ressource/testTerrain");
+			reader = new FileReader("/home/etudiants/info/hcohen/git/SaEDev_S2/src/application/ressource/map");
 			BufferedReader br = new BufferedReader(reader, 16384);
 
 			String line = null;
@@ -23,13 +23,17 @@ public class Terrain {
 				for (int i=0; i< line.length();i++) {
 					if (line.charAt(i) == ',')
 						indTableau++;
-					else /*if (table[indTableau] == 0)*/
-						table[indTableau]=line.charAt(i) - '0';
-					/*else
-						table[indTableau]= (table[indTableau]*10) + line.charAt(i) - '0';*/
+					else 
+						table[indTableau]= line.charAt(i) - '0';
 				}
 			}
 			br.close();
+			
+//			for (int i=0;i<table.length;i++) {
+//				if (i%240==0)
+//					System.out.println();
+//				System.out.print(table[i]);
+//			}
 		} 
 		catch (FileNotFoundException e) {
 			System.out.println("Fichier Non Trouvé");
