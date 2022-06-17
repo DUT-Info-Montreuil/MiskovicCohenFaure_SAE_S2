@@ -138,10 +138,12 @@ public class Controleur implements Initializable{
 		//Mobs
 		this.mobAffichage = new MobVue();
 		this.env.getMobs().addListener(new MobsObsList(this));
-		env.creerSlime(200, 64);
-//		env.creerArcher(1000, 64);
-		env.creerSquelette(2000, 64);
-		env.creerBoss(1000, 64);
+		env.creerSlime(1300, 1000);
+		env.creerSlime(200, 500);
+		env.creerArcher(2500, 100);
+		env.creerSquelette(5000, 100);
+		env.creerSquelette(4500, 100);
+		env.creerBoss(6500, 1000);
 
 		//Init Craft
 		CraftVue craft = new CraftVue(terrainPane, craftPane);
@@ -280,10 +282,10 @@ public class Controleur implements Initializable{
 					for (Animation a:this.animations) {
 						a.action();
 					}
-					String texte = "bonjour aventurier, bienvenue dans la fameuse ville de nowhere."
-							+ "\nNous sommes oppressé par un mage qui invoque des créatures malefiques.\n"
-							+ "Pourriez vous vaincre ce tyran pour nous.\n"
-							+ "je vous aiderai dans votre quête en vous soignant, pour cela il vous suffit de click droit sur moi.";
+					String texte = "Bonjour aventurier! Bienvenue dans la fameuse ville de nowhere.\n"
+							+ "Nous sommes oppressés par un mage qui invoque des créatures maléfiques.\n"
+							+ "Pourriez vous vaincre ce tyran pour nous?\n"
+							+ "Je vous aiderai dans votre quête en vous soignant,\npour cela il vous suffit d'appuyer sur moi avec le clique droit.";
 					if (temps<=texte.length()*5) {
 						label.setText(texte.substring(0, temps/5));
 						temps++;

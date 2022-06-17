@@ -77,6 +77,15 @@ public class JoueurVue extends Animation {
 			attTemps--;
 		}
 	}
+	
+	public void retournement (double ancien, double nouveau) {
+		if (nouveau>ancien) {
+			this.image.setScaleX(1);
+		}
+		else {
+			this.image.setScaleX(-1);
+		}
+	}
 
 	@Override
 	public void action() {

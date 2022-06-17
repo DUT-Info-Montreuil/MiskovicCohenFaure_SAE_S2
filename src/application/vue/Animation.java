@@ -1,6 +1,5 @@
 package application.vue;
 
-import java.util.ArrayList;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -31,11 +30,11 @@ public class Animation {
 	
 	
 	public void retournement (double ancien, double nouveau) {
-		if (nouveau>ancien) {
-			this.image.setScaleX(1);
-		}
-		else {
+		if (nouveau-ancien<-0.7) {
 			this.image.setScaleX(-1);
+		}
+		else if (nouveau-ancien>0.7){
+			this.image.setScaleX(1);
 		}
 	}
 	

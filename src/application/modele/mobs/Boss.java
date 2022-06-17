@@ -58,14 +58,14 @@ public class Boss extends Mob{
 	public void phase1V1 (boolean versDroite) {
 		if (versDroite) {
 			this.setDirGauche(2);
-			if (this.temps%75==0) {
+			if (this.temps%50==0) {
 				this.getEnv().creerBouleDeFeu(this.getX()+30, this.getY(), versDroite);
 			}
 			
 		}
 		else {
 			this.setDirDroite(2);
-			if (this.temps%75==0) {
+			if (this.temps%50==0) {
 				this.getEnv().creerBouleDeFeu(this.getX()-35, this.getY(), versDroite);
 			}
 		}

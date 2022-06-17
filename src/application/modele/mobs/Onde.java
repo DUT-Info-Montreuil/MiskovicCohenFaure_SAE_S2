@@ -27,8 +27,8 @@ public class Onde extends Mob {
 
 			}
 
-			if (this.checkCollision(Outils.coordToTile(this.getX(), this.getY()+5), getEnv())
-				&&!this.checkCollision(Outils.coordToTile(this.getX()+d, this.getY()), getEnv())) {
+			if (this.checkCollision(Outils.coordToTile(this.getX(), this.getY()), getEnv())
+				&&!this.checkCollision(Outils.coordToTile(this.getX()+d, this.getY()-10), getEnv())) {
 				this.getEnv().creerOnde(this.getX()+d, this.getY(), versDroite);
 			}
 			this.perdrePV(1, versDroite);
