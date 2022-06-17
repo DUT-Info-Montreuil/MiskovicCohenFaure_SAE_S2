@@ -1,7 +1,5 @@
 package application.modele;
 
-import java.util.ArrayList;
-
 import application.modele.mobs.Archer;
 import application.modele.mobs.Boss;
 import application.modele.mobs.BouleBas;
@@ -42,7 +40,7 @@ public class Environnement {
 	}
 	
 	public void creerDocteur() {
-		Docteur doc = new Docteur(1300, 64, this);
+		Docteur doc = new Docteur(600, 500, this);
 		pnjs.add(doc);
 	}
 	public void creerSquelette(double x,double y) {

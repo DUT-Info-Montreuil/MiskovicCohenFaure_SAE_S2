@@ -37,6 +37,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.animation.KeyFrame;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -84,6 +85,8 @@ public class Controleur implements Initializable{
 	private MobVue mobAffichage;
 	private PnjVue pnjAffichage;
 	private ArrayList <Animation> animations;
+	private Label label;
+	private int temps;
 
 
 	@Override
@@ -152,6 +155,13 @@ public class Controleur implements Initializable{
 		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env, craft));
 		root.addEventHandler(KeyEvent.KEY_RELEASED, new ControleurToucheRelache(env));
 		root.addEventHandler(ScrollEvent.SCROLL, new ControleurScroll(env));
+		
+		//texte du tuto
+		label=new Label();
+		terrainPane.getChildren().add(label);
+		label.setTranslateX(500);
+		label.setTranslateY(500);
+		
 		
 		//Lancement GameLoop
 		initAnimation();
@@ -257,6 +267,7 @@ public class Controleur implements Initializable{
 	private void initAnimation() {
 		gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
+		temps=0;
 
 		KeyFrame kf = new KeyFrame(
 				//FPS
@@ -269,7 +280,14 @@ public class Controleur implements Initializable{
 					for (Animation a:this.animations) {
 						a.action();
 					}
-
+					String texte = "bonjour aventurier, bienvenue dans la fameuse ville de nowhere."
+							+ "\nNous sommes oppressé par un mage qui invoque des créatures malefiques.\n"
+							+ "Pourriez vous vaincre ce tyran pour nous.\n"
+							+ "je vous aiderai dans votre quête en vous soignant, pour cela il vous suffit de click droit sur moi.";
+					if (temps<=texte.length()*5) {
+						label.setText(texte.substring(0, temps/5));
+						temps++;
+					}
 				})
 				);
 		gameLoop.getKeyFrames().add(kf);
@@ -353,6 +371,7 @@ public class Controleur implements Initializable{
 			terrainPane.getChildren().add(pnjSprite);
 			pnjSprite.translateXProperty().bind(p.xProperty());
 			pnjSprite.translateYProperty().bind(p.yProperty());
+			
 		}
 	}
 
