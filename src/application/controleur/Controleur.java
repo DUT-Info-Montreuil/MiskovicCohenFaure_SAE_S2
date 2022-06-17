@@ -92,7 +92,7 @@ public class Controleur implements Initializable{
 		//Indices Terrain
 		int pxl = 32;
 		int longueur = 240;
-		int hauteur = 33;
+		int hauteur = 32;
 		terrainMap.setMaxSize(longueur*pxl , hauteur*pxl);
 
 		//PV
@@ -122,9 +122,9 @@ public class Controleur implements Initializable{
 
 		//Init Craft
 		CraftVue craft = new CraftVue(terrainPane, craftPane);
-		this.env.getJoueur().getCompteurMateriaux().get(0).ajouterMat(2);
-		this.env.getJoueur().getCompteurMateriaux().get(1).ajouterMat(2);
-		this.env.getJoueur().getCompteurMateriaux().get(2).ajouterMat(2);
+		
+		
+		
 
 		//Lancement Joueur
 		this.bindJoueur();
@@ -197,12 +197,12 @@ public class Controleur implements Initializable{
 	public void bindJoueur() {
 		Joueur j = env.getJoueur();
 		spriteJoueur.translateYProperty().bind(j.yProperty());
-		listenJoueurProperty();
+		listenJoueurXProperty();
 		new JoueurVue(j.xProperty(),j.yProperty(),spriteJoueur);
 
 	}
 
-	public void listenJoueurProperty() {
+	public void listenJoueurXProperty() {
 		env.getJoueur().xProperty().addListener(new ChangeListener<Number>() {
 
 			@Override

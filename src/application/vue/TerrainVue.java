@@ -67,16 +67,18 @@ public class TerrainVue {
 				break;
 			}
 			terrainMap.getChildren().add(img);
-			img.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, new ControleurSourisSurvolage(i, env));
-			img.addEventHandler(MouseEvent.MOUSE_EXITED, new ControleurSourisSortie());
-			img.addEventHandler(MouseEvent.MOUSE_CLICKED, new ControleurSourisClique(i,env));
+			if (i < terrain.length-240 && img.getId()!="7") {
+				img.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, new ControleurSourisSurvolage(i, env));
+				img.addEventHandler(MouseEvent.MOUSE_EXITED, new ControleurSourisSortie());
+				img.addEventHandler(MouseEvent.MOUSE_CLICKED, new ControleurSourisClique(i,env));
+			}
 		}
 	}
-	
+
 	public void initImagesBloc() {
-    	for (int i = 0; i < 8; i++) {
-    		images.put("B" + i, new Image("application/ressource/tiles/" + i + ".png"));
-    	}
-    }
+		for (int i = 0; i < 8; i++) {
+			images.put("B" + i, new Image("application/ressource/tiles/" + i + ".png"));
+		}
+	}
 
 }

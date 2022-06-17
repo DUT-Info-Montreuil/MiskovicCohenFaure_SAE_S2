@@ -10,7 +10,7 @@ public class Terrain {
 	private int table[];
 
 	public Terrain() {
-		table = new int[240*33];
+		table = new int[240*32];
 		try {
 
 			Reader reader;
