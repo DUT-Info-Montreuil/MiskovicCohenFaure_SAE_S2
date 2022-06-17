@@ -2,13 +2,13 @@ package application.vue;
 
 import java.util.Map;
 
-import application.controleur.Controleur;
 import application.controleur.ControleurSourisClique;
 import application.controleur.ControleurSourisSurvolage;
 import application.controleur.ControleurSourisSortie;
 import application.modele.Environnement;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
 
@@ -33,7 +33,7 @@ public class TerrainVue {
 
 		for (int i = 0; i < terrain.length; i++) {
 			switch (terrain[i]) {
-			case 0: 
+			case 0:
 				img = new ImageView(images.get("B0"));
 				img.setId("0");
 				break;
@@ -71,7 +71,7 @@ public class TerrainVue {
 				img.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, new ControleurSourisSurvolage(i, env));
 				img.addEventHandler(MouseEvent.MOUSE_EXITED, new ControleurSourisSortie());
 				img.addEventHandler(MouseEvent.MOUSE_CLICKED, new ControleurSourisClique(i,env));
-			}
+			} 
 		}
 	}
 

@@ -5,21 +5,31 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import application.modele.Environnement;
-import application.modele.Fleche;
 import application.modele.Joueur;
 import application.modele.craft.EpeeCraft;
 import application.modele.craft.OutilCraft;
 import application.modele.craft.HacheCraft;
 import application.modele.craft.PiocheCraft;
 import application.modele.craft.materiaux.Materiaux;
+import application.modele.Outils;
+import application.modele.mobs.Archer;
+import application.modele.mobs.Boss;
+import application.modele.mobs.BouleBas;
+import application.modele.mobs.BouleDeFeu;
+import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
+import application.modele.mobs.Onde;
 import application.modele.mobs.Slime;
 import application.vue.CraftVue;
+import application.modele.mobs.Squelette;
+import application.modele.pnjs.Docteur;
+import application.modele.pnjs.Pnj;
 import application.vue.ImageMap;
 import application.vue.InventaireVue;
 import application.vue.JoueurVue;
 import application.vue.MobVue;
 import application.vue.PVVue;
+import application.vue.PnjVue;
 import application.vue.TerrainVue;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
@@ -32,6 +42,7 @@ import javafx.fxml.Initializable;
 import javafx.animation.KeyFrame;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -74,6 +85,7 @@ public class Controleur implements Initializable{
 	private Environnement env;
 	private Timeline gameLoop;
 	private MobVue mobAffichage;
+	private PnjVue pnjAffichage;
 
 
 	@Override
@@ -115,10 +127,18 @@ public class Controleur implements Initializable{
 
 
 
+		//Pnj
+		this.pnjAffichage = new PnjVue();
+		this.env.getPnjs().addListener(new PnjsObsList(this));
+		this.env.creerDocteur();
+		
 		//Mobs
 		this.mobAffichage = new MobVue();
 		this.env.getMobs().addListener(new MobsObsList(this));
-		this.env.creerSlime();
+//		env.creerSlime(0, 64);
+//		env.creerArcher(1000, 64);
+//		env.creerSquelette(2000, 64);
+		env.creerBoss(1000, 64);
 
 		//Init Craft
 		CraftVue craft = new CraftVue(terrainPane, craftPane);
@@ -178,9 +198,7 @@ public class Controleur implements Initializable{
 		});
 
 	}
-
-
-
+	
 	public void listenInventaireCase(InventaireVue inv) {
 		IntegerProperty curseurCase = env.getJoueur().getInventaire().indexCaseProperty();
 		curseurCase.addListener(new ChangeListener<Number>() {
@@ -259,17 +277,78 @@ public class Controleur implements Initializable{
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());
 		}
+		else if (m instanceof BouleDeFeu) {
+			mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());		
+			if (!((BouleDeFeu)m).isVersDroite()) {
+				mobSprite.setScaleX(-1);
+			}
+		}
+		else if (m instanceof BouleBas) {
+			mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());		
+			mobSprite.setRotate(90);
+		}
+		else if(m instanceof Archer) {
+			mobSprite = mobAffichage.creerArcher(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());
+		}
+		
+		else if(m instanceof Squelette) {
+			mobSprite = mobAffichage.creerSquelette(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());
+		}
+		else if(m instanceof Boss) {
+			mobSprite = mobAffichage.creerBoss(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());
+		}
+		else if (m instanceof Onde) {
+			mobSprite = mobAffichage.creerOnde(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());		
+		}
 		else if (m instanceof Fleche) {
 			mobSprite = mobAffichage.creerFleche(m.getId());
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
-			mobSprite.translateYProperty().bind(m.yProperty());
-			if (!m.getJoueur().isVersDroite()) {
+			mobSprite.translateYProperty().bind(m.yProperty());		
+			if (!((Fleche)m).isVersDroite()) {
 				mobSprite.setScaleX(-1);
 			}
 
 		}
 
+	}
+	
+	public void creerSpritePnj(Pnj p) {
+		ImageView pnjSprite = null;
+		if (p instanceof Docteur) {
+			pnjSprite = this.pnjAffichage.creerDocteur(p.getId());
+			pnjSprite.setOnMouseClicked(event ->
+	        {
+	        	if (event.getButton() == MouseButton.SECONDARY)
+	            {
+	        		if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), Outils.coordToTile(p.getX(),p.getY()))) {
+	        			((Docteur) p).soigne();
+	        		}
+	            }
+	        });
+				
+			terrainPane.getChildren().add(pnjSprite);
+			pnjSprite.translateXProperty().bind(p.xProperty());
+			pnjSprite.translateYProperty().bind(p.yProperty());
+		}
 	}
 
 	public void supprimerSprite(Mob m) {

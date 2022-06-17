@@ -5,8 +5,7 @@ import application.modele.Environnement;
 public class Artisan extends Pnj {
 
 	public Artisan(int coordX, int coordY, Environnement e, int l, int h) {
-		super(coordX, coordY, e, l, h);
-		// TODO Auto-generated constructor stub
+		super(coordX, coordY, e, 10,10,10,10);
 	}
 
 	@Override

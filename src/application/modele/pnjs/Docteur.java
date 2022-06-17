@@ -5,24 +5,12 @@ import application.modele.Joueur;
 
 public class Docteur extends Pnj {
 
-
-	public Docteur(int coordX, int coordY, Environnement e, int l, int h) {
-		super(coordX, coordY, e, l, h);
-		// TODO Auto-generated constructor stub
+	public Docteur(int coordX, int coordY, Environnement e) {
+		super(coordX, coordY, e, 10,10,10,10);
 	}
-
-	@Override
-	public void action() {
-//		Joueur j = this.getEnv().getJoueur();
-//		
-//		//parler
-//		if (j.getPv() < j.getPvMax()) {
-//			//parler
-//			j.setPv(j.getPvMax());
-//		}
-//		else {
-//			//parler
-//		}
+	
+	public void soigne() {
+		Joueur j = this.getEnv().getJoueur();
+		j.ajouterPV(j.getPvMax());
 	}
-
 }
