@@ -31,6 +31,23 @@ public class ControleurTouchePresse implements EventHandler<KeyEvent>{
 		case AMPERSAND:
 			env.getJoueur().getInventaire().changerCase(0);
 			break;
+			//touches pour autres claviers
+		case DIGIT1:
+			env.getJoueur().getInventaire().changerCase(0);
+			break;
+		case DIGIT2:
+			env.getJoueur().getInventaire().changerCase(1);
+			break;
+		case DIGIT3:
+			env.getJoueur().getInventaire().changerCase(2);
+			break;
+		case DIGIT4:
+			env.getJoueur().getInventaire().changerCase(3);
+			break;
+		case DIGIT5:
+			env.getJoueur().getInventaire().changerCase(4);
+			break;
+			//
 		case QUOTEDBL:
 			env.getJoueur().getInventaire().changerCase(2);
 			break;
@@ -51,6 +68,7 @@ public class ControleurTouchePresse implements EventHandler<KeyEvent>{
 			}
 			break;
 		default:
+			System.out.println(event.getCode());
 			break; 
 		}
 	}

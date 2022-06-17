@@ -2,7 +2,9 @@ package application.vue;
 
 import java.util.ArrayList;
 
+import application.controleur.Controleur;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
@@ -19,8 +21,8 @@ public class JoueurVue extends Animation {
 	private int temps;
 	
 
-	public JoueurVue (DoubleProperty d, DoubleProperty g, DoubleProperty x,ImageView i) {
-		super (x,i);
+	public JoueurVue (DoubleProperty d, DoubleProperty g, DoubleProperty x, DoubleProperty y, IntegerProperty pv,ImageView i,Controleur c) {
+		super (x,y,pv,i,c);
 		this.d=d;
 		this.g=g;
 		this.image=i;
@@ -89,6 +91,7 @@ public class JoueurVue extends Animation {
 
 	@Override
 	public void action() {
+		super.action();
 		this.attaqueAnimation();		
 	}
 

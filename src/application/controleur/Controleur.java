@@ -160,11 +160,8 @@ public class Controleur implements Initializable{
 		
 		//texte du tuto
 		label=new Label();
-		terrainPane.getChildren().add(label);
-		label.setTranslateX(500);
-		label.setTranslateY(500);
-		
-		
+		ajouterLabel(label, 500, 500, null);
+
 		//Lancement GameLoop
 		initAnimation();
 		gameLoop.play();
@@ -227,7 +224,7 @@ public class Controleur implements Initializable{
 
 	public JoueurVue bindJoueur() {
 		Joueur j = env.getJoueur();
-		JoueurVue a=new JoueurVue(j.getDirDroiteProperty(),j.getDirGaucheProperty(),j.xProperty(),spriteJoueur);
+		JoueurVue a=new JoueurVue(j.getDirDroiteProperty(),j.getDirGaucheProperty(),j.xProperty(),j.yProperty(),j.pvProperty(),spriteJoueur,this);
 		spriteJoueur.translateYProperty().bind(j.yProperty());
 		listenJoueurXProperty();
 		this.animations.add(a);
@@ -302,6 +299,7 @@ public class Controleur implements Initializable{
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());
+			this.animations.add(new Animation(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this));
 
 		}
 		else if (m instanceof BouleDeFeu) {
@@ -309,7 +307,7 @@ public class Controleur implements Initializable{
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());		
-			this.animations.add(new Animation(m.xProperty(), mobSprite));
+			this.animations.add(new Animation(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this));
 		}
 		else if (m instanceof BouleBas) {
 			mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
@@ -323,21 +321,22 @@ public class Controleur implements Initializable{
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());
-			this.animations.add(new Animation(m.xProperty(), mobSprite));
-		}
+			this.animations.add(new Animation(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this));
+			}
 		
 		else if(m instanceof Squelette) {
 			mobSprite = mobAffichage.creerSquelette(m.getId());
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());
-			this.animations.add(new Animation(m.xProperty(), mobSprite));
+			this.animations.add(new Animation(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this));
 		}
 		else if(m instanceof Boss) {
 			mobSprite = mobAffichage.creerBoss(m.getId());
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());
+			this.animations.add(new Animation(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this));
 		}
 		else if (m instanceof Onde) {
 			mobSprite = mobAffichage.creerOnde(m.getId());
@@ -350,8 +349,7 @@ public class Controleur implements Initializable{
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());		
-			this.animations.add(new Animation(m.xProperty(), mobSprite));
-
+			this.animations.add(new Animation(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this));
 		}
 
 	}
@@ -381,7 +379,18 @@ public class Controleur implements Initializable{
 		if (m instanceof Slime) {
 
 		}
-
+	}
+	
+	public void ajouterLabel (Label l, double x, double y , String texte) {
+		terrainPane.getChildren().add(l);
+		System.out.println("lol");
+		l.setTranslateX(x);
+		l.setTranslateY(y);
+		l.setText(texte);
+	}
+	
+	public void retirerLabel (Label l) {
+		terrainPane.getChildren().remove(l);
 	}
 }
 

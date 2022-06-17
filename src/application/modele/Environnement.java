@@ -25,7 +25,7 @@ public class Environnement {
 
 		terrain = new Terrain();
 		pnjs = FXCollections.observableArrayList();
-		joueur = new Joueur(1500,-64, this);
+		joueur = new Joueur(600,-64, this);
 		
 		mobs = FXCollections.observableArrayList();
 
@@ -63,9 +63,10 @@ public class Environnement {
 		this.ajouterMob(new BouleBas(x,y, this,versDroite));
 	}
 	
-	public void creerOnde (double x,double y,boolean versDroite) {
-		this.ajouterMob(new Onde(x,y, this,versDroite));
+	public void creerOnde (double x,double y,boolean versDroite,int v) {
+		this.ajouterMob(new Onde(x,y, this,versDroite, v));
 	}
+	
 	//Gestion Liste
 	public void ajouterMob(Mob m) { 
 		mobs.add(m);
