@@ -40,6 +40,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.animation.KeyFrame;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -81,11 +82,19 @@ public class Controleur implements Initializable{
 	private Text orText;
 	@FXML
 	private Text diamantText;
+	@FXML
+	private Button bouttonEpee;
+	@FXML
+	private Button bouttonPioche;
+	@FXML
+	private Button bouttonHache;
+
 
 	private Environnement env;
 	private Timeline gameLoop;
 	private MobVue mobAffichage;
 	private PnjVue pnjAffichage;
+	private CraftVue craft;
 
 
 	@Override
@@ -131,26 +140,32 @@ public class Controleur implements Initializable{
 		this.pnjAffichage = new PnjVue();
 		this.env.getPnjs().addListener(new PnjsObsList(this));
 		this.env.creerDocteur();
-		
+
 		//Mobs
 		this.mobAffichage = new MobVue();
 		this.env.getMobs().addListener(new MobsObsList(this));
-//		env.creerSlime(0, 64);
-//		env.creerArcher(1000, 64);
-//		env.creerSquelette(2000, 64);
+		//		env.creerSlime(0, 64);
+		//		env.creerArcher(1000, 64);
+		//		env.creerSquelette(2000, 64);
 		env.creerBoss(1000, 64);
 
 		//Init Craft
-		CraftVue craft = new CraftVue(terrainPane, craftPane);
-		
-		
-		
+		this.craft = new CraftVue(terrainPane, craftPane);
+		this.env.getJoueur().getCompteurMateriaux().get(0).ajouterMat(15);
+		this.env.getJoueur().getCompteurMateriaux().get(1).ajouterMat(15);
+		this.env.getJoueur().getCompteurMateriaux().get(2).ajouterMat(15);
+		this.env.getJoueur().getCompteurMateriaux().get(3).ajouterMat(15);
+
+
+
 
 		//Lancement Joueur
 		this.bindJoueur();
+		joueurMeurt(this.env.getJoueur());
 		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env, craft));
 		root.addEventHandler(KeyEvent.KEY_RELEASED, new ControleurToucheRelache(env));
 		root.addEventHandler(ScrollEvent.SCROLL, new ControleurScroll(env));
+		
 
 		//Lancement GameLoop
 		initAnimation();
@@ -158,20 +173,42 @@ public class Controleur implements Initializable{
 
 	}
 
+	public void joueurMeurt(Joueur j) {
+		j.pvProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				if ((int) newValue <= 0) {
+					respawnJoueur(j);
+				}
+			}	
+		});
+	}
+
+	public void respawnJoueur(Joueur j) {
+		j.setPv(5);
+		j.setX(960);
+		j.setY(450);
+		this.terrainPane.setTranslateX(0);
+	}
+
 	@FXML
 	void ameliorationEpee(ActionEvent event) {
-		this.env.getJoueur().getEpee().craft();
+		if (!this.env.getJoueur().getEpee().craft())
+			this.craft.cacherBoutton(bouttonEpee);
 	}
-	
-	@FXML
-    void ameliorationHache(ActionEvent event) {
-		this.env.getJoueur().getHache().craft();
-    }
 
-    @FXML
-    void ameliorationPioche(ActionEvent event) {
-    	this.env.getJoueur().getPioche().craft();
-    }
+	@FXML
+	void ameliorationHache(ActionEvent event) {
+		if(!this.env.getJoueur().getHache().craft())
+			this.craft.cacherBoutton(bouttonHache);
+	}
+
+	@FXML
+	void ameliorationPioche(ActionEvent event) {
+		if (!this.env.getJoueur().getPioche().craft())
+			this.craft.cacherBoutton(bouttonPioche);
+	}
 
 	public void listenPV(PVVue pvVue) {
 		IntegerProperty pv = env.getJoueur().pvProperty();
@@ -198,7 +235,7 @@ public class Controleur implements Initializable{
 		});
 
 	}
-	
+
 	public void listenInventaireCase(InventaireVue inv) {
 		IntegerProperty curseurCase = env.getJoueur().getInventaire().indexCaseProperty();
 		curseurCase.addListener(new ChangeListener<Number>() {
@@ -299,7 +336,7 @@ public class Controleur implements Initializable{
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());
 		}
-		
+
 		else if(m instanceof Squelette) {
 			mobSprite = mobAffichage.creerSquelette(m.getId());
 			terrainPane.getChildren().add(mobSprite);
@@ -330,21 +367,21 @@ public class Controleur implements Initializable{
 		}
 
 	}
-	
+
 	public void creerSpritePnj(Pnj p) {
 		ImageView pnjSprite = null;
 		if (p instanceof Docteur) {
 			pnjSprite = this.pnjAffichage.creerDocteur(p.getId());
 			pnjSprite.setOnMouseClicked(event ->
-	        {
-	        	if (event.getButton() == MouseButton.SECONDARY)
-	            {
-	        		if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), Outils.coordToTile(p.getX(),p.getY()))) {
-	        			((Docteur) p).soigne();
-	        		}
-	            }
-	        });
-				
+			{
+				if (event.getButton() == MouseButton.SECONDARY)
+				{
+					if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), Outils.coordToTile(p.getX(),p.getY()))) {
+						((Docteur) p).soigne();
+					}
+				}
+			});
+
 			terrainPane.getChildren().add(pnjSprite);
 			pnjSprite.translateXProperty().bind(p.xProperty());
 			pnjSprite.translateYProperty().bind(p.yProperty());

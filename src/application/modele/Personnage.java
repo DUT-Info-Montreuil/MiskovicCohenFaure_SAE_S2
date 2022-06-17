@@ -130,6 +130,12 @@ public abstract class Personnage {
 	public double getY () {
 		return this.coordYProperty.getValue();
 	}
+	public void setX (double x) {
+		this.coordXProperty.set(x);
+	}
+	public void setY (double y) {
+		this.coordYProperty.set(y);
+	}
 	public double getDirY() {
 		return dirY;
 	}
@@ -137,15 +143,16 @@ public abstract class Personnage {
 		this.dirY = dirY;
 	}
 	
-	public int getThaut() {
+	
+	public int getTHaut() {
 		return tHaut;
 	}
 
-	public int gettBas() {
+	public int getTBas() {
 		return tBas;
 	}
 
-	public int gettDroite() {
+	public int getTDroite() {
 		return tDroite;
 	}
 
@@ -155,6 +162,10 @@ public abstract class Personnage {
 	
 	public void setPvProperty(int pvProperty) {
 		this.pvProperty.set(pvProperty);
+	}
+	
+	public void setPv(int pv) {
+		this.pvProperty.set(pv);
 	}
 
 	

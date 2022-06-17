@@ -48,10 +48,10 @@ public class Fleche extends Mob{
 	}
 	
 	public void touchePerso (Personnage e,boolean versDroite) {
-		if (this.getX()-this.gettGauche()<e.getX()+e.gettDroite()
-				&& this.getX()+this.gettDroite()>e.getX()-e.gettGauche()
-				&& this.getY()+this.gettBas()>e.getY()-e.getThaut()
-				&& this.getY()-this.getThaut()<e.getY()+e.gettBas()   ) {
+		if (this.getX()-this.gettGauche()<e.getX()+e.getTDroite()
+				&& this.getX()+this.getTDroite()>e.getX()-e.gettGauche()
+				&& this.getY()+this.getTBas()>e.getY()-e.getTHaut()
+				&& this.getY()-this.getTHaut()<e.getY()+e.getTBas()   ) {
 			e.perdrePV(1, versDroite);
 			this.perdrePV(1, versDroite);
 		}

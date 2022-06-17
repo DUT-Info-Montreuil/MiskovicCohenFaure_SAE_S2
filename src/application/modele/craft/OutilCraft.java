@@ -15,7 +15,7 @@ public abstract class OutilCraft {
 		this.materiauxCompteur = j.getCompteurMateriaux();
 	}
 	
-	public abstract void craft();
+	public abstract boolean craft();
 
 	public void setOutilCase(ListeCaseInventaire indexMaxMateriaux) {
 		this.outilCase = indexMaxMateriaux;

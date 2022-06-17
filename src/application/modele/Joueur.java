@@ -152,10 +152,10 @@ public class Joueur extends Personnage{
 		if (this.versDroite) {
 			for (int i=this.getEnv().getMobs().size()-1;i>=0;i--) {
 				e=this.getEnv().getMobs().get(i);
-				if (this.getX()+this.gettDroite()<e.getX()+e.gettDroite()
-				&& this.getX()+this.gettDroite()+20>e.getX()-e.gettGauche()
-				&& this.getY()+this.gettBas()>e.getY()-e.getThaut()
-				&& this.getY()-this.getThaut()<e.getY()+e.gettBas()  ) {
+				if (this.getX()+this.getTDroite()<e.getX()+e.getTDroite()
+				&& this.getX()+this.getTDroite()+20>e.getX()-e.gettGauche()
+				&& this.getY()+this.getTBas()>e.getY()-e.getTHaut()
+				&& this.getY()-this.getTHaut()<e.getY()+e.getTBas()  ) {
 					e.perdrePV(1, versDroite);
 				}
 			}
@@ -164,9 +164,9 @@ public class Joueur extends Personnage{
 			for (int i=this.getEnv().getMobs().size()-1;i>=0;i--) {
 				e=this.getEnv().getMobs().get(i);
 				if (this.getX()-this.gettGauche()>e.getX()-e.gettGauche()
-						&& this.getX()-this.gettGauche()-20<e.getX()+e.gettDroite()
-						&& this.getY()+this.gettBas()>e.getY()-e.getThaut()
-						&& this.getY()-this.getThaut()<e.getY()+e.gettBas() ) {
+						&& this.getX()-this.gettGauche()-20<e.getX()+e.getTDroite()
+						&& this.getY()+this.getTBas()>e.getY()-e.getTHaut()
+						&& this.getY()-this.getTHaut()<e.getY()+e.getTBas() ) {
 					e.perdrePV(1, versDroite);
 				}
 			}

@@ -11,14 +11,16 @@ public class EpeeCraft extends OutilCraft {
 	}
 	
 	@Override
-	public void craft() {
+	public boolean craft() {
 		int indMax = getOutilCase().getIndexMax();
 		if (indMax !=4) 
-			if (getMateriauxCompteur().get(0).getMat() >= 1 && getMateriauxCompteur().get(indMax+1).getMat() >= 2) {
+			if (getMateriauxCompteur().get(0).getMat() >= 1 && getMateriauxCompteur().get(indMax).getMat() >= 2) {
 				getMateriauxCompteur().get(0).retirerMat(1);
-				getMateriauxCompteur().get(indMax+1).retirerMat(2);
+				getMateriauxCompteur().get(indMax).retirerMat(2);
 				this.getOutilCase().augmenterIndexMax();
+				return true;
 			}
+		return false;
 	}
 
 }

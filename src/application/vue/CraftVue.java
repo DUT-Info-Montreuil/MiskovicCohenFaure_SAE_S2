@@ -1,6 +1,8 @@
 package application.vue;
 
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 public class CraftVue {
 
@@ -33,4 +35,13 @@ public class CraftVue {
 		this.terrainPane.requestFocus();
 		this.inventaireOuvert = false;
 	}
+	
+	public void cacherBoutton(Button bout) {
+		bout.setVisible(false);
+	}
+	
+	public void ameliorerText(Text txt) {
+		
+	}
+	
 }

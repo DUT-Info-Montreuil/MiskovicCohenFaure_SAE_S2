@@ -1,7 +1,5 @@
 package application.modele;
 
-import java.util.ArrayList;
-
 import application.modele.mobs.Archer;
 import application.modele.mobs.Boss;
 import application.modele.mobs.BouleBas;
@@ -13,6 +11,8 @@ import application.modele.mobs.Slime;
 import application.modele.mobs.Squelette;
 import application.modele.pnjs.Docteur;
 import application.modele.pnjs.Pnj;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -27,20 +27,21 @@ public class Environnement {
 
 		terrain = new Terrain();
 		pnjs = FXCollections.observableArrayList();
-		joueur = new Joueur(960,-64, this);
-		
+		joueur = new Joueur(960,0, this);
+
 		mobs = FXCollections.observableArrayList();
+	
 
 	}
-	
+
 	public void creerSlime(double x,double y) {
 		this.ajouterMob(new Slime(x,y, this));
 	}
-	
+
 	public void creerFleche(double x,double y,boolean versDroite) {
 		this.ajouterMob(new Fleche(x,y, this,versDroite));
 	}
-	
+
 	public void creerDocteur() {
 		Docteur doc = new Docteur(1300, 64, this);
 		pnjs.add(doc);
@@ -48,23 +49,23 @@ public class Environnement {
 	public void creerSquelette(double x,double y) {
 		this.ajouterMob(new Squelette(x,y, this));
 	}	
-	
+
 	public void creerArcher(double x,double y) {
 		this.ajouterMob(new Archer(x,y, this));
 	}
-	
+
 	public void creerBoss(double x,double y) {
 		this.ajouterMob(new Boss(x,y, this));
 	}	
-	
+
 	public void creerBouleDeFeu(double x,double y,boolean versDroite) {
 		this.ajouterMob(new BouleDeFeu(x,y, this,versDroite));
 	}
-	
+
 	public void creerBouleBas(double x,double y,boolean versDroite) {
 		this.ajouterMob(new BouleBas(x,y, this,versDroite));
 	}
-	
+
 	public void creerOnde (double x,double y,boolean versDroite) {
 		this.ajouterMob(new Onde(x,y, this,versDroite));
 	}
@@ -84,7 +85,7 @@ public class Environnement {
 	public Terrain getTerrain() {
 		return terrain;
 	}
-	
+
 	public ObservableList<Mob> getMobs() {
 		return mobs;
 	}
@@ -102,7 +103,7 @@ public class Environnement {
 			m.action();
 			i++;
 		}
-		
+
 		for (Pnj p: pnjs) {
 			p.action();
 		}

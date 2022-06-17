@@ -67,7 +67,6 @@ public class InventaireVue {
     	}
     	else {
     		inventaireItems.getChildren().get(curseur).setVisible(true);
-    		System.out.println(idItem);
     		((ImageView) inventaireItems.getChildren().get(curseur)).setImage(images.get(idItem));
     	} 
 
