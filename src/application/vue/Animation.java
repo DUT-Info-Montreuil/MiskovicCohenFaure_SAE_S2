@@ -11,6 +11,11 @@ public class Animation {
 	
 	private ImageView image;
 
+	public ImageView getImage() {
+		return image;
+	}
+
+
 	public Animation (DoubleProperty x,ImageView i) {
 		this.image=i;
 

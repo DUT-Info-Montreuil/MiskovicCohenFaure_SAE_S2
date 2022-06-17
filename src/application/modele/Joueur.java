@@ -29,7 +29,7 @@ public class Joueur extends Personnage{
 	private int cooldownArc;
 	
 	public Joueur(int coordX, int coordY,Environnement e) {
-		super(coordX, coordY,5,e,20,25,0,-9);
+		super(coordX, coordY,5,e,25,25,0,-9);
 		
 		this.clickD=false;
 		this.clickQ=false;

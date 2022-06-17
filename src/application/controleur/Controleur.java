@@ -139,9 +139,9 @@ public class Controleur implements Initializable{
 		//Mobs
 		this.mobAffichage = new MobVue();
 		this.env.getMobs().addListener(new MobsObsList(this));
-//		env.creerSlime(0, 64);
+		env.creerSlime(200, 64);
 //		env.creerArcher(1000, 64);
-//		env.creerSquelette(2000, 64);
+		env.creerSquelette(2000, 64);
 		env.creerBoss(1000, 64);
 
 		//Init Craft
@@ -270,6 +270,9 @@ public class Controleur implements Initializable{
 				(ev ->{
 
 					env.unTour();
+					for (Animation a:this.animations) {
+						a.action();
+					}
 
 				})
 				);
@@ -283,15 +286,14 @@ public class Controleur implements Initializable{
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());
+
 		}
 		else if (m instanceof BouleDeFeu) {
 			mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());		
-			if (!((BouleDeFeu)m).isVersDroite()) {
-				mobSprite.setScaleX(-1);
-			}
+			this.animations.add(new Animation(m.xProperty(), mobSprite));
 		}
 		else if (m instanceof BouleBas) {
 			mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
@@ -305,6 +307,7 @@ public class Controleur implements Initializable{
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());
+			this.animations.add(new Animation(m.xProperty(), mobSprite));
 		}
 		
 		else if(m instanceof Squelette) {
@@ -312,6 +315,7 @@ public class Controleur implements Initializable{
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());
+			this.animations.add(new Animation(m.xProperty(), mobSprite));
 		}
 		else if(m instanceof Boss) {
 			mobSprite = mobAffichage.creerBoss(m.getId());
@@ -330,9 +334,7 @@ public class Controleur implements Initializable{
 			terrainPane.getChildren().add(mobSprite);
 			mobSprite.translateXProperty().bind(m.xProperty());
 			mobSprite.translateYProperty().bind(m.yProperty());		
-			if (!((Fleche)m).isVersDroite()) {
-				mobSprite.setScaleX(-1);
-			}
+			this.animations.add(new Animation(m.xProperty(), mobSprite));
 
 		}
 

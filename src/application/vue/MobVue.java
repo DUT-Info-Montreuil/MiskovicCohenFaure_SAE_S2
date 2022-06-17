@@ -1,5 +1,6 @@
 package application.vue;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import javafx.scene.image.Image;

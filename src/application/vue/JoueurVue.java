@@ -15,6 +15,7 @@ public class JoueurVue extends Animation {
 	private ImageView image;
 	private ArrayList <Image> images;
 	private int attTemps;
+
 	private int temps;
 	
 
@@ -27,6 +28,8 @@ public class JoueurVue extends Animation {
 		this.images.add(new Image("application/ressource/20.png"));
 		this.images.add(new Image("application/ressource/21.png"));
 		this.images.add(new Image("application/ressource/22.png"));
+		this.images.add(new Image("application/ressource/23.png"));
+		this.images.add(new Image("application/ressource/24.png"));
 		this.attTemps=0;
 		this.temps=0;
 		
@@ -41,8 +44,11 @@ public class JoueurVue extends Animation {
 		
 		
 	}
+	public void setAttTemps(int attTemps) {
+		this.attTemps = attTemps;
+	}
 	
-	private void mouvementHoriz (double ancien, double nouveau) {
+	public void mouvementHoriz (double ancien, double nouveau) {
 		this.image.setImage(this.images.get(temps/10));
 		if (d.get()<=0.25&&g.get()<=0.25) {
 			this.image.setImage(this.images.get(0));
@@ -53,14 +59,22 @@ public class JoueurVue extends Animation {
 		}
 	}
 	
-	private void attaqueAnimation () {
-		if (this.attTemps<7) {
-			this.image.setImage(null);
-			temps++;
+	public void attaqueAnimation () {
+		if (this.attTemps>6) {
+			this.image.setImage(this.images.get(3));
+			attTemps--;
 		}
-		else if (temps==7) {
-			this.image.setImage(this.images.get(0));		
-			this.temps=0;
+		else if (this.attTemps>3) {
+			this.image.setImage(this.images.get(4));
+			attTemps--;
+		}
+		else if (this.attTemps>1) {
+			this.image.setImage(this.images.get(3));
+			attTemps--;
+		}
+		else if (attTemps==1){
+			this.image.setImage(this.images.get(0));
+			attTemps--;
 		}
 	}
 

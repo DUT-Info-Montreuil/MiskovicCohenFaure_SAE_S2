@@ -80,6 +80,7 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 		//EPEE
 		if (env.getJoueur().getInventaire().itemEnMain() instanceof Epee) {
 			this.env.getJoueur().attaque();
+			jv.setAttTemps(8);
 		}
 		else if (env.getJoueur().getInventaire().itemEnMain() instanceof Arc) {
 			this.env.getJoueur().fleche();

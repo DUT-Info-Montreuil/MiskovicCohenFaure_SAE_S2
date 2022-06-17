@@ -144,7 +144,7 @@ public abstract class Personnage {
 		return tHaut;
 	}
 
-	public int gettBas() {
+	public int gettBas() {			System.out.println("dtop");
 		return tBas;
 	}
 
@@ -185,9 +185,9 @@ public abstract class Personnage {
 	}
 	public boolean collisionDroite (double x,double y) {
 		//verifie si le joueur est est en contact avec un bloc pour l'arreter
-		if (checkCollision(Outils.coordToTile(x+this.tDroite, y-this.tHaut+1), this.env)||checkCollision(Outils.coordToTile(x+this.tDroite, y+this.tBas-3), this.env)) {
+		if (checkCollision(Outils.coordToTile(x+this.tDroite, y-this.tHaut+5), this.env)||checkCollision(Outils.coordToTile(x+this.tDroite, y+this.tBas-3), this.env)) {
 			//verifie si le joueur est dans un bloc pour le sortir
-			if (checkCollision(Outils.coordToTile(x+this.tDroite-1, y-this.tHaut+1), this.env)||checkCollision(Outils.coordToTile(x+this.tDroite-1, y+this.tBas-3), this.env)) {
+			if (checkCollision(Outils.coordToTile(x+this.tDroite-1, y-this.tHaut+5), this.env)||checkCollision(Outils.coordToTile(x+this.tDroite-1, y+this.tBas-3), this.env)) {
 				this.coordXProperty.set((int) (x-this.dirDroite.get())-1);
 			}
 			else {
@@ -199,9 +199,9 @@ public abstract class Personnage {
 	}
 	public boolean collisionGauche (double x,double y) {
 		//verifie si le jougetLargeureur est est en contact avec un bloc pour l'arreter
-		if (checkCollision(Outils.coordToTile(x-this.tGauche, y-this.tHaut+1), this.env)||checkCollision(Outils.coordToTile(x-this.tGauche, y+this.tBas-3), this.env)) {
+		if (checkCollision(Outils.coordToTile(x-this.tGauche, y-this.tHaut+5), this.env)||checkCollision(Outils.coordToTile(x-this.tGauche, y+this.tBas-3), this.env)) {
 			//verifie si le joueur est dans un bloc pour le sortir
-			if (checkCollision(Outils.coordToTile(x-this.tGauche+1, y-this.tHaut+1), this.env)||checkCollision(Outils.coordToTile(x-this.tGauche+1, y+this.tBas-3), this.env)) {
+			if (checkCollision(Outils.coordToTile(x-this.tGauche+1, y-this.tHaut+5), this.env)||checkCollision(Outils.coordToTile(x-this.tGauche+1, y+this.tBas-3), this.env)) {
 				this.coordXProperty.set((int) (x+this.dirGauche.get())+1);
 			}
 			else {
