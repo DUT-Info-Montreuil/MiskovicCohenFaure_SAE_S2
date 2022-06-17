@@ -6,10 +6,6 @@ import java.util.ResourceBundle;
 
 import application.modele.Environnement;
 import application.modele.Joueur;
-import application.modele.craft.EpeeCraft;
-import application.modele.craft.OutilCraft;
-import application.modele.craft.HacheCraft;
-import application.modele.craft.PiocheCraft;
 import application.modele.craft.materiaux.Materiaux;
 import application.modele.Outils;
 import application.modele.mobs.Archer;
@@ -94,7 +90,7 @@ public class Controleur implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 
 		//InitialiserImages
-		ImageMap imgs = new ImageMap();
+		new ImageMap();
 
 		//Création Terrain
 

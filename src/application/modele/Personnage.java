@@ -144,7 +144,7 @@ public abstract class Personnage {
 		return tHaut;
 	}
 
-	public int gettBas() {			System.out.println("dtop");
+	public int gettBas() {
 		return tBas;
 	}
 
