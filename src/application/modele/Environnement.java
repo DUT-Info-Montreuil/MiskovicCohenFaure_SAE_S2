@@ -22,6 +22,7 @@ public class Environnement {
 	private Terrain terrain;
 	ObservableList<Pnj> pnjs;
 	ObservableList<Mob> mobs;
+	ObservableList<Arbre> arbres;
 
 	public Environnement() {
 
@@ -31,9 +32,14 @@ public class Environnement {
 
 		mobs = FXCollections.observableArrayList();
 	
+		arbres = FXCollections.observableArrayList();
 
 	}
 
+	public void creerArbre(double x, double y) {
+		arbres.add(new Arbre(x, y, this));
+	}
+	
 	public void creerSlime(double x,double y) {
 		this.ajouterMob(new Slime(x,y, this));
 	}
@@ -43,7 +49,7 @@ public class Environnement {
 	}
 
 	public void creerDocteur() {
-		Docteur doc = new Docteur(1300, 64, this);
+		Docteur doc = new Docteur(600, 500, this);
 		pnjs.add(doc);
 	}
 	public void creerSquelette(double x,double y) {
@@ -66,9 +72,10 @@ public class Environnement {
 		this.ajouterMob(new BouleBas(x,y, this,versDroite));
 	}
 
-	public void creerOnde (double x,double y,boolean versDroite) {
-		this.ajouterMob(new Onde(x,y, this,versDroite));
+	public void creerOnde (double x,double y,boolean versDroite,int v) {
+		this.ajouterMob(new Onde(x,y, this,versDroite, v));
 	}
+	
 	//Gestion Liste
 	public void ajouterMob(Mob m) { 
 		mobs.add(m);
@@ -76,6 +83,10 @@ public class Environnement {
 
 	public void retirerMob (Personnage p) {
 		this.mobs.remove(p);
+	}
+	
+	public void retirerArbre(Arbre a) {
+		this.arbres.remove(a);
 	}
 
 	public Joueur getJoueur() {
@@ -107,9 +118,19 @@ public class Environnement {
 		for (Pnj p: pnjs) {
 			p.action();
 		}
+		i = 0;
+		while (i<this.arbres.size()) {
+			this.arbres.get(i).action();
+			i++;
+		}
 
 		//Mouvement + Gravité Joueur
 		joueur.action();
+	}
+
+	public ObservableList<Arbre> getArbres() {
+		return arbres;
+		
 	}
 
 

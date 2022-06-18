@@ -2,11 +2,18 @@ package application.controleur;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 
+import application.modele.Arbre;
 import application.modele.Environnement;
 import application.modele.Joueur;
+import application.modele.craft.EpeeCraft;
+import application.modele.craft.OutilCraft;
+import application.modele.craft.HacheCraft;
+import application.modele.craft.PiocheCraft;
 import application.modele.craft.materiaux.Materiaux;
+import application.modele.items.utilitaires.Hache;
 import application.modele.Outils;
 import application.modele.mobs.Archer;
 import application.modele.mobs.Boss;
@@ -16,10 +23,13 @@ import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
 import application.modele.mobs.Onde;
 import application.modele.mobs.Slime;
+import application.vue.ArbreVue;
 import application.vue.CraftVue;
 import application.modele.mobs.Squelette;
 import application.modele.pnjs.Docteur;
 import application.modele.pnjs.Pnj;
+import application.vue.Animation;
+import application.vue.AnimationMob;
 import application.vue.ImageMap;
 import application.vue.InventaireVue;
 import application.vue.JoueurVue;
@@ -37,6 +47,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.animation.KeyFrame;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -53,6 +64,7 @@ public class Controleur implements Initializable{
 
 	@FXML
 	private Pane terrainPane;
+
 	@FXML
 	private Pane craftPane;
 	@FXML
@@ -92,11 +104,14 @@ public class Controleur implements Initializable{
 	@FXML
 	private TextArea recettePioche;
 
-
 	private Environnement env;
 	private Timeline gameLoop;
 	private MobVue mobAffichage;
 	private PnjVue pnjAffichage;
+	private ArrayList <Animation> animations;
+	private Label label;
+	private int temps;
+	private ArbreVue arbreAffichage;
 	private CraftVue craft;
 
 
@@ -104,14 +119,16 @@ public class Controleur implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 
 		//InitialiserImages
-		ImageMap imgs = new ImageMap();
+		new ImageMap();
 
 		//Création Terrain
 
 		env = new Environnement();
 
+		this.animations=new ArrayList<Animation>();
+
 		TerrainVue terrainVue = new TerrainVue(env, terrainMap);
-		terrainVue.initTerrain();
+		terrainVue.initTerrain(this.bindJoueur());
 
 		//Indices Terrain
 		int pxl = 32;
@@ -137,6 +154,12 @@ public class Controleur implements Initializable{
 		orText.textProperty().bind(Bindings.convert(comptMat.get(2).matProperty()));
 		diamantText.textProperty().bind(Bindings.convert(comptMat.get(3).matProperty()));
 
+		//Arbre
+		this.arbreAffichage = new ArbreVue();
+		this.env.getArbres().addListener(new ArbreObsList(this));
+		Random r = new Random();
+		for (int i = 0; i < 10; i++)
+			this.env.creerArbre(r.nextInt(3500-1500) + 1500, 64);
 
 
 		//Pnj
@@ -147,90 +170,37 @@ public class Controleur implements Initializable{
 		//Mobs
 		this.mobAffichage = new MobVue();
 		this.env.getMobs().addListener(new MobsObsList(this));
-		//		env.creerSlime(0, 64);
-		//		env.creerArcher(1000, 64);
-		//		env.creerSquelette(2000, 64);
-		env.creerBoss(1000, 64);
+		env.creerSlime(1300, 1000);
+		env.creerSlime(200, 500);
+		env.creerArcher(2500, 100);
+		env.creerSquelette(5000, 100);
+		env.creerSquelette(4500, 100);
+		env.creerBoss(6500, 1000);
 
 		//Init Craft
 		this.craft = new CraftVue(terrainPane, craftPane);
-		this.env.getJoueur().getCompteurMateriaux().get(0).ajouterMat(15);
-		this.env.getJoueur().getCompteurMateriaux().get(1).ajouterMat(15);
-		this.env.getJoueur().getCompteurMateriaux().get(2).ajouterMat(15);
-		this.env.getJoueur().getCompteurMateriaux().get(3).ajouterMat(15);
 
 
 
 
 		//Lancement Joueur
-		this.bindJoueur();
+
 		joueurMeurt(this.env.getJoueur());
 		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env, craft));
 		root.addEventHandler(KeyEvent.KEY_RELEASED, new ControleurToucheRelache(env));
 		root.addEventHandler(ScrollEvent.SCROLL, new ControleurScroll(env));
 
+		//texte du tuto
+		label=new Label();
+		terrainPane.getChildren().add(label);
+		label.setTranslateX(500);
+		label.setTranslateY(500);
 
 		//Lancement GameLoop
 		initAnimation();
 		gameLoop.play();
 
 	}
-
-	public void joueurMeurt(Joueur j) {
-		j.pvProperty().addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				if ((int) newValue <= 0) {
-					respawnJoueur(j);
-				}
-			}	
-		});
-	}
-
-	public void respawnJoueur(Joueur j) {
-		j.setPv(5);
-		j.setX(960);
-		j.setY(450);
-		this.terrainPane.setTranslateX(0);
-	}
-
-	@FXML
-	void ameliorationEpee(ActionEvent event) {
-		int indMax = this.env.getJoueur().getEpee().getOutilCase().getIndexMax();
-		if (this.env.getJoueur().getEpee().craft()) {
-			this.craft.ameliorerTextEpee(recetteEpee, indMax);
-			if (indMax == 3) {
-				this.craft.cacherBoutton(bouttonEpee);
-				this.craft.cacherTextArea(recetteEpee);
-			}
-		}
-	}
-
-	@FXML
-	void ameliorationHache(ActionEvent event) {
-		int indMax = this.env.getJoueur().getHache().getOutilCase().getIndexMax();
-		if (this.env.getJoueur().getHache().craft()) {
-			this.craft.ameliorerTextPiocheHache(recetteHache, indMax);
-			if (indMax == 3) {
-				this.craft.cacherBoutton(bouttonHache);
-				this.craft.cacherTextArea(recetteHache);
-			}
-		}
-	}
-
-	@FXML
-	void ameliorationPioche(ActionEvent event) {
-		int indMax = this.env.getJoueur().getPioche().getOutilCase().getIndexMax();
-		if (this.env.getJoueur().getPioche().craft()) {
-			this.craft.ameliorerTextPiocheHache(recettePioche, indMax);
-			if (indMax == 3) {
-				this.craft.cacherBoutton(bouttonPioche);
-				this.craft.cacherTextArea(recettePioche);
-			}
-		}
-	}
-
 	public void listenPV(PVVue pvVue) {
 		IntegerProperty pv = env.getJoueur().pvProperty();
 
@@ -240,180 +210,267 @@ public class Controleur implements Initializable{
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				pvVue.changerPV((int) newValue);
 			}
-		});
-	}
-
-	public void listenInventaire(InventaireVue inv) {
-		IntegerProperty curseur = env.getJoueur().getInventaire().indexProperty();
-		inv.positionnerCurseur(curseur.get());
-
-		curseur.addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				inv.enleverCurseur((int) oldValue);
-				inv.positionnerCurseur((int) newValue);
-			}
-		});
-
-	}
-
-	public void listenInventaireCase(InventaireVue inv) {
-		IntegerProperty curseurCase = env.getJoueur().getInventaire().indexCaseProperty();
-		curseurCase.addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				String idItem = env.getJoueur().getInventaire().idItemEnMain();
-				int curseur = env.getJoueur().getInventaire().getIndexProperty();
-				inv.changerImage(curseur, idItem);
-			}
-		});
-	}
-
-
-	public void bindJoueur() {
-		Joueur j = env.getJoueur();
-		spriteJoueur.translateYProperty().bind(j.yProperty());
-		listenJoueurXProperty();
-		new JoueurVue(j.xProperty(),j.yProperty(),spriteJoueur);
-
-	}
-
-	public void listenJoueurXProperty() {
-		env.getJoueur().xProperty().addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-
-				if ((double) newValue > 960 && (double) newValue < 6720)  {
-					terrainPane.setTranslateX(-(double) newValue+960);
-				}
-				else if ((double) newValue <= 960 ) {
-					spriteJoueur.setTranslateX((double) newValue-960);
-				}
-				else
-					spriteJoueur.setTranslateX((double) newValue-6720);
-			}
-		});
-	}
-
-
-	//GESTION SPRITE
-
-	public void enleverSprite (String id) {
-		terrainPane.lookup("#" + id).setVisible(false);
-		terrainPane.getChildren().remove(terrainPane.lookup("#" + id));
-
-	}
-
-	public void ajouterJoueur (ImageView sprite) {
-		this.terrainMap.getChildren().add(sprite);
-	}
-
-	private void initAnimation() {
-		gameLoop = new Timeline();
-		gameLoop.setCycleCount(Timeline.INDEFINITE);
-
-		KeyFrame kf = new KeyFrame(
-				//FPS
-				Duration.seconds(0.017), 
-				// on définit ce qui se passe à chaque frame 
-				// c'est un eventHandler d'ou le lambda
-				(ev ->{
-
-					env.unTour();
-
-				})
-				);
-		gameLoop.getKeyFrames().add(kf);
-	}
-
-	public void creerSpriteMob(Mob m) {
-		ImageView mobSprite = null;
-		if (m instanceof Slime) {
-			mobSprite = mobAffichage.creerSlime(m.getId());
-			terrainPane.getChildren().add(mobSprite);
-			mobSprite.translateXProperty().bind(m.xProperty());
-			mobSprite.translateYProperty().bind(m.yProperty());
-		}
-		else if (m instanceof BouleDeFeu) {
-			mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
-			terrainPane.getChildren().add(mobSprite);
-			mobSprite.translateXProperty().bind(m.xProperty());
-			mobSprite.translateYProperty().bind(m.yProperty());		
-			if (!((BouleDeFeu)m).isVersDroite()) {
-				mobSprite.setScaleX(-1);
-			}
-		}
-		else if (m instanceof BouleBas) {
-			mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
-			terrainPane.getChildren().add(mobSprite);
-			mobSprite.translateXProperty().bind(m.xProperty());
-			mobSprite.translateYProperty().bind(m.yProperty());		
-			mobSprite.setRotate(90);
-		}
-		else if(m instanceof Archer) {
-			mobSprite = mobAffichage.creerArcher(m.getId());
-			terrainPane.getChildren().add(mobSprite);
-			mobSprite.translateXProperty().bind(m.xProperty());
-			mobSprite.translateYProperty().bind(m.yProperty());
+			});
 		}
 
-		else if(m instanceof Squelette) {
-			mobSprite = mobAffichage.creerSquelette(m.getId());
-			terrainPane.getChildren().add(mobSprite);
-			mobSprite.translateXProperty().bind(m.xProperty());
-			mobSprite.translateYProperty().bind(m.yProperty());
-		}
-		else if(m instanceof Boss) {
-			mobSprite = mobAffichage.creerBoss(m.getId());
-			terrainPane.getChildren().add(mobSprite);
-			mobSprite.translateXProperty().bind(m.xProperty());
-			mobSprite.translateYProperty().bind(m.yProperty());
-		}
-		else if (m instanceof Onde) {
-			mobSprite = mobAffichage.creerOnde(m.getId());
-			terrainPane.getChildren().add(mobSprite);
-			mobSprite.translateXProperty().bind(m.xProperty());
-			mobSprite.translateYProperty().bind(m.yProperty());		
-		}
-		else if (m instanceof Fleche) {
-			mobSprite = mobAffichage.creerFleche(m.getId());
-			terrainPane.getChildren().add(mobSprite);
-			mobSprite.translateXProperty().bind(m.xProperty());
-			mobSprite.translateYProperty().bind(m.yProperty());		
-			if (!((Fleche)m).isVersDroite()) {
-				mobSprite.setScaleX(-1);
-			}
+		public void listenInventaire(InventaireVue inv) {
+			IntegerProperty curseur = env.getJoueur().getInventaire().indexProperty();
+			inv.positionnerCurseur(curseur.get());
 
-		}
-
-	}
-
-	public void creerSpritePnj(Pnj p) {
-		ImageView pnjSprite = null;
-		if (p instanceof Docteur) {
-			pnjSprite = this.pnjAffichage.creerDocteur(p.getId());
-			pnjSprite.setOnMouseClicked(event ->
-			{
-				if (event.getButton() == MouseButton.SECONDARY)
-				{
-					if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), Outils.coordToTile(p.getX(),p.getY()))) {
-						((Docteur) p).soigne();
-					}
+			curseur.addListener(new ChangeListener<Number>() {
+				@Override
+				public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+					inv.enleverCurseur((int) oldValue);
+					inv.positionnerCurseur((int) newValue);
 				}
 			});
 
-			terrainPane.getChildren().add(pnjSprite);
-			pnjSprite.translateXProperty().bind(p.xProperty());
-			pnjSprite.translateYProperty().bind(p.yProperty());
-		}
-	}
-
-	public void supprimerSprite(Mob m) {
-		if (m instanceof Slime) {
-
 		}
 
+		public void listenInventaireCase(InventaireVue inv) {
+			IntegerProperty curseurCase = env.getJoueur().getInventaire().indexCaseProperty();
+			curseurCase.addListener(new ChangeListener<Number>() {
+				@Override
+				public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+					String idItem = env.getJoueur().getInventaire().idItemEnMain();
+					int curseur = env.getJoueur().getInventaire().getIndexProperty();
+					inv.changerImage(curseur, idItem);
+				}
+			});
+		}
+
+
+		public JoueurVue bindJoueur() {
+			Joueur j = env.getJoueur();
+			JoueurVue a=new JoueurVue(j.getDirDroiteProperty(),j.getDirGaucheProperty(),j.xProperty(),j.yProperty(),j.pvProperty(),spriteJoueur,this.terrainPane);
+			spriteJoueur.translateYProperty().bind(j.yProperty());
+			listenJoueurXProperty();
+			this.animations.add(a);
+			return a;
+
+		}
+
+		public void listenJoueurXProperty() {
+			env.getJoueur().xProperty().addListener(new ChangeListener<Number>() {
+
+				@Override
+				public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
+					if ((double) newValue > 960 && (double) newValue < 6720)  {
+						terrainPane.setTranslateX(-(double) newValue+960);
+					}
+					else if ((double) newValue <= 960 ) {
+						spriteJoueur.setTranslateX((double) newValue-960);
+					}
+					else
+						spriteJoueur.setTranslateX((double) newValue-6720);
+				}
+			});
+		}
+
+
+		//GESTION SPRITE
+
+		public void enleverSprite (String id) {
+			terrainPane.lookup("#" + id).setVisible(false);
+			terrainPane.getChildren().remove(terrainPane.lookup("#" + id));
+
+		}
+
+		public void ajouterJoueur (ImageView sprite) {
+			this.terrainMap.getChildren().add(sprite);
+		}
+
+		private void initAnimation() {
+			gameLoop = new Timeline();
+			gameLoop.setCycleCount(Timeline.INDEFINITE);
+			temps=0;
+
+			KeyFrame kf = new KeyFrame(
+					//FPS
+					Duration.seconds(0.017), 
+					// on définit ce qui se passe à chaque frame 
+					// c'est un eventHandler d'ou le lambda
+					(ev ->{
+
+						for (Animation a:this.animations) {
+							a.action();
+						}
+						env.unTour();
+						String texte = "Bonjour aventurier! Bienvenue dans la fameuse ville de nowhere.\n"
+								+ "Nous sommes oppressés par un mage qui invoque des créatures maléfiques.\n"
+								+ "Pourriez vous vaincre ce tyran pour nous?\n"
+								+ "Je vous aiderai dans votre quête en vous soignant,\npour cela il vous suffit d'appuyer sur moi avec le clique droit.";
+						if (temps<=texte.length()*5) {
+							label.setText(texte.substring(0, temps/5));
+							temps++;
+						}
+					})
+					);
+			gameLoop.getKeyFrames().add(kf);
+		}
+
+		public void creerSpriteMob(Mob m) {
+			ImageView mobSprite = null;
+			if (m instanceof Slime) {
+				mobSprite = mobAffichage.creerSlime(m.getId());
+				terrainPane.getChildren().add(mobSprite);
+				mobSprite.translateXProperty().bind(m.xProperty());
+				mobSprite.translateYProperty().bind(m.yProperty());
+				this.animations.add(new AnimationMob(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
+
+			}
+			else if (m instanceof BouleDeFeu) {
+				mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
+				terrainPane.getChildren().add(mobSprite);
+				mobSprite.translateXProperty().bind(m.xProperty());
+				mobSprite.translateYProperty().bind(m.yProperty());		
+				this.animations.add(new Animation(m.xProperty(),m.yProperty(), mobSprite));
+			}
+			else if (m instanceof BouleBas) {
+				mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
+				terrainPane.getChildren().add(mobSprite);
+				mobSprite.translateXProperty().bind(m.xProperty());
+				mobSprite.translateYProperty().bind(m.yProperty());		
+				mobSprite.setRotate(90);
+			}
+			else if(m instanceof Archer) {
+				mobSprite = mobAffichage.creerArcher(m.getId());
+				terrainPane.getChildren().add(mobSprite);
+				mobSprite.translateXProperty().bind(m.xProperty());
+				mobSprite.translateYProperty().bind(m.yProperty());
+				this.animations.add(new AnimationMob(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
+			}
+
+			else if(m instanceof Squelette) {
+				mobSprite = mobAffichage.creerSquelette(m.getId());
+				terrainPane.getChildren().add(mobSprite);
+				mobSprite.translateXProperty().bind(m.xProperty());
+				mobSprite.translateYProperty().bind(m.yProperty());
+				this.animations.add(new AnimationMob(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
+			}
+			else if(m instanceof Boss) {
+				mobSprite = mobAffichage.creerBoss(m.getId());
+				terrainPane.getChildren().add(mobSprite);
+				mobSprite.translateXProperty().bind(m.xProperty());
+				mobSprite.translateYProperty().bind(m.yProperty());
+				this.animations.add(new AnimationMob(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
+			}
+			else if (m instanceof Onde) {
+				mobSprite = mobAffichage.creerOnde(m.getId());
+				terrainPane.getChildren().add(mobSprite);
+				mobSprite.translateXProperty().bind(m.xProperty());
+				mobSprite.translateYProperty().bind(m.yProperty());		
+			}
+			else if (m instanceof Fleche) {
+				mobSprite = mobAffichage.creerFleche(m.getId());
+				terrainPane.getChildren().add(mobSprite);
+				mobSprite.translateXProperty().bind(m.xProperty());
+				mobSprite.translateYProperty().bind(m.yProperty());		
+				this.animations.add(new Animation(m.xProperty(),m.yProperty(), mobSprite));
+			}
+
+		}
+
+		public void creerSpritePnj(Pnj p) {
+			ImageView pnjSprite = null;
+			if (p instanceof Docteur) {
+				pnjSprite = this.pnjAffichage.creerDocteur(p.getId());
+				pnjSprite.setOnMouseClicked(event ->
+				{
+					if (event.getButton() == MouseButton.SECONDARY)
+					{
+						if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), Outils.coordToTile(p.getX(),p.getY()))) {
+							((Docteur) p).soigne();
+						}
+					}
+				});
+
+				terrainPane.getChildren().add(pnjSprite);
+				pnjSprite.translateXProperty().bind(p.xProperty());
+				pnjSprite.translateYProperty().bind(p.yProperty());
+
+			} 
+		}
+
+		public void respawnJoueur(Joueur j) {
+			j.setPv(5);
+			j.setX(960);
+			j.setY(450);
+			this.terrainPane.setTranslateX(0);
+		}
+		
+		public void joueurMeurt(Joueur j) {
+			j.pvProperty().addListener(new ChangeListener<Number>() {
+
+				@Override
+				public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+					if ((int) newValue <= 0) {
+						respawnJoueur(j);
+					}
+				}	
+			});
+		}
+
+		@FXML
+		void ameliorationEpee(ActionEvent event) {
+			int indMax = this.env.getJoueur().getEpee().getOutilCase().getIndexMax();
+			if (this.env.getJoueur().getEpee().craft()) {
+				this.craft.ameliorerTextEpee(recetteEpee, indMax);
+				if (indMax == 3) {
+					this.craft.cacherBoutton(bouttonEpee);
+					this.craft.cacherTextArea(recetteEpee);
+				}
+			}
+		}
+
+		@FXML
+		void ameliorationHache(ActionEvent event) {
+			int indMax = this.env.getJoueur().getHache().getOutilCase().getIndexMax();
+			if (this.env.getJoueur().getHache().craft()) {
+				this.craft.ameliorerTextPiocheHache(recetteHache, indMax);
+				if (indMax == 3) {
+					this.craft.cacherBoutton(bouttonHache);
+					this.craft.cacherTextArea(recetteHache);
+				}
+			}
+		}
+
+		@FXML
+		void ameliorationPioche(ActionEvent event) {
+			int indMax = this.env.getJoueur().getPioche().getOutilCase().getIndexMax();
+			if (this.env.getJoueur().getPioche().craft()) {
+				this.craft.ameliorerTextPiocheHache(recettePioche, indMax);
+				if (indMax == 3) {
+					this.craft.cacherBoutton(bouttonPioche);
+					this.craft.cacherTextArea(recettePioche);
+				}
+			}
+		}
+
+		public void creerSpriteArbre(Arbre a) {
+			final ImageView arbreSprite = this.arbreAffichage.creerArbre(a.getId());
+			arbreSprite.setOnMouseClicked(event ->
+			{
+				if (event.getButton() == MouseButton.PRIMARY)
+				{
+					if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), Outils.coordToTile(a.getX(),a.getY()+50))) {
+						if (env.getJoueur().getInventaire().itemEnMain() instanceof Hache) {
+							a.perdrePV(((Hache) env.getJoueur().getInventaire().itemEnMain()).getDegats());
+							arbreSprite.setOpacity((double) a.getPv()/10);
+						}
+					}
+				}
+			});
+			terrainPane.getChildren().add(arbreSprite);
+			arbreSprite.translateXProperty().bind(a.xProperty());
+			arbreSprite.translateYProperty().bind(a.yProperty());
+		}
+
+		public void supprimerSprite(Mob m) {
+			if (m instanceof Slime) {
+
+			}
+		}
 	}
-}
 

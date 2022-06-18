@@ -9,7 +9,7 @@ public class Boss extends Mob{
 	private boolean versDroite;
 	
 	public Boss(double coordX, double coordY, Environnement e) {
-		super(coordX, coordY, 30, e, 20,20,0,0);
+		super(coordX, coordY, 16, e, 20,20,0,0);
 		this.setDirDroite(1);
 		this.temps=0;
 		this.versDroite=true;
@@ -42,7 +42,7 @@ public class Boss extends Mob{
 			}
 		}
 		else {
-			if (this.temps<400) {
+			if (this.temps<600) {
 				this.phase2V1(versDroite);
 			}
 			else {
@@ -108,8 +108,8 @@ public class Boss extends Mob{
 		else {
 			this.setDirGauche(3);
 		}
-		if (this.temps%40==0) {
-			this.getEnv().creerBouleBas(this.getX(), this.getY()+10, versDroite);
+		if (temps<500 && this.temps%50==0) {
+			this.getEnv().creerBouleBas(this.getX(), this.getY()+15, versDroite);
 		}
 		
 	}
@@ -119,12 +119,12 @@ public class Boss extends Mob{
 			this.additionnerDirY(1);
 			this.attaque(3);
 		}
-		else if (temps<700) {
+		else if (temps<850) {
 			this.setDirDroite(0);
 			this.setDirGauche(0);
-			this.getEnv().creerOnde(this.getX()-30, this.getY(), false);
-			this.getEnv().creerOnde(this.getX()+30, this.getY(), true);
-			this.temps=700;
+			this.getEnv().creerOnde(this.getX()-30, this.getY()+2, false,2);
+			this.getEnv().creerOnde(this.getX()+30, this.getY()+2, true,2);
+			this.temps=850;
 		}
 	}
 
@@ -159,10 +159,5 @@ public class Boss extends Mob{
 	}
 	public void perdrePV(int valeur,boolean versDroite) {
 		this.setPvProperty(this.getPv() - valeur);
-		if (versDroite)
-			this.setDirDroite(4);
-		else 
-			this.setDirGauche(4);
-		this.setDirY(-2);
 	}
 }

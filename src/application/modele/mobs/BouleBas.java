@@ -13,6 +13,8 @@ public class BouleBas extends Fleche{
 	
 	public void detection() {
 		if (this.collisionBas()){
+			this.getEnv().creerOnde(this.getX()-50, this.getY()+5, false,6);
+			this.getEnv().creerOnde(this.getX()+50, this.getY()+5, true,6);
 			this.perdrePV(1, true);
 		}
 	}

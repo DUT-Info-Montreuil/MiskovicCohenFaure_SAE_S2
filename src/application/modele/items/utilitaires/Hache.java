@@ -5,7 +5,23 @@ public class Hache extends Utilitaire {
 	public Hache(int mat) {
 		super(mat, "H" + compteur);
 		compteur++;
-		// TODO Auto-generated constructor stub
+		
+		switch (mat) {
+		case 0:
+			this.setDegats(1);
+			break;
+		case 1:
+			this.setDegats(2);
+			break;
+		case 2:
+			this.setDegats(3);
+			break;
+		case 3:
+			this.setDegats(5);
+			break;
+		}
 	}
+	
+
 
 }

@@ -6,11 +6,13 @@ import application.modele.Outils;
 public class Onde extends Mob {
 	private int temps;
 	private boolean versDroite;
+	private int vitesse;
 
-	public Onde(double coordX, double coordY, Environnement e,boolean versDroite) {
+	public Onde(double coordX, double coordY, Environnement e,boolean versDroite,int vitesse) {
 		super(coordX, coordY , 1, e,10,5,0,5);
-		this.temps=5;
+		this.temps=vitesse;
 		this.versDroite=versDroite;
+		this.vitesse=vitesse;
 	}
 
 	@Override
@@ -27,9 +29,9 @@ public class Onde extends Mob {
 
 			}
 
-			if (this.checkCollision(Outils.coordToTile(this.getX(), this.getY()+5), getEnv())
-				&&!this.checkCollision(Outils.coordToTile(this.getX()+d, this.getY()), getEnv())) {
-				this.getEnv().creerOnde(this.getX()+d, this.getY(), versDroite);
+			if (this.checkCollision(Outils.coordToTile(this.getX(), this.getY()), getEnv())
+				&&!this.checkCollision(Outils.coordToTile(this.getX()+d, this.getY()-10), getEnv())) {
+				this.getEnv().creerOnde(this.getX()+d, this.getY(), versDroite,this.vitesse);
 			}
 			this.perdrePV(1, versDroite);
 		}

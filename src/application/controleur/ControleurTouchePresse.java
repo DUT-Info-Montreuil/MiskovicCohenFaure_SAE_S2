@@ -28,21 +28,34 @@ public class ControleurTouchePresse implements EventHandler<KeyEvent>{
 		case SPACE:
 			env.getJoueur().saut();
 			break;
+			
+		case DIGIT1:
 		case AMPERSAND:
 			env.getJoueur().getInventaire().changerCase(0);
 			break;
+			
+		case DIGIT2:
+			env.getJoueur().getInventaire().changerCase(1);
+			break;
+		case DIGIT3:
 		case QUOTEDBL:
 			env.getJoueur().getInventaire().changerCase(2);
 			break;
+			
+		case DIGIT4:
 		case QUOTE:
 			env.getJoueur().getInventaire().changerCase(3);
 			break;
+			
+		case DIGIT5:
 		case LEFT_PARENTHESIS:
 			env.getJoueur().getInventaire().changerCase(4);
 			break;
+			
 		case E :
 			craft.gestionOuverture();
 			break;
+			
 		case UNDEFINED:
 			switch (event.getText()) {
 			case "é":
