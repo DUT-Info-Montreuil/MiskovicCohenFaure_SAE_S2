@@ -71,6 +71,10 @@ public abstract class Personnage {
 			this.setDirGauche(4);
 		this.setDirY(-5);
 	}
+	
+	public void perdrePV(int valeur) {
+		pvProperty.set(pvProperty.get() - valeur);
+	}
 
 	public void meurt () {
 		if (this.pvProperty.get()<=0) {
@@ -83,6 +87,7 @@ public abstract class Personnage {
 		else
 			pvProperty.set(pvProperty.get() + valeur);
 	}
+	
 	public boolean estMort() {
 		return pvProperty.get() <= 0;
 	}

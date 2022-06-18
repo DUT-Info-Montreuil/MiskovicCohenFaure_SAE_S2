@@ -109,7 +109,7 @@ public class Boss extends Mob{
 			this.setDirGauche(3);
 		}
 		if (temps<500 && this.temps%50==0) {
-			this.getEnv().creerBouleBas(this.getX(), this.getY()+10, versDroite);
+			this.getEnv().creerBouleBas(this.getX(), this.getY()+15, versDroite);
 		}
 		
 	}

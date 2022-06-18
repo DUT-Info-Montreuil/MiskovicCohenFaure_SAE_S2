@@ -155,7 +155,7 @@ public class Joueur extends Personnage{
 						&& this.getX()+this.gettDroite()+20>e.getX()-e.gettGauche()
 						&& this.getY()+this.gettBas()>e.getY()-e.getThaut()
 						&& this.getY()-this.getThaut()<e.getY()+e.gettBas()  ) {
-					e.perdrePV(1, versDroite);
+					e.perdrePV(((Epee)this.getInventaire().itemEnMain()).getDegats(), versDroite);
 				}
 			}
 		}
@@ -166,7 +166,7 @@ public class Joueur extends Personnage{
 						&& this.getX()-this.gettGauche()-20<e.getX()+e.gettDroite()
 						&& this.getY()+this.gettBas()>e.getY()-e.getThaut()
 						&& this.getY()-this.getThaut()<e.getY()+e.gettBas() ) {
-					e.perdrePV(1, versDroite);
+					e.perdrePV(((Epee)this.getInventaire().itemEnMain()).getDegats(), versDroite);
 				}
 			}
 		}	

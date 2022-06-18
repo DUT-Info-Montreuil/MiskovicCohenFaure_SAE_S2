@@ -2,11 +2,18 @@ package application.controleur;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 
+import application.modele.Arbre;
 import application.modele.Environnement;
 import application.modele.Joueur;
+import application.modele.craft.EpeeCraft;
+import application.modele.craft.OutilCraft;
+import application.modele.craft.HacheCraft;
+import application.modele.craft.PiocheCraft;
 import application.modele.craft.materiaux.Materiaux;
+import application.modele.items.utilitaires.Hache;
 import application.modele.Outils;
 import application.modele.mobs.Archer;
 import application.modele.mobs.Boss;
@@ -16,6 +23,7 @@ import application.modele.mobs.Fleche;
 import application.modele.mobs.Mob;
 import application.modele.mobs.Onde;
 import application.modele.mobs.Slime;
+import application.vue.ArbreVue;
 import application.vue.CraftVue;
 import application.modele.mobs.Squelette;
 import application.modele.pnjs.Docteur;
@@ -89,6 +97,7 @@ public class Controleur implements Initializable{
 	private ArrayList <Animation> animations;
 	private Label label;
 	private int temps;
+	private ArbreVue arbreAffichage;
 
 
 	@Override
@@ -130,13 +139,19 @@ public class Controleur implements Initializable{
 		orText.textProperty().bind(Bindings.convert(comptMat.get(2).matProperty()));
 		diamantText.textProperty().bind(Bindings.convert(comptMat.get(3).matProperty()));
 
+		//Arbre
+		this.arbreAffichage = new ArbreVue();
+		this.env.getArbres().addListener(new ArbreObsList(this));
+		Random r = new Random();
+		for (int i = 0; i < 10; i++)
+			this.env.creerArbre(r.nextInt(3500-1500) + 1500, 64);
 
 
 		//Pnj
 		this.pnjAffichage = new PnjVue();
 		this.env.getPnjs().addListener(new PnjsObsList(this));
 		this.env.creerDocteur();
-		
+
 		//Mobs
 		this.mobAffichage = new MobVue();
 		this.env.getMobs().addListener(new MobsObsList(this));
@@ -149,9 +164,9 @@ public class Controleur implements Initializable{
 
 		//Init Craft
 		CraftVue craft = new CraftVue(terrainPane, craftPane);
-		
-		
-		
+
+
+
 
 		//Lancement Joueur
 		
@@ -176,16 +191,16 @@ public class Controleur implements Initializable{
 	void ameliorationEpee(ActionEvent event) {
 		this.env.getJoueur().getEpee().craft();
 	}
-	
-	@FXML
-    void ameliorationHache(ActionEvent event) {
-		this.env.getJoueur().getHache().craft();
-    }
 
-    @FXML
-    void ameliorationPioche(ActionEvent event) {
-    	this.env.getJoueur().getPioche().craft();
-    }
+	@FXML
+	void ameliorationHache(ActionEvent event) {
+		this.env.getJoueur().getHache().craft();
+	}
+
+	@FXML
+	void ameliorationPioche(ActionEvent event) {
+		this.env.getJoueur().getPioche().craft();
+	}
 
 	public void listenPV(PVVue pvVue) {
 		IntegerProperty pv = env.getJoueur().pvProperty();
@@ -212,7 +227,7 @@ public class Controleur implements Initializable{
 		});
 
 	}
-	
+
 	public void listenInventaireCase(InventaireVue inv) {
 		IntegerProperty curseurCase = env.getJoueur().getInventaire().indexCaseProperty();
 		curseurCase.addListener(new ChangeListener<Number>() {
@@ -357,26 +372,45 @@ public class Controleur implements Initializable{
 		}
 
 	}
-	
+
 	public void creerSpritePnj(Pnj p) {
 		ImageView pnjSprite = null;
 		if (p instanceof Docteur) {
 			pnjSprite = this.pnjAffichage.creerDocteur(p.getId());
 			pnjSprite.setOnMouseClicked(event ->
-	        {
-	        	if (event.getButton() == MouseButton.SECONDARY)
-	            {
-	        		if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), Outils.coordToTile(p.getX(),p.getY()))) {
-	        			((Docteur) p).soigne();
-	        		}
-	            }
-	        });
-				
+			{
+				if (event.getButton() == MouseButton.SECONDARY)
+				{
+					if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), Outils.coordToTile(p.getX(),p.getY()))) {
+						((Docteur) p).soigne();
+					}
+				}
+			});
+
 			terrainPane.getChildren().add(pnjSprite);
 			pnjSprite.translateXProperty().bind(p.xProperty());
 			pnjSprite.translateYProperty().bind(p.yProperty());
 			
 		}
+	}
+
+	public void creerSpriteArbre(Arbre a) {
+		final ImageView arbreSprite = this.arbreAffichage.creerArbre(a.getId());
+		arbreSprite.setOnMouseClicked(event ->
+		{
+			if (event.getButton() == MouseButton.PRIMARY)
+			{
+				if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), Outils.coordToTile(a.getX(),a.getY()+50))) {
+				if (env.getJoueur().getInventaire().itemEnMain() instanceof Hache) {
+						 a.perdrePV(((Hache) env.getJoueur().getInventaire().itemEnMain()).getDegats());
+						 arbreSprite.setOpacity((double) a.getPv()/10);
+				}
+				}
+			}
+		});
+		terrainPane.getChildren().add(arbreSprite);
+		arbreSprite.translateXProperty().bind(a.xProperty());
+		arbreSprite.translateYProperty().bind(a.yProperty());
 	}
 
 	public void supprimerSprite(Mob m) {

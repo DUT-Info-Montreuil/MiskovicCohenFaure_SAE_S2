@@ -16,7 +16,7 @@ public class ImageMap {
 		this.initImagesBloc();
 		this.initImagesMobs();
 		this.initImagesPnj();
-//		this.initImagesArbre();
+		this.initImagesArbre();
 	}
 
 	public void initImagesPioche() {
@@ -50,11 +50,11 @@ public class ImageMap {
 	}
 	
 
-//	public void initImagesArbre() {
-//		for (int i = 1; i < 6; i++) {
-//			images.put("ARB" + i, new Image("application/ressource/arbres/arbre" + i + ".png"));
-//		}
-//	}
+	public void initImagesArbre() {
+		for (int i = 1; i < 6; i++) {
+			images.put("ARB" + i, new Image("application/ressource/arbre/arbre" + i + ".png"));
+		}
+	}
 	
 	public void initImagesMobs() {
 		images.put("slime", new Image("application/ressource/slime.png"));

@@ -2,7 +2,6 @@ package application.controleur;
 
 import application.modele.pnjs.Pnj;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ListChangeListener.Change;
 
 public class PnjsObsList implements ListChangeListener<Pnj >{
 	private Controleur controleur;
