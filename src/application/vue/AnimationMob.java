@@ -21,6 +21,12 @@ public class AnimationMob extends Animation {
 	
 
 
+	public Pane getTerrain() {
+		return terrain;
+	}
+
+
+
 	public AnimationMob (DoubleProperty x,DoubleProperty y,IntegerProperty pv,ImageView i,Pane terrain) {
 		super (x,y,i);
 		this.temps=0;

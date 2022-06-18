@@ -29,6 +29,7 @@ import application.modele.mobs.Squelette;
 import application.modele.pnjs.Docteur;
 import application.modele.pnjs.Pnj;
 import application.vue.Animation;
+import application.vue.AnimationBoss;
 import application.vue.AnimationMob;
 import application.vue.ImageMap;
 import application.vue.InventaireVue;
@@ -354,7 +355,7 @@ public class Controleur implements Initializable{
 				terrainPane.getChildren().add(mobSprite);
 				mobSprite.translateXProperty().bind(m.xProperty());
 				mobSprite.translateYProperty().bind(m.yProperty());
-				this.animations.add(new AnimationMob(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
+				this.animations.add(new AnimationBoss(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
 			}
 			else if (m instanceof Onde) {
 				mobSprite = mobAffichage.creerOnde(m.getId());

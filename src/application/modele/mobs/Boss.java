@@ -9,9 +9,9 @@ public class Boss extends Mob{
 	private boolean versDroite;
 	
 	public Boss(double coordX, double coordY, Environnement e) {
-		super(coordX, coordY, 16, e, 20,20,0,0);
+		super(coordX, coordY, 30, e, 20,20,0,0);
 		this.setDirDroite(1);
-		this.temps=0;
+		this.temps=500;
 		this.versDroite=true;
 	}
 

@@ -28,7 +28,7 @@ public class Environnement {
 
 		terrain = new Terrain();
 		pnjs = FXCollections.observableArrayList();
-		joueur = new Joueur(960,0, this);
+		joueur = new Joueur(700,-64, this);
 
 		mobs = FXCollections.observableArrayList();
 	
