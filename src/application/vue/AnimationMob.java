@@ -42,6 +42,9 @@ public class AnimationMob extends Animation {
 	}
 	
 	public void perdPV (int ancien, int nouveau) {
+		if (temps>0) {
+			this.terrain.getChildren().remove(l);
+		}
 		this.temps=15;
 		setPerte(nouveau-ancien);
 	}
