@@ -17,15 +17,20 @@ import javafx.beans.value.ObservableValue;
 
 public class Joueur extends Personnage{
 
+	//Inventaire et materiaux
 	private Inventaire inventaire;
 	private ArrayList<Materiaux> compteurMateriaux;
 	//0:Bois 1:Fer 2:Or 3:Diamant
-
 	private OutilCraft epee, hache, pioche;
 
+	//?
 	private boolean clickQ, clickD;
+	
+	//Frame d'invincibilités
 	private int iFrame;
+	//Joueur regarde à droite = true sinon false
 	private boolean versDroite ;
+	//Temps entre deux flèches
 	private int cooldownArc;
 
 	public Joueur(int coordX, int coordY,Environnement e) {
@@ -33,14 +38,17 @@ public class Joueur extends Personnage{
 
 		this.clickD=false;
 		this.clickQ=false;
+		
 		this.iFrame=0;
+	
 		this.versDroite=true;
+		
 		this.cooldownArc=0;
+		
 		this.inventaire = new Inventaire();
 		initItem();
 		this.compteurMateriaux = new ArrayList<Materiaux>();
 		initCompteurMateriaux();
-
 		initCraft();
 
 		this.xProperty().addListener(new ChangeListener<Number>() {
@@ -51,10 +59,8 @@ public class Joueur extends Personnage{
 			}	
 		});
 	}
-	public ArrayList<Materiaux> getCompteurMateriaux() {
-		return compteurMateriaux;
-	}
 
+	//INITIALISATION
 	public void initItem() {
 		for (int i=0; i<4; i++) {
 			this.inventaire.ajouterItem(new Pioche(i));
@@ -80,6 +86,8 @@ public class Joueur extends Personnage{
 		Materiaux diamant = new Diamant();
 		this.compteurMateriaux.add(diamant);
 	}
+	
+	//SAUT ET GRAVITE
 	public void gravite() {
 		if (!this.collisionBas()) {
 			if(this.getDirY() < 5)
@@ -93,24 +101,7 @@ public class Joueur extends Personnage{
 		}
 	}
 
-	public Inventaire getInventaire() {
-		return inventaire;
-	}
-
-	public void setClickQ(boolean clickQ) {
-		this.clickQ = clickQ;
-	}
-
-	public void setClickD(boolean clickD) {
-		this.clickD = clickD;
-	}
-
-	public boolean isVersDroite() {
-		return versDroite;
-	}
-
-
-	//Gestion de l'inertie
+	//INERTIE
 	public void inertie() {
 		double acceleration = 0.25;
 		int Vmax = 3;
@@ -135,6 +126,8 @@ public class Joueur extends Personnage{
 			}
 		}
 	}
+	
+	//ACTION
 	public void action () {
 		super.action();
 		if (this.iFrame!=0) {
@@ -145,6 +138,7 @@ public class Joueur extends Personnage{
 		}
 	}
 
+	//PV (Gestion frame d'invincibilité)
 	public void perdrePV(int valeur,boolean versDroite) {
 		if (this.iFrame==0) {
 			super.perdrePV(valeur, versDroite);
@@ -152,6 +146,7 @@ public class Joueur extends Personnage{
 		}
 	}
 
+	//ATTAQUE & FLECHE
 	public void attaque () {
 		Personnage e;
 		if (this.versDroite) {
@@ -177,15 +172,6 @@ public class Joueur extends Personnage{
 			}
 		}	
 	}
-	public OutilCraft getEpee() {
-		return epee;
-	}
-	public OutilCraft getHache() {
-		return hache;
-	}
-	public OutilCraft getPioche() {
-		return pioche;
-	}
 
 	public void fleche () {
 		//place la fleche devant ou derriere le joueur pour pas qu elle ne le touche
@@ -198,5 +184,33 @@ public class Joueur extends Personnage{
 			}
 			this.cooldownArc=75;
 		}
+	}
+	
+	//Outils
+	public boolean isVersDroite() {
+		return versDroite;
+	}
+	
+	//Getters & Setters
+	public OutilCraft getEpee() {
+		return epee;
+	}
+	public OutilCraft getHache() {
+		return hache;
+	}
+	public OutilCraft getPioche() {
+		return pioche;
+	}
+	public ArrayList<Materiaux> getCompteurMateriaux() {
+		return compteurMateriaux;
+	}
+	public Inventaire getInventaire() {
+		return inventaire;
+	}
+	public void setClickQ(boolean clickQ) {
+		this.clickQ = clickQ;
+	}
+	public void setClickD(boolean clickD) {
+		this.clickD = clickD;
 	}
 }

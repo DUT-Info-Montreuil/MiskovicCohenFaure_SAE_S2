@@ -1,6 +1,7 @@
 package application.modele.mobs;
 
 import application.modele.Environnement;
+import application.modele.mobs.boss.Mob;
 
 public class Archer extends Mob {
 	private int cooldown;

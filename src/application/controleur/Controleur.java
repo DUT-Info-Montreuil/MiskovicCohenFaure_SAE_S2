@@ -8,24 +8,20 @@ import java.util.ResourceBundle;
 import application.modele.Arbre;
 import application.modele.Environnement;
 import application.modele.Joueur;
-import application.modele.craft.EpeeCraft;
-import application.modele.craft.OutilCraft;
-import application.modele.craft.HacheCraft;
-import application.modele.craft.PiocheCraft;
 import application.modele.craft.materiaux.Materiaux;
 import application.modele.items.utilitaires.Hache;
 import application.modele.Outils;
 import application.modele.mobs.Archer;
-import application.modele.mobs.Boss;
-import application.modele.mobs.BouleBas;
-import application.modele.mobs.BouleDeFeu;
 import application.modele.mobs.Fleche;
-import application.modele.mobs.Mob;
-import application.modele.mobs.Onde;
 import application.modele.mobs.Slime;
 import application.vue.ArbreVue;
 import application.vue.CraftVue;
 import application.modele.mobs.Squelette;
+import application.modele.mobs.boss.Boss;
+import application.modele.mobs.boss.BouleBas;
+import application.modele.mobs.boss.BouleDeFeu;
+import application.modele.mobs.boss.Mob;
+import application.modele.mobs.boss.Onde;
 import application.modele.pnjs.Docteur;
 import application.modele.pnjs.Pnj;
 import application.vue.Animation;
@@ -38,6 +34,7 @@ import application.vue.MobVue;
 import application.vue.PVVue;
 import application.vue.PnjVue;
 import application.vue.TerrainVue;
+import application.vue.TexteTutoVue;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
@@ -65,7 +62,6 @@ public class Controleur implements Initializable{
 
 	@FXML
 	private Pane terrainPane;
-
 	@FXML
 	private Pane craftPane;
 	@FXML
@@ -106,11 +102,12 @@ public class Controleur implements Initializable{
 	private TextArea recettePioche;
 
 	private Environnement env;
+	private Joueur joueur;
 	private Timeline gameLoop;
 	private MobVue mobAffichage;
 	private PnjVue pnjAffichage;
 	private ArrayList <Animation> animations;
-	private Label label;
+	private Label texteTuto;
 	private int temps;
 	private ArbreVue arbreAffichage;
 	private CraftVue craft;
@@ -119,359 +116,340 @@ public class Controleur implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		//InitialiserImages
+		//Initialisation Image Map
 		new ImageMap();
 
-		//Création Terrain
+		//Initialisation Environnement
+		this.env = new Environnement();
+		this.joueur = env.getJoueur();
 
-		env = new Environnement();
+		//Initialisation Animation
+		this.animations = new ArrayList<Animation>();
 
-		this.animations=new ArrayList<Animation>();
-
+		//Initialisation Terrain
 		TerrainVue terrainVue = new TerrainVue(env, terrainMap);
 		terrainVue.initTerrain(this.bindJoueur());
 
-		//Indices Terrain
 		int pxl = 32;
 		int longueur = 240;
 		int hauteur = 32;
 		terrainMap.setMaxSize(longueur*pxl , hauteur*pxl);
 
-		//PV
-		PVVue pvVue = new PVVue(pointsDeVie, env.getJoueur().getPvMax());
+		//Initialisation PV
+		PVVue pvVue = new PVVue(pointsDeVie, this.joueur.getPvMax());
 		pvVue.initPV();
-		this.listenPV(pvVue);
+		this.listenPV(pvVue, this.joueur);
 
-		//Inventaire
-		InventaireVue inventaire = new InventaireVue(inventaireAff, inventaireSelect, inventaireItems, env.getJoueur().getInventaire().taille()); 
+		//Initialisation Inventaire
+		InventaireVue inventaire = new InventaireVue(inventaireAff, inventaireSelect, inventaireItems, this.joueur.getInventaire().taille()); 
 		inventaire.initInventaire();
 		this.listenInventaire(inventaire);
 		this.listenInventaireCase(inventaire);
 
-		//Matériaux
-		ArrayList<Materiaux> comptMat = env.getJoueur().getCompteurMateriaux();
+		//Initialisation Matériaux
+		ArrayList<Materiaux> comptMat = this.joueur.getCompteurMateriaux();
+
 		boisText.textProperty().bind(Bindings.convert(comptMat.get(0).matProperty()));
 		ferText.textProperty().bind(Bindings.convert(comptMat.get(1).matProperty()));
 		orText.textProperty().bind(Bindings.convert(comptMat.get(2).matProperty()));
 		diamantText.textProperty().bind(Bindings.convert(comptMat.get(3).matProperty()));
 
-		//Arbre
+		//Initialisation Arbre
 		this.arbreAffichage = new ArbreVue();
 		this.env.getArbres().addListener(new ArbreObsList(this));
+
 		Random r = new Random();
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 10; i++) {
 			this.env.creerArbre(r.nextInt(3500-1500) + 1500, 64);
+		}
 
-
-		//Pnj
+		//Initialisation PNJ
 		this.pnjAffichage = new PnjVue();
 		this.env.getPnjs().addListener(new PnjsObsList(this));
 		this.env.creerDocteur();
 
-		//Mobs
+		//Intialisation Mobs
 		this.mobAffichage = new MobVue();
 		this.env.getMobs().addListener(new MobsObsList(this));
-		env.creerSlime(1300, 1000);
-		env.creerSlime(200, 500);
-		env.creerArcher(2500, 100);
-		env.creerSquelette(5000, 100);
-		env.creerSquelette(4500, 100);
-		env.creerBoss(6500, 1000);
+		this.env.creerSlime(1300, 1000);
+		this.env.creerSlime(200, 500);
+		this.env.creerArcher(2500, 100);
+		this.env.creerSquelette(5000, 100);
+		this.env.creerSquelette(4500, 100);
+		this.env.creerBoss(6500, 1000);
 
-		//Init Craft
+		//Initialisation Craft
 		this.craft = new CraftVue(terrainPane, craftPane);
 
-
-
-
 		//Lancement Joueur
-
-		joueurMeurt(this.env.getJoueur());
 		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env, craft));
 		root.addEventHandler(KeyEvent.KEY_RELEASED, new ControleurToucheRelache(env));
 		root.addEventHandler(ScrollEvent.SCROLL, new ControleurScroll(env));
 
-		//texte du tuto
-		label=new Label();
-		terrainPane.getChildren().add(label);
-		label.setTranslateX(500);
-		label.setTranslateY(500);
+		//Initialisation Texte Tuto
+		TexteTutoVue tutoTextVue = new TexteTutoVue(terrainPane);
+		this.texteTuto = tutoTextVue.getTxt();
 
 		//Lancement GameLoop
 		initAnimation();
 		gameLoop.play();
 
 	}
-	public void listenPV(PVVue pvVue) {
-		IntegerProperty pv = env.getJoueur().pvProperty();
 
+	// LISTENERS
+	public void listenPV(PVVue pvVue, Joueur j) {
+		IntegerProperty pv = this.joueur.pvProperty();
 		pv.addListener(new ChangeListener<Number>() {
-
+			
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				//Permet d'actualiser barre de vie en fonction du modèle
 				pvVue.changerPV((int) newValue);
-			}
-			});
-		}
-
-		public void listenInventaire(InventaireVue inv) {
-			IntegerProperty curseur = env.getJoueur().getInventaire().indexProperty();
-			inv.positionnerCurseur(curseur.get());
-
-			curseur.addListener(new ChangeListener<Number>() {
-				@Override
-				public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-					inv.enleverCurseur((int) oldValue);
-					inv.positionnerCurseur((int) newValue);
+				//Gestion du respawn, quand PV<=0 on apelle méthode respawn
+				if ((int) newValue <= 0) {
+					respawnJoueur(j);
 				}
-			});
-
-		}
-
-		public void listenInventaireCase(InventaireVue inv) {
-			IntegerProperty curseurCase = env.getJoueur().getInventaire().indexCaseProperty();
-			curseurCase.addListener(new ChangeListener<Number>() {
-				@Override
-				public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-					String idItem = env.getJoueur().getInventaire().idItemEnMain();
-					int curseur = env.getJoueur().getInventaire().getIndexProperty();
-					inv.changerImage(curseur, idItem);
-				}
-			});
-		}
-
-
-		public JoueurVue bindJoueur() {
-			Joueur j = env.getJoueur();
-			JoueurVue a=new JoueurVue(j.getDirDroiteProperty(),j.getDirGaucheProperty(),j.xProperty(),j.yProperty(),j.pvProperty(),spriteJoueur,this.terrainPane);
-			spriteJoueur.translateYProperty().bind(j.yProperty());
-			listenJoueurXProperty();
-			this.animations.add(a);
-			return a;
-
-		}
-
-		public void listenJoueurXProperty() {
-			env.getJoueur().xProperty().addListener(new ChangeListener<Number>() {
-
-				@Override
-				public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-
-					if ((double) newValue > 960 && (double) newValue < 6720)  {
-						terrainPane.setTranslateX(-(double) newValue+960);
-					}
-					else if ((double) newValue <= 960 ) {
-						spriteJoueur.setTranslateX((double) newValue-960);
-					}
-					else
-						spriteJoueur.setTranslateX((double) newValue-6720);
-				}
-			});
-		}
-
-
-		//GESTION SPRITE
-
-		public void enleverSprite (String id) {
-			terrainPane.lookup("#" + id).setVisible(false);
-			terrainPane.getChildren().remove(terrainPane.lookup("#" + id));
-
-		}
-
-		public void ajouterJoueur (ImageView sprite) {
-			this.terrainMap.getChildren().add(sprite);
-		}
-
-		private void initAnimation() {
-			gameLoop = new Timeline();
-			gameLoop.setCycleCount(Timeline.INDEFINITE);
-			temps=0;
-
-			KeyFrame kf = new KeyFrame(
-					//FPS
-					Duration.seconds(0.017), 
-					// on définit ce qui se passe à chaque frame 
-					// c'est un eventHandler d'ou le lambda
-					(ev ->{
-
-						for (Animation a:this.animations) {
-							a.action();
-						}
-						env.unTour();
-						String texte = "Bonjour aventurier! Bienvenue dans la fameuse ville de nowhere.\n"
-								+ "Nous sommes oppressés par un mage qui invoque des créatures maléfiques.\n"
-								+ "Pourriez vous vaincre ce tyran pour nous?\n"
-								+ "Je vous aiderai dans votre quête en vous soignant,\npour cela il vous suffit d'appuyer sur moi avec le clique droit.";
-						if (temps<=texte.length()*5) {
-							label.setText(texte.substring(0, temps/5));
-							temps++;
-						}
-					})
-					);
-			gameLoop.getKeyFrames().add(kf);
-		}
-
-		public void creerSpriteMob(Mob m) {
-			ImageView mobSprite = null;
-			if (m instanceof Slime) {
-				mobSprite = mobAffichage.creerSlime(m.getId());
-				terrainPane.getChildren().add(mobSprite);
-				mobSprite.translateXProperty().bind(m.xProperty());
-				mobSprite.translateYProperty().bind(m.yProperty());
-				this.animations.add(new AnimationMob(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
-
 			}
-			else if (m instanceof BouleDeFeu) {
-				mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
-				terrainPane.getChildren().add(mobSprite);
-				mobSprite.translateXProperty().bind(m.xProperty());
-				mobSprite.translateYProperty().bind(m.yProperty());		
-				this.animations.add(new Animation(m.xProperty(),m.yProperty(), mobSprite));
+		});
+	}
+	public void respawnJoueur(Joueur j) {
+		j.setPv(5);
+		j.setX(960);
+		j.setY(450);
+		this.terrainPane.setTranslateX(0);
+	}
+	
+	public void listenInventaire(InventaireVue inv) {
+		IntegerProperty curseur = this.joueur.getInventaire().indexProperty();
+		inv.positionnerCurseur(curseur.get());
+		curseur.addListener(new ChangeListener<Number>() {
+			
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				inv.enleverCurseur((int) oldValue);
+				inv.positionnerCurseur((int) newValue);
 			}
-			else if (m instanceof BouleBas) {
-				mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
-				terrainPane.getChildren().add(mobSprite);
-				mobSprite.translateXProperty().bind(m.xProperty());
-				mobSprite.translateYProperty().bind(m.yProperty());		
-				mobSprite.setRotate(90);
+		});
+	}
+	public void listenInventaireCase(InventaireVue inv) {
+		IntegerProperty curseurCase = this.joueur.getInventaire().indexCaseProperty();
+		curseurCase.addListener(new ChangeListener<Number>() {
+			
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				String idItem = joueur.getInventaire().idItemEnMain();
+				int curseur = joueur.getInventaire().getIndexProperty();
+				inv.changerImage(curseur, idItem);
 			}
-			else if(m instanceof Archer) {
-				mobSprite = mobAffichage.creerArcher(m.getId());
-				terrainPane.getChildren().add(mobSprite);
-				mobSprite.translateXProperty().bind(m.xProperty());
-				mobSprite.translateYProperty().bind(m.yProperty());
-				this.animations.add(new AnimationMob(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
-			}
+		});
+	}
 
-			else if(m instanceof Squelette) {
-				mobSprite = mobAffichage.creerSquelette(m.getId());
-				terrainPane.getChildren().add(mobSprite);
-				mobSprite.translateXProperty().bind(m.xProperty());
-				mobSprite.translateYProperty().bind(m.yProperty());
-				this.animations.add(new AnimationMob(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
-			}
-			else if(m instanceof Boss) {
-				mobSprite = mobAffichage.creerBoss(m.getId());
-				terrainPane.getChildren().add(mobSprite);
-				mobSprite.translateXProperty().bind(m.xProperty());
-				mobSprite.translateYProperty().bind(m.yProperty());
-				this.animations.add(new AnimationBoss(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
-			}
-			else if (m instanceof Onde) {
-				mobSprite = mobAffichage.creerOnde(m.getId());
-				terrainPane.getChildren().add(mobSprite);
-				mobSprite.translateXProperty().bind(m.xProperty());
-				mobSprite.translateYProperty().bind(m.yProperty());		
-			}
-			else if (m instanceof Fleche) {
-				mobSprite = mobAffichage.creerFleche(m.getId());
-				terrainPane.getChildren().add(mobSprite);
-				mobSprite.translateXProperty().bind(m.xProperty());
-				mobSprite.translateYProperty().bind(m.yProperty());		
-				this.animations.add(new Animation(m.xProperty(),m.yProperty(), mobSprite));
-			}
-
-		}
-
-		public void creerSpritePnj(Pnj p) {
-			ImageView pnjSprite = null;
-			if (p instanceof Docteur) {
-				pnjSprite = this.pnjAffichage.creerDocteur(p.getId());
-				pnjSprite.setOnMouseClicked(event ->
-				{
-					if (event.getButton() == MouseButton.SECONDARY)
-					{
-						if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), Outils.coordToTile(p.getX(),p.getY()))) {
-							((Docteur) p).soigne();
-						}
-					}
-				});
-
-				terrainPane.getChildren().add(pnjSprite);
-				pnjSprite.translateXProperty().bind(p.xProperty());
-				pnjSprite.translateYProperty().bind(p.yProperty());
-
-			} 
-		}
-
-		public void respawnJoueur(Joueur j) {
-			j.setPv(5);
-			j.setX(960);
-			j.setY(450);
-			this.terrainPane.setTranslateX(0);
-		}
+	public JoueurVue bindJoueur() {
+		//Animation Joueur
+		JoueurVue animJoueur = new JoueurVue (this.joueur.getDirDroiteProperty(),this.joueur.getDirGaucheProperty(),this.joueur.xProperty(),this.joueur.yProperty(),this.joueur.pvProperty(),spriteJoueur,this.terrainPane);
+		//Translation coordonnée modèle vers sprite
+		spriteJoueur.translateYProperty().bind(this.joueur.yProperty());
+		listenJoueurXProperty();
 		
-		public void joueurMeurt(Joueur j) {
-			j.pvProperty().addListener(new ChangeListener<Number>() {
+		this.animations.add(animJoueur);
+		return animJoueur;
 
-				@Override
-				public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-					if ((int) newValue <= 0) {
-						respawnJoueur(j);
-					}
-				}	
-			});
-		}
-
-		@FXML
-		void ameliorationEpee(ActionEvent event) {
-			int indMax = this.env.getJoueur().getEpee().getOutilCase().getIndexMax();
-			if (this.env.getJoueur().getEpee().craft()) {
-				this.craft.ameliorerTextEpee(recetteEpee, indMax);
-				if (indMax == 3) {
-					this.craft.cacherBoutton(bouttonEpee);
-					this.craft.cacherTextArea(recetteEpee);
+	}
+	public void listenJoueurXProperty() {
+		this.joueur.xProperty().addListener(new ChangeListener<Number>() {
+			
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				//Déplacement du terrain
+				if ((double) newValue > 960 && (double) newValue < 6720)  {
+					terrainPane.setTranslateX(-(double) newValue+960);
 				}
-			}
-		}
-
-		@FXML
-		void ameliorationHache(ActionEvent event) {
-			int indMax = this.env.getJoueur().getHache().getOutilCase().getIndexMax();
-			if (this.env.getJoueur().getHache().craft()) {
-				this.craft.ameliorerTextPiocheHache(recetteHache, indMax);
-				if (indMax == 3) {
-					this.craft.cacherBoutton(bouttonHache);
-					this.craft.cacherTextArea(recetteHache);
+				//Gestion aux bords du terrain, permet de bloquer et de ne pas afficher du vide
+				else if ((double) newValue <= 960 ) {
+					spriteJoueur.setTranslateX((double) newValue-960);
 				}
+				else
+					spriteJoueur.setTranslateX((double) newValue-6720);
 			}
+		});
+	}
+
+
+	//GESTION SPRITE
+	public void enleverSprite (String id) {
+		terrainPane.lookup("#" + id).setVisible(false);
+		terrainPane.getChildren().remove(terrainPane.lookup("#" + id));
+	}
+
+	public void ajouterJoueur (ImageView sprite) {
+		this.terrainMap.getChildren().add(sprite);
+	}
+
+	public void creerSpriteMob(Mob m) {
+		ImageView mobSprite = null;
+		if (m instanceof Slime) {
+			mobSprite = mobAffichage.creerSlime(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());
+			this.animations.add(new AnimationMob(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
+		}
+		else if (m instanceof BouleDeFeu) {
+			mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());		
+			this.animations.add(new Animation(m.xProperty(),m.yProperty(), mobSprite));
+		}
+		else if (m instanceof BouleBas) {
+			mobSprite = mobAffichage.creerBouleDeFeu(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());		
+			mobSprite.setRotate(90);
+		}
+		else if(m instanceof Archer) {
+			mobSprite = mobAffichage.creerArcher(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());
+			this.animations.add(new AnimationMob(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
+		}
+		else if(m instanceof Squelette) {
+			mobSprite = mobAffichage.creerSquelette(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());
+			this.animations.add(new AnimationMob(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
+		}
+		else if(m instanceof Boss) {
+			mobSprite = mobAffichage.creerBoss(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());
+			this.animations.add(new AnimationBoss(m.xProperty(),m.yProperty(),m.pvProperty(), mobSprite,this.terrainPane));
+		}
+		else if (m instanceof Onde) {
+			mobSprite = mobAffichage.creerOnde(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());		
+		}
+		else if (m instanceof Fleche) {
+			mobSprite = mobAffichage.creerFleche(m.getId());
+			terrainPane.getChildren().add(mobSprite);
+			mobSprite.translateXProperty().bind(m.xProperty());
+			mobSprite.translateYProperty().bind(m.yProperty());		
+			this.animations.add(new Animation(m.xProperty(),m.yProperty(), mobSprite));
 		}
 
-		@FXML
-		void ameliorationPioche(ActionEvent event) {
-			int indMax = this.env.getJoueur().getPioche().getOutilCase().getIndexMax();
-			if (this.env.getJoueur().getPioche().craft()) {
-				this.craft.ameliorerTextPiocheHache(recettePioche, indMax);
-				if (indMax == 3) {
-					this.craft.cacherBoutton(bouttonPioche);
-					this.craft.cacherTextArea(recettePioche);
-				}
-			}
-		}
+	}
 
-		public void creerSpriteArbre(Arbre a) {
-			final ImageView arbreSprite = this.arbreAffichage.creerArbre(a.getId());
-			arbreSprite.setOnMouseClicked(event ->
+	public void creerSpritePnj(Pnj p) {
+		ImageView pnjSprite = null;
+		if (p instanceof Docteur) {
+			pnjSprite = this.pnjAffichage.creerDocteur(p.getId());
+			pnjSprite.setOnMouseClicked(event ->
 			{
-				if (event.getButton() == MouseButton.PRIMARY)
+				if (event.getButton() == MouseButton.SECONDARY)
 				{
-					if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), Outils.coordToTile(a.getX(),a.getY()+50))) {
-						if (env.getJoueur().getInventaire().itemEnMain() instanceof Hache) {
-							a.perdrePV(((Hache) env.getJoueur().getInventaire().itemEnMain()).getDegats());
-							arbreSprite.setOpacity((double) a.getPv()/10);
-						}
+					if (Outils.verifRange(this.joueur.getX(), this.joueur.getY(), Outils.coordToTile(p.getX(),p.getY()))) {
+						((Docteur) p).soigne();
 					}
 				}
 			});
-			terrainPane.getChildren().add(arbreSprite);
-			arbreSprite.translateXProperty().bind(a.xProperty());
-			arbreSprite.translateYProperty().bind(a.yProperty());
-		}
 
-		public void supprimerSprite(Mob m) {
-			if (m instanceof Slime) {
+			terrainPane.getChildren().add(pnjSprite);
+			pnjSprite.translateXProperty().bind(p.xProperty());
+			pnjSprite.translateYProperty().bind(p.yProperty());
 
+		} 
+	}
+
+	public void creerSpriteArbre(Arbre a) {
+		final ImageView arbreSprite = this.arbreAffichage.creerArbre(a.getId());
+		arbreSprite.setOnMouseClicked(event ->
+		{
+			if (event.getButton() == MouseButton.PRIMARY)
+			{
+				if (Outils.verifRange(this.joueur.getX(), this.joueur.getY(), Outils.coordToTile(a.getX(),a.getY()+50))) {
+					if (this.joueur.getInventaire().itemEnMain() instanceof Hache) {
+						a.perdrePV(((Hache) this.joueur.getInventaire().itemEnMain()).getDegats());
+						arbreSprite.setOpacity((double) a.getPv()/10);
+					}
+				}
+			}
+		});
+		terrainPane.getChildren().add(arbreSprite);
+		arbreSprite.translateXProperty().bind(a.xProperty());
+		arbreSprite.translateYProperty().bind(a.yProperty());
+	}
+
+	//GAME LOOP
+	private void initAnimation() {
+		gameLoop = new Timeline();
+		gameLoop.setCycleCount(Timeline.INDEFINITE);
+		temps=0;
+
+		KeyFrame kf = new KeyFrame(
+				//FPS
+				Duration.seconds(0.017), 
+				(ev ->{
+					for (Animation a: this.animations) {
+						a.action();
+					}
+					env.unTour();
+					String texte = "Bonjour aventurier! Bienvenue dans la fameuse ville de nowhere.\n"
+							+ "Nous sommes oppressés par un mage qui invoque des créatures maléfiques.\n"
+							+ "Pourriez vous vaincre ce tyran pour nous?\n"
+							+ "Je vous aiderai dans votre quête en vous soignant,\npour cela il vous suffit d'appuyer sur moi avec le clique droit.";
+					if (temps<=texte.length()*5) {
+						texteTuto.setText(texte.substring(0, temps/5));
+						temps++;
+					}
+				})
+				);
+		gameLoop.getKeyFrames().add(kf);
+	}
+	
+	//CRAFT
+	//CRAFT
+	
+	@FXML
+	void ameliorationEpee(ActionEvent event) {
+		int indMax = this.joueur.getEpee().getOutilCase().getIndexMax();
+		if (this.joueur.getEpee().craft()) {
+			this.craft.ameliorerTextEpee(recetteEpee, indMax);
+			if (indMax == 3) {
+				this.craft.cacherBoutton(bouttonEpee);
+				this.craft.cacherTextArea(recetteEpee);
 			}
 		}
 	}
+
+	@FXML
+	void ameliorationHache(ActionEvent event) {
+		int indMax = this.joueur.getHache().getOutilCase().getIndexMax();
+		if (this.joueur.getHache().craft()) {
+			this.craft.ameliorerTextPiocheHache(recetteHache, indMax);
+			if (indMax == 3) {
+				this.craft.cacherBoutton(bouttonHache);
+				this.craft.cacherTextArea(recetteHache);
+			}
+		}
+	}
+
+	@FXML
+	void ameliorationPioche(ActionEvent event) {
+		int indMax = this.joueur.getPioche().getOutilCase().getIndexMax();
+		if (this.joueur.getPioche().craft()) {
+			this.craft.ameliorerTextPiocheHache(recettePioche, indMax);
+			if (indMax == 3) {
+				this.craft.cacherBoutton(bouttonPioche);
+				this.craft.cacherTextArea(recettePioche);
+			}
+		}
+	}
+
+}
 

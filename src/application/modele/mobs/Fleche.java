@@ -2,6 +2,7 @@ package application.modele.mobs;
 
 import application.modele.Environnement;
 import application.modele.Personnage;
+import application.modele.mobs.boss.Mob;
 
 public class Fleche extends Mob{
 	private boolean versDroite;

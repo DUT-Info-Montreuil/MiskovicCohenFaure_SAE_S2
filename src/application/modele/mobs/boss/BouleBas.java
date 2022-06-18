@@ -1,6 +1,7 @@
-package application.modele.mobs;
+package application.modele.mobs.boss;
 
 import application.modele.Environnement;
+import application.modele.mobs.Fleche;
 
 public class BouleBas extends Fleche{
 

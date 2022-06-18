@@ -2,7 +2,6 @@ package application.vue;
 
 import java.util.ArrayList;
 
-import application.controleur.Controleur;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -95,16 +94,5 @@ public class JoueurVue extends AnimationMob {
 		super.action();
 		this.attaqueAnimation();		
 	}
-
-
-//	public void mouvement(int gauche, int droite , int y , ImageView i) {
-//		if (droite==gauche||this.getTemps()==29) {
-//			this.setTemps(0);
-//		}
-//		else {
-//			this.setTemps(this.getTemps()+1);
-//		}
-//		i.setImage(this.getSprites().get(this.getTemps()/10));
-//	}
 	
 }

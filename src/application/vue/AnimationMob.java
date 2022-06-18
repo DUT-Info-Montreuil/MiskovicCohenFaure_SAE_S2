@@ -1,9 +1,6 @@
 package application.vue;
 
 
-import java.awt.Color;
-
-import application.controleur.Controleur;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;

@@ -1,6 +1,5 @@
 package application.controleur;
 
-
 import java.util.Map;
 
 import application.modele.Environnement;
@@ -17,25 +16,26 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-
 public class ControleurSourisClique implements EventHandler<MouseEvent>{
 
 	private int numeroCase;
 	private Environnement env;
 	Map<String,Image> images;
-	private JoueurVue jv;
+	private JoueurVue joueurV;
 
-	public ControleurSourisClique(int numCase, Environnement env, JoueurVue v) {
+	public ControleurSourisClique(int numCase, Environnement env, JoueurVue joueurV) {
 		this.numeroCase = numCase;
 		this.env=env;
 		images = ImageMap.images;
-		this.jv=v;
+		this.joueurV=joueurV;
 	}
 
 	@Override
 	public void handle(MouseEvent event) {
+		
 		Joueur j = this.env.getJoueur();
-		//Verif range
+		
+		//Verification de la distance
 		if (Outils.verifRange(j.getX(), j.getY(), this.numeroCase)) {
 			
 			//PIOCHE
@@ -74,7 +74,7 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 			}
 
 			//Verif que joueur pose pas bloc sur lui
-			if (!(Outils.verifMemeTile(j.getX(), j.getY(), this.numeroCase))) {
+			if (!(Outils.memeTile(j.getX(), j.getY(), this.numeroCase))) {
 
 				//BLOC
 				if  (j.getInventaire().itemEnMain() instanceof Bloc) {
@@ -93,8 +93,9 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 		//EPEE
 		if (env.getJoueur().getInventaire().itemEnMain() instanceof Epee) {
 			j.attaque();
-			jv.setAttTemps(6);
+			joueurV.setAttTemps(6);
 		}
+		//ARC
 		else if (env.getJoueur().getInventaire().itemEnMain() instanceof Arc) {
 			j.fleche(); 
 		}

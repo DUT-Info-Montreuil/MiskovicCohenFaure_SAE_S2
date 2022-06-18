@@ -1,6 +1,6 @@
 package application.controleur;
 
-import application.modele.mobs.Mob;
+import application.modele.mobs.boss.Mob;
 import javafx.collections.ListChangeListener;
 
 public class MobsObsList implements ListChangeListener<Mob >{

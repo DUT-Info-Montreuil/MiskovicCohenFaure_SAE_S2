@@ -1,6 +1,7 @@
 package application.modele.mobs;
 
 import application.modele.Environnement;
+import application.modele.mobs.boss.Mob;
 
 public class Squelette extends Mob{
 	private boolean versDroite;

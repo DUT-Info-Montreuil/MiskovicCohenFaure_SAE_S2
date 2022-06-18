@@ -1,7 +1,7 @@
 package application.modele.mobs;
 
 import application.modele.Environnement;
-import application.modele.Joueur;
+import application.modele.mobs.boss.Mob;
 
 public class Slime extends Mob{
 	

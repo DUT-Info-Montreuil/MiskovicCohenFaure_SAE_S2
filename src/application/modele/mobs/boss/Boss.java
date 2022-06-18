@@ -1,4 +1,4 @@
-package application.modele.mobs;
+package application.modele.mobs.boss;
 
 import application.modele.Environnement;
 import application.modele.Joueur;

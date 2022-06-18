@@ -1,12 +1,8 @@
 package application.vue;
 
-
-import application.controleur.Controleur;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
 public class Animation {

@@ -1,18 +1,16 @@
 package application.modele;
 
 import application.modele.mobs.Archer;
-import application.modele.mobs.Boss;
-import application.modele.mobs.BouleBas;
-import application.modele.mobs.BouleDeFeu;
 import application.modele.mobs.Fleche;
-import application.modele.mobs.Mob;
-import application.modele.mobs.Onde;
 import application.modele.mobs.Slime;
 import application.modele.mobs.Squelette;
+import application.modele.mobs.boss.Boss;
+import application.modele.mobs.boss.BouleBas;
+import application.modele.mobs.boss.BouleDeFeu;
+import application.modele.mobs.boss.Mob;
+import application.modele.mobs.boss.Onde;
 import application.modele.pnjs.Docteur;
 import application.modele.pnjs.Pnj;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -25,17 +23,14 @@ public class Environnement {
 	ObservableList<Arbre> arbres;
 
 	public Environnement() {
-
 		terrain = new Terrain();
 		pnjs = FXCollections.observableArrayList();
 		joueur = new Joueur(700,-64, this);
-
 		mobs = FXCollections.observableArrayList();
-	
 		arbres = FXCollections.observableArrayList();
-
 	}
-
+	
+	//GESTION LISTES
 	public void creerArbre(double x, double y) {
 		arbres.add(new Arbre(x, y, this));
 	}
@@ -52,6 +47,7 @@ public class Environnement {
 		Docteur doc = new Docteur(600, 500, this);
 		pnjs.add(doc);
 	}
+	
 	public void creerSquelette(double x,double y) {
 		this.ajouterMob(new Squelette(x,y, this));
 	}	
@@ -76,7 +72,6 @@ public class Environnement {
 		this.ajouterMob(new Onde(x,y, this,versDroite, v));
 	}
 	
-	//Gestion Liste
 	public void ajouterMob(Mob m) { 
 		mobs.add(m);
 	}
@@ -89,22 +84,7 @@ public class Environnement {
 		this.arbres.remove(a);
 	}
 
-	public Joueur getJoueur() {
-		return this.joueur;
-	}
-
-	public Terrain getTerrain() {
-		return terrain;
-	}
-
-	public ObservableList<Mob> getMobs() {
-		return mobs;
-	}
-
-	public ObservableList<Pnj> getPnjs() {
-		return pnjs;
-	}
-
+	//UN TOUR
 	public void unTour () {
 		//Gestion Collision des acteurs
 		Mob m;
@@ -123,16 +103,26 @@ public class Environnement {
 			this.arbres.get(i).action();
 			i++;
 		}
-
 		//Mouvement + Gravité Joueur
 		joueur.action();
 	}
 
+	
+	//Getters & Setters
+	public Joueur getJoueur() {
+		return this.joueur;
+	}
+	public Terrain getTerrain() {
+		return terrain;
+	}
+	public ObservableList<Mob> getMobs() {
+		return mobs;
+	}
+	public ObservableList<Pnj> getPnjs() {
+		return pnjs;
+	}
 	public ObservableList<Arbre> getArbres() {
 		return arbres;
-		
 	}
-
-
 }
 

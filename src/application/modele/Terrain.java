@@ -10,7 +10,10 @@ public class Terrain {
 	private int table[];
 
 	public Terrain() {
+		//Création du tableau qui stocke le terrain
 		table = new int[240*32];
+		
+		//Lecture du fichier
 		try {
 
 			Reader reader;
@@ -28,12 +31,6 @@ public class Terrain {
 				}
 			}
 			br.close();
-			
-//			for (int i=0;i<table.length;i++) {
-//				if (i%240==0)
-//					System.out.println();
-//				System.out.print(table[i]);
-//			}
 		} 
 		catch (FileNotFoundException e) {
 			System.out.println("Fichier Non Trouvé");
