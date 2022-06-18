@@ -363,21 +363,19 @@ public class Controleur implements Initializable{
 	}
 
 	public void creerSpriteArbre(Arbre a) {
-		ImageView arbreSprite = null;
-
-		arbreSprite = this.arbreAffichage.creerArbre(a.getId());
+		final ImageView arbreSprite = this.arbreAffichage.creerArbre(a.getId());
 		arbreSprite.setOnMouseClicked(event ->
 		{
 			if (event.getButton() == MouseButton.PRIMARY)
 			{
+				if (Outils.verifRange(env.getJoueur().getX(), env.getJoueur().getY(), Outils.coordToTile(a.getX(),a.getY()+50))) {
 				if (env.getJoueur().getInventaire().itemEnMain() instanceof Hache) {
-						 a.perdrePV(((Hache) env.getJoueur().getInventaire().itemEnMain()).getDegats(), false);
-						 System.out.println(((Hache)env.getJoueur().getInventaire().itemEnMain()).getMateriaux());
-					
+						 a.perdrePV(((Hache) env.getJoueur().getInventaire().itemEnMain()).getDegats());
+						 arbreSprite.setOpacity((double) a.getPv()/10);
+				}
 				}
 			}
 		});
-		System.out.println(arbreSprite);
 		terrainPane.getChildren().add(arbreSprite);
 		arbreSprite.translateXProperty().bind(a.xProperty());
 		arbreSprite.translateYProperty().bind(a.yProperty());
