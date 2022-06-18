@@ -9,8 +9,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
-public class JoueurVue extends Animation {
+public class JoueurVue extends AnimationMob {
 	
 	private DoubleProperty d;
 	private DoubleProperty g;
@@ -21,8 +22,8 @@ public class JoueurVue extends Animation {
 	private int temps;
 	
 
-	public JoueurVue (DoubleProperty d, DoubleProperty g, DoubleProperty x, DoubleProperty y, IntegerProperty pv,ImageView i,Controleur c) {
-		super (x,y,pv,i,c);
+	public JoueurVue (DoubleProperty d, DoubleProperty g, DoubleProperty x, DoubleProperty y, IntegerProperty pv,ImageView i,Pane p) {
+		super (x,y,pv,i,p);
 		this.d=d;
 		this.g=g;
 		this.image=i;

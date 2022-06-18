@@ -159,10 +159,5 @@ public class Boss extends Mob{
 	}
 	public void perdrePV(int valeur,boolean versDroite) {
 		this.setPvProperty(this.getPv() - valeur);
-		if (versDroite)
-			this.setDirDroite(4);
-		else 
-			this.setDirGauche(4);
-		this.setDirY(-2);
 	}
 }

@@ -68,7 +68,6 @@ public class ControleurTouchePresse implements EventHandler<KeyEvent>{
 			}
 			break;
 		default:
-			System.out.println(event.getCode());
 			break; 
 		}
 	}
