@@ -64,7 +64,6 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 						}
 					}
 					else {
-						System.out.println("oui");
 						j.getInventaire().ajouterItem(new Bloc(Integer.parseInt(img.getId())));
 						this.env.getTerrain().supprimerCase(numeroCase);
 						img.setImage(ciel);
