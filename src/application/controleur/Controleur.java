@@ -414,7 +414,6 @@ public class Controleur implements Initializable{
 	}
 	
 	//CRAFT
-	//CRAFT
 	
 	@FXML
 	void ameliorationEpee(ActionEvent event) {

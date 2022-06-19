@@ -7,9 +7,13 @@ import javafx.scene.layout.HBox;
 
 public class InventaireVue {
 	
+	//Contient l'affichage de base de l'inventaire (les items en noir)
     private HBox inventaireAff;
+    //Gere les mouvements du curseur (le carre blanc)
     private HBox inventaireSelect;
+    //Gere l'affichage des items dans l'inventaire
     private HBox inventaireItems;
+    
     private int tailleInventaire;
     private Image caseInventaireSelect;
     private Map<String, Image> images;
@@ -59,6 +63,7 @@ public class InventaireVue {
     	inventaireSelect.getChildren().get(curseur).setVisible(false);
     }
     
+    //Remplace l'image au niveau du curseur par celle correspondant à l'idItem
     public void changerImage(int curseur, String idItem) {
     	if (idItem == null) {
     		inventaireItems.getChildren().get(curseur).setVisible(false);

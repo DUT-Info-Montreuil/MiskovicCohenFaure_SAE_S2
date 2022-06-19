@@ -21,7 +21,7 @@ class SlimeTest {
 		j.setY(200);
 		
 		s.attaque();
-		//cas où le joueur touche le slime
+		//cas ou le joueur touche le slime
 		assertEquals(4,j.getPv());
 		
 		j.setPv(5);
@@ -30,7 +30,7 @@ class SlimeTest {
 		j.setY(300);
 		
 		s.attaque();
-		//cas où le joueur ne touche pas le slime
+		//cas ou le joueur ne touche pas le slime
 		assertEquals(5,j.getPv());
 		}
 	
