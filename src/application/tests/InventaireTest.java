@@ -1,4 +1,4 @@
-package application.vue.tests;
+package application.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
