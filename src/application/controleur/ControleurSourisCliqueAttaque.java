@@ -5,6 +5,7 @@ import application.modele.items.utilitaires.Arc;
 import application.modele.items.utilitaires.Epee;
 import application.vue.JoueurVue;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 public class ControleurSourisCliqueAttaque implements EventHandler<MouseEvent>{
@@ -18,13 +19,15 @@ public class ControleurSourisCliqueAttaque implements EventHandler<MouseEvent>{
 	}
 	@Override
 	public void handle(MouseEvent event) {
-		if (j.getInventaire().itemEnMain() instanceof Epee) {
-			j.attaque();
-			joueurV.setAttTemps(6);
-		}
-		//ARC
-		else if (j.getInventaire().itemEnMain() instanceof Arc) {
-			j.fleche(); 
+		if (event.getButton() == MouseButton.PRIMARY) {
+			if (j.getInventaire().itemEnMain() instanceof Epee) {
+				j.attaque();
+				joueurV.setAttTemps(6);
+			}
+			//ARC
+			else if (j.getInventaire().itemEnMain() instanceof Arc) {
+				j.fleche(); 
+			}
 		}
 	}
 }
