@@ -9,7 +9,7 @@ public class Boss extends Mob{
 	private boolean versDroite;
 	
 	public Boss(double coordX, double coordY, Environnement e) {
-		super(coordX, coordY, 30, e, 20,20,0,0);
+		super(coordX, coordY, 30, e, 20,30,0,0);
 		this.setDirDroite(1);
 		this.temps=0;
 		this.versDroite=true;
@@ -57,16 +57,16 @@ public class Boss extends Mob{
 	
 	public void phase1V1 (boolean versDroite) {
 		if (versDroite) {
-			this.setDirGauche(2);
-			if (this.temps%75==0) {
+			if (this.temps%50==0) {
 				this.getEnv().creerBouleDeFeu(this.getX()+30, this.getY(), versDroite);
+				this.setDirGauche(4);
 			}
 			
 		}
 		else {
-			this.setDirDroite(2);
-			if (this.temps%75==0) {
+			if (this.temps%50==0) {
 				this.getEnv().creerBouleDeFeu(this.getX()-35, this.getY(), versDroite);
+				this.setDirDroite(4);
 			}
 		}
 		
@@ -80,19 +80,23 @@ public class Boss extends Mob{
 	
 	public void phase1V2 () {
 		if (this.versDroite) {
-			if (!(this.collisionDroite(this.getX(), this.getY()))) {
+			if (!checkCollision(Outils.coordToTile(this.getX()+this.getTDroite()+5, this.getY()-5), this.getEnv())) {
 				if (this.getDirDroite()<5) {
 					this.setDirDroite(this.getDirDroite()+0.3);
 				}
-				this.attaque(2);
+				if (!checkCollision(Outils.coordToTile(this.getX()+this.getTDroite()+7, this.getY()-5), this.getEnv())) {
+					this.attaque(2);
+				}
 			}
 		}
 		else {
-			if (!(this.collisionGauche(this.getX(), this.getY()))) {
+			if (!checkCollision(Outils.coordToTile(this.getX()-this.gettGauche()-5, this.getY()-5), this.getEnv())) {
 				if (this.getDirGauche()<5) {
 					this.setDirGauche(this.getDirGauche()+0.3);
 				}
-				this.attaque(2);
+				if (!checkCollision(Outils.coordToTile(this.getX()-this.gettGauche()-7, this.getY()-5), this.getEnv())) {
+					this.attaque(2);
+				}
 			}
 		}
 	}

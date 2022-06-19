@@ -178,7 +178,7 @@ public class Controleur implements Initializable{
 		this.env.creerArcher(2500, 100);
 		this.env.creerSquelette(5000, 100);
 		this.env.creerSquelette(4500, 100);
-		this.env.creerBoss(6500, 1000);
+		this.env.creerBoss(6500, 750);
 
 		//Initialisation Craft
 		this.craft = new CraftVue(terrainPane, craftPane);
