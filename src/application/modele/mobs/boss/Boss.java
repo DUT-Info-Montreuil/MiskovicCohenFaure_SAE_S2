@@ -11,7 +11,7 @@ public class Boss extends Mob{
 	public Boss(double coordX, double coordY, Environnement e) {
 		super(coordX, coordY, 30, e, 20,20,0,0);
 		this.setDirDroite(1);
-		this.temps=500;
+		this.temps=0;
 		this.versDroite=true;
 	}
 
