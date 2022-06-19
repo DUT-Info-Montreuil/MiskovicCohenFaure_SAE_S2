@@ -8,7 +8,7 @@ public abstract class Pnj extends Personnage{
 	private boolean versDroite;
 	private int temps;
 
-	public Pnj(int coordX, int coordY, Environnement e, int h, int  d, int  b, int  g) {
+	public Pnj(double coordX, double coordY, Environnement e, int h, int  d, int  b, int  g) {
 		super ( coordX,  coordY,  0, e, h,  d,  b,  g) ;
 		this.temps=0;
 		versDroite = false;

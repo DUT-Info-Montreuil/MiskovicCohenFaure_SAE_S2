@@ -43,8 +43,8 @@ public class Environnement {
 		this.ajouterMob(new Fleche(x,y, this,versDroite));
 	}
 
-	public void creerDocteur() {
-		Docteur doc = new Docteur(600, 500, this);
+	public void creerDocteur(double x, double y) {
+		Docteur doc = new Docteur(x, y, this);
 		pnjs.add(doc);
 	}
 	

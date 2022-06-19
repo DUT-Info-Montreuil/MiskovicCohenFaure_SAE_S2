@@ -166,7 +166,8 @@ public class Controleur implements Initializable{
 		//Initialisation PNJ
 		this.pnjAffichage = new PnjVue();
 		this.env.getPnjs().addListener(new PnjsObsList(this));
-		this.env.creerDocteur();
+		this.env.creerDocteur(600, 500);
+		this.env.creerDocteur(5700, 500);
 
 		//Intialisation Mobs
 		this.mobAffichage = new MobVue();

@@ -5,7 +5,7 @@ import application.modele.Joueur;
 
 public class Docteur extends Pnj {
 
-	public Docteur(int coordX, int coordY, Environnement e) {
+	public Docteur(double coordX, double coordY, Environnement e) {
 		super(coordX, coordY, e, 10,10,10,10);
 	}
 	
