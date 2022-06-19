@@ -31,11 +31,11 @@ public class Boss extends Mob{
 	
 	public void gestionDeplacement (boolean versDroite) {
 		if (this.getPv()>15) {
-			if (this.temps<500) {
+			if (this.temps<600) {
 				this.phase1V1(versDroite);
 			}
 			else {
-				if (temps==500) {
+				if (temps==600) {
 					this.versDroite=versDroite;
 				}
 				this.phase1V2();
@@ -88,6 +88,9 @@ public class Boss extends Mob{
 					this.attaque(2);
 				}
 			}
+			else {
+				this.setDirDroite(0);
+			}
 		}
 		else {
 			if (!checkCollision(Outils.coordToTile(this.getX()-this.gettGauche()-5, this.getY()-5), this.getEnv())) {
@@ -97,6 +100,9 @@ public class Boss extends Mob{
 				if (!checkCollision(Outils.coordToTile(this.getX()-this.gettGauche()-7, this.getY()-5), this.getEnv())) {
 					this.attaque(2);
 				}
+			}
+			else {
+				this.setDirGauche(0);
 			}
 		}
 	}

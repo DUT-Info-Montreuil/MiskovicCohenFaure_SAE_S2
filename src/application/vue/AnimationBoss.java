@@ -24,11 +24,12 @@ public class AnimationBoss extends AnimationMob {
 	}
 	
 	public void confettis () {
-		System.out.println("confettis");
 		ImageView im=new ImageView();
 		this.getTerrain().getChildren().add(im);
 		im.setImage(new Image("application/ressource/confettis.gif"));
-		im.setTranslateX(6475);
-		im.setTranslateY(680);
+		im.setTranslateX(6465);
+		im.setTranslateY(500);
+		im.setScaleX(1.2);
+		im.setScaleY(2.5);
 	}
 }

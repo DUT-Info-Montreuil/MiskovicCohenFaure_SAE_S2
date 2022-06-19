@@ -13,7 +13,7 @@ public class Squelette extends Mob{
 	}
 
 	public void detection() {
-		double xJoueur = this.getJoueur().getX();
+		double xJoueur = this.getJoueur().getX()+(this.getJoueur().getTDroite()/2);
 		double yJoueur = this.getJoueur().getY();
 		if (xJoueur-this.getX() < 200 && xJoueur-this.getX() >0  && yJoueur-this.getY() < 100 && yJoueur-this.getY() > -100) {
 			this.deplacementAgressif(true);
