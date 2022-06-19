@@ -400,7 +400,7 @@ public class Controleur implements Initializable{
 						a.action();
 					}
 					env.unTour();
-					String texte = "Bonjour aventurier! Bienvenue dans la fameuse ville de nowhere.\n"
+					String texte = "Bonjour aventurier! Bienvenue dans la fameuse vallée de Nowhere.\n"
 							+ "Nous sommes oppressés par un mage qui invoque des créatures maléfiques.\n"
 							+ "Pourriez vous vaincre ce tyran pour nous?\n"
 							+ "Je vous aiderai dans votre quête en vous soignant,\npour cela il vous suffit d'appuyer sur moi avec le clique droit.";
