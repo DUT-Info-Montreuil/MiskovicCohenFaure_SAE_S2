@@ -6,11 +6,8 @@ import application.modele.Environnement;
 import application.modele.Joueur;
 import application.modele.Outils;
 import application.modele.items.Bloc;
-import application.modele.items.utilitaires.Arc;
-import application.modele.items.utilitaires.Epee;
 import application.modele.items.utilitaires.Pioche;
 import application.vue.ImageMap;
-import application.vue.JoueurVue;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,13 +19,11 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 	private int numeroCase;
 	private Environnement env;
 	Map<String,Image> images;
-	private JoueurVue joueurV;
 
-	public ControleurSourisClique(int numCase, Environnement env, JoueurVue joueurV) {
+	public ControleurSourisClique(int numCase, Environnement env) {
 		this.numeroCase = numCase;
 		this.env=env;
 		images = ImageMap.images;
-		this.joueurV=joueurV;
 	}
 
 	@Override
@@ -88,16 +83,6 @@ public class ControleurSourisClique implements EventHandler<MouseEvent>{
 						}
 					}
 				}
-			}
-
-			//EPEE
-			if (env.getJoueur().getInventaire().itemEnMain() instanceof Epee) {
-				j.attaque();
-				joueurV.setAttTemps(6);
-			}
-			//ARC
-			else if (env.getJoueur().getInventaire().itemEnMain() instanceof Arc) {
-				j.fleche(); 
 			}
 		}
 	}

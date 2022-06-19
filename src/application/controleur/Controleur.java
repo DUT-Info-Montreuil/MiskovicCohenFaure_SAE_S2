@@ -50,6 +50,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -128,7 +129,7 @@ public class Controleur implements Initializable{
 
 		//Initialisation Terrain
 		TerrainVue terrainVue = new TerrainVue(env, terrainMap);
-		terrainVue.initTerrain(this.bindJoueur());
+		terrainVue.initTerrain();
 
 		int pxl = 32;
 		int longueur = 240;
@@ -186,6 +187,7 @@ public class Controleur implements Initializable{
 		root.addEventHandler(KeyEvent.KEY_PRESSED, new ControleurTouchePresse(env, craft));
 		root.addEventHandler(KeyEvent.KEY_RELEASED, new ControleurToucheRelache(env));
 		root.addEventHandler(ScrollEvent.SCROLL, new ControleurScroll(env));
+		terrainPane.addEventHandler(MouseEvent.MOUSE_CLICKED, new ControleurSourisCliqueAttaque(env.getJoueur(),bindJoueur()));
 
 		//Initialisation Texte Tuto
 		TexteTutoVue tutoTextVue = new TexteTutoVue(terrainPane);
